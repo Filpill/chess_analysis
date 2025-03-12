@@ -11,6 +11,21 @@ from google.cloud import storage
 from itertools import product
 from time import sleep 
 
+sys.path.append("../functions")
+from shared import *
+
+def script_date_selection(gcs_ingestion_settings):
+    script_setting = gcs_ingestion_settings.get("script_setting")
+    if script_setting == 'default':
+        start_date = date.today() - relativedelta(months=12)
+        end_date = date.today()
+
+    if script_setting == 'manual':
+        start_date = datetime.strptime(gcs_ingestion_settings.get("manual_start_date"), "%Y-%m-%d").date() 
+        end_date = datetime.strptime(gcs_ingestion_settings.get("manual_end_date"), "%Y-%m-%d").date() 
+    
+    return start_date, end_date 
+
 def generate_year_month_list(start_date: date, end_date: date):
 
     # Ensure we start from the first day of the start month
@@ -52,7 +67,7 @@ def get_top_player_list(leaderboard_response, logger):
     return top_player_list
 
 
-def get_request_permutations(bucket_name, top_player_list, logger):
+def get_request_permutations(bucket_name, top_player_list, year_month_list, logger):
     # Listing the current objects in the chess api storage bucket
     gcs_file_list = list_files_in_gcs(bucket_name, logger)
 
