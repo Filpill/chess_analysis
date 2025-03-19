@@ -6,8 +6,9 @@ on:
       - main
 
 env:
-    PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-    GKE_ZONE: europe-west2-a
+    PROJECT_ID: 'checkmate-453316'
+    #PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+    GKE_ZONE: 'europe-west2-a'
 
 jobs:
   terraform:
@@ -25,23 +26,27 @@ jobs:
       name: Authenticate with GCP
       uses: google-github-actions/auth@v2
       with:
-        token_format: 'access_token'
-        workload_identity_provider: projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-        service_account: github-actions-sa@checkmate-453316.iam.gserviceaccount.com
+        #token_format: 'access_token'
+        workload_identity_provider: 'projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+        service_account: 'github-actions-sa@checkmate-453316.iam.gserviceaccount.com'
         #workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
         #service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
-    - name: Install Terraform
+    - id: 'install'
+      name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: latest
 
-    - name: Terraform Init
+    - id: 'init'
+      name: Terraform Init
       run: terraform init
 
-    - name: Terraform Plan
+    - id: 'plan'
+      name: Terraform Plan
       run: terraform plan
 
-    - name: Terraform Apply
+    - id: 'apply'
+      name: Terraform Apply
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
