@@ -6,9 +6,9 @@ on:
       - main
 
 env:
-    PROJECT_ID: 'checkmate-453316'
-    #PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-    GKE_ZONE: 'europe-west2-a'
+  #PROJECT_ID: 'checkmate-453316'
+    PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+    #GKE_ZONE: 'europe-west2-a'
 
 jobs:
   terraform:
@@ -26,11 +26,10 @@ jobs:
       name: Authenticate with GCP
       uses: google-github-actions/auth@v2
       with:
-        #token_format: 'access_token'
-        workload_identity_provider: 'projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-        service_account: 'github-actions-sa@checkmate-453316.iam.gserviceaccount.com'
-        #workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-        #service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        #workload_identity_provider: 'projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+        #service_account: 'github-actions-sa@checkmate-453316.iam.gserviceaccount.com'
+        workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
     - id: 'install'
       name: Install Terraform
