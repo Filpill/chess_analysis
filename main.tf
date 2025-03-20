@@ -25,3 +25,21 @@ resource "google_storage_bucket_object" "objects" {
     source  = each.value.file_path
     bucket  = google_storage_bucket.static.id
 }
+
+# Create Pub/Sub Topic for launching a VM Instance
+resource "google_pubsub_topic" "start_vm_topic" {
+    name = var.vm_pubsub_topic
+}
+
+# Create a Cloud Scheduler Job
+resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
+    paused        = false
+    name          = "gcs_chess_ingestion_job"
+    region        = var.job_region
+    description   = "Chess API Data Ingestion Job to GCS"
+    schedule      = "0 0 3 * *"
+    pubsub_target {
+        topic_name = resource.google_pubsub_topic.start_vm_topic.id
+        data       = filebase64("./pipelines/gcs_chess_ingestion_job_config.json")
+    }
+}

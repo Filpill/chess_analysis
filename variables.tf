@@ -32,3 +32,13 @@ variable "ingestion_input_config" {
     type = string
     description = "Path to ingestion input configuration"
 }
+
+variable "vm_pubsub_topic" {
+    type = string
+    description = "Name of Pub/Sub topic for initialising the VM's"
+}
+
+variable "job_region" {
+    type = string
+    description = "Job region"
+}
