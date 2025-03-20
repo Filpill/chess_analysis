@@ -1,9 +1,14 @@
-# Chess Rating Statistics
-Analysing my chess.com games with Python
+# Chess.com API - Data Engineering Pipeline
+Designing a data pipeline for analysing Chess Game Data.
+
+## CI/CD Process
+<p align = center>
+<img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/cicd.drawio.png " alt="drawing" width="800"/>
+</p>
 
 ## Architecture Diagram
 <p align = center>
-<img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/chess_pipeline_architecture.drawio.png " alt="drawing" width="800"/>
+<img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/architecture.drawio.png " alt="drawing" width="800"/>
 </p>
 
 ## Chess Analysis
