@@ -71,7 +71,7 @@ To create a virtual environment:
 uv venv --python 3.11
 ```
 
-To activate vrtual environment locally:
+To activate virtual environment locally:
 ```bash
 source .venv/bin/activate
 ```
