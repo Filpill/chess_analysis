@@ -1,11 +1,7 @@
-provider "google" {
-    project = var.project_id
-}
-
 # Create storage bucket for object related to deployments
 resource "google_storage_bucket" "static" {
-    name          = var.deployment_bucket_name
-    location      = "EU"
+    name          = var.deployment_bucket
+    location      = var.bucket_region
     storage_class = "STANDARD"
 
     uniform_bucket_level_access = true
@@ -14,10 +10,10 @@ resource "google_storage_bucket" "static" {
 # Gather all files needed for deployment
 locals {
     files = [
-        { file_path = "scripts/gcs_chess_ingestion.ipynb" },
-        { file_path = "functions/gcs_ingestion.py" },
-        { file_path = "functions/shared.py" },
-        { file_path = "inputs/gcs_ingestion_settings.json" },
+        { file_path = var.ingestion_script },
+        { file_path = var.function_gcs_ingestion },
+        { file_path = var.function_shared },
+        { file_path = var.ingestion_input_config },
     ]
 }
 

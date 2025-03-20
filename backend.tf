@@ -1,5 +1,6 @@
 terraform {
     backend "gcs" {
-        bucket = "chess-api"
+        bucket = "chess-terraform"
+        prefix = "terraform"
     }
 }

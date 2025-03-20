@@ -1,19 +1,34 @@
 variable "project_id" {
+    type = string
     description = "GCP project identity"
-    type = string
 }
 
-variable "deployment_bucket_name" {
+variable "bucket_region" {
+    type = string
+    description = "Created bucket region"
+}
+
+variable "deployment_bucket" {
+    type = string
     description = "Name of bucket containing deployment objects"
-    type = string
 }
 
-variable "ingestion_script_name" {
-    description = "Name of ingestion script"
+variable "ingestion_script" {
     type = string
-}
-
-variable "ingestion_script_path" {
     description = "Path to ingestion script"
+}
+
+variable "function_gcs_ingestion" {
     type = string
+    description = "Path to gcs ingestion functions"
+}
+
+variable "function_shared" {
+    type = string
+    description = "Path to shared functions"
+}
+
+variable "ingestion_input_config" {
+    type = string
+    description = "Path to ingestion input configuration"
 }
