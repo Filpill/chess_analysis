@@ -89,7 +89,10 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 | Docker File | Description |
 | :------------- | :------------- |
-| **pyproject.toml** | Keep track of key library dependencies |
+| **Dockerfile** | Configuration creating tool environment ready for executing |
+| **variables** | List of variables for plugging into local command-line docker scripts  |
+
+> *Local docker bash scripts are not saved in this project repo*
 
 
 
