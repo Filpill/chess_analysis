@@ -87,6 +87,8 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 > *Does not house any script files; docker image will not automatically update on each pipeline revision.*
 
+<div align = center>
+
 | Docker File | Description |
 | :------------- | :------------- |
 | **Dockerfile** | Configuration creating tool environment ready for executing |
@@ -94,7 +96,7 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 > *Local docker bash scripts are not saved in this project repo*
 
-
+</div>
 
 ## Architecture Diagram
 This is a high-level view of the key components in the pipeline architecture and how data is flowing downstream:
