@@ -94,9 +94,9 @@ A docker image has been created to package together the necessary gcloud and pyt
 | **Dockerfile** | Configuration creating tool environment ready for executing |
 | **variables** | List of variables for plugging into local command-line docker scripts  |
 
-> *Local docker bash scripts are not saved in this project repo*
-
 </div>
+
+> *Local docker bash scripts are not saved in this project repo*
 
 ## Architecture Diagram
 This is a high-level view of the key components in the pipeline architecture and how data is flowing downstream:
