@@ -59,7 +59,7 @@ Python environment is created using the **uv** package manager and the following
 
 <div align = center>
 
-| Terraform File | Description |
+| File | Description |
 | :------------- | :------------- |
 | **pyproject.toml** | Keep track of key library dependencies |
 | **uv.lock** | Precisely captures all python package versions |
@@ -81,6 +81,17 @@ To install python library requirements:
 ```bash
 uv sync
 ```
+
+#### Docker Image
+A docker image has been created to package together the necessary gcloud and python tooling so it can be readily pulled by the Virtual Machine.
+
+> *Does not house any script files; docker image will not automatically update on each pipeline revision.*
+
+| Docker File | Description |
+| :------------- | :------------- |
+| **pyproject.toml** | Keep track of key library dependencies |
+
+
 
 ## Architecture Diagram
 This is a high-level view of the key components in the pipeline architecture and how data is flowing downstream:

@@ -1,0 +1,16 @@
+#/bin/bash
+GCP_PROJECT="checkmate-453316"
+IMAGE_NAME="chess_img"
+IMAGE_TAG="v001"
+CONTAINER_NAME="chess_container"
+AR_TYPE="europe-west2-docker.pkg.dev"
+AR_REPO="docker-chess-repo"
+EXTERNAL_PORT="5432"
+INTERNAL_PORT="22"
+
+export GCP_PROJECT
+export IMAGE_NAME
+export IMAGE_TAG
+export CONTAINER_NAME
+export AR_TYPE
+export AR_REPO
