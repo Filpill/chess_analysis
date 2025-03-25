@@ -62,7 +62,8 @@ Python environment is created using the **uv** package manager and the following
 | Terraform File | Description |
 | :------------- | :------------- |
 | **pyproject.toml** | Keep track of key library dependencies |
-| **uv.lock** | Precisely captures all package versions to be installed |
+| **uv.lock** | Precisely captures all python package versions |
+| **requirements.txt** | Default python requirements file compiled from pyproject.toml |
 
 </div>
 
