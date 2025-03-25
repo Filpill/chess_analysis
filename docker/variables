@@ -14,3 +14,5 @@ export IMAGE_TAG
 export CONTAINER_NAME
 export AR_TYPE
 export AR_REPO
+export EXTERNAL_PORT
+export INTERNAL_PORT
