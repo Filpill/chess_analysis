@@ -21,7 +21,7 @@ After the GCS ingestion is completed, the data transformation script will follow
 ## CI/CD Process
 This is rough guideline of the CI/CD process that gets executed when the **main** branch is updated.
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/cicd.drawio.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/cicd.drawio.png " alt="drawing" width="800"/>
 </p>
 
 #### Project Directories
@@ -102,12 +102,12 @@ A docker image has been created to package together the necessary gcloud and pyt
 ## Architecture Diagram
 This is a high-level view of the key components in the pipeline architecture and how data is flowing downstream:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/architecture.drawio.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/architecture.drawio.png " alt="drawing" width="800"/>
 </p>
 
 ## Chess Analysis
 Here are a couple of sample matplotlib charts which are analysing some player data:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/charts/top_openings.png" alt="drawing" width="800"/>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/charts/time_of_day.png" alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/top_openings.png" alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
 </p>
