@@ -31,10 +31,11 @@ The project is segmented into the following directories which contain the follow
   
 | Directory  | Description |
 | :------------- | :------------- |
-| **scripts**   |  Core python scripts/notebooks to process chess data  |
-| **functions** | Functions which are imported into the core data processing scripts  |
-| **inputs** | Input parameter files for passing into core data processing scripts |
-| **diagrams** | Illustrations for architectural design  |
+| **scripts/**   | Core python scripts/notebooks to process chess data  |
+| **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
+| **functions/** | Functions which are imported into the core data processing scripts  |
+| **inputs/** | Input parameter files for passing into core data processing scripts |
+| **diagrams/** | Illustrations for architectural design  |
   
 </div>
 

@@ -1,0 +1,11 @@
+[project]
+name = "vm-start"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "google-api-python-client>=2.165.0",
+    "google-cloud-logging>=3.11.4",
+    "google-cloud-secret-manager>=2.23.2",
+]
