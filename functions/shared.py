@@ -1,5 +1,7 @@
 import sys
 import json
+import time
+import random
 import logging
 import requests
 import google.cloud.logging as cloud_logging
@@ -8,7 +10,6 @@ from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from google.cloud import storage
 from itertools import product
-from time import sleep 
 
 def initialise_cloud_logger(project_id: str):
     logging_client = cloud_logging.Client(project=project_id)
@@ -30,20 +31,3 @@ def list_files_in_gcs(bucket_name, logger):
     blobs = bucket.list_blobs()
     file_list = [blob.name for blob in blobs]
     return file_list 
-
-def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=1, max_delay=30):
-
-    retries = 0
-    while retries < max_retries:
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            return response
-        
-        wait_time = min(base_delay * (2 ** retries) + random.uniform(0, 1), max_delay)
-        logger.warning(f"Retry {retries + 1}/{max_retries} | URL: {url} | Waiting {wait_time:.2f} seconds before retrying...")
-        time.sleep(wait_time)
-        retries += 1
-    
-    logger.warning("Max retries reached. Request failed for {url}")
-    return None
-

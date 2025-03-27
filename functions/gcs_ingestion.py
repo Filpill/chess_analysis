@@ -1,6 +1,8 @@
-
+import re
 import sys
 import json
+import time
+import random
 import logging
 import requests
 import google.cloud.logging as cloud_logging
@@ -9,7 +11,6 @@ from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from google.cloud import storage
 from itertools import product
-from time import sleep 
 
 sys.path.append("../functions")
 from shared import *
@@ -67,48 +68,59 @@ def get_top_player_list(leaderboard_response, logger):
     return top_player_list
 
 
-def get_request_permutations(bucket_name, top_player_list, year_month_list, logger):
-    # Listing the current objects in the chess api storage bucket
-    gcs_file_list = list_files_in_gcs(bucket_name, logger)
+def generate_remaining_endpoint_combinations(bucket_name, players_data_in_gcs, top_player_list, year_month_list, logger):
 
     # Cross product of usernames with the date period selected
-    player_date_permutations = [f"players/{player}/games/{period}" for player, period in product(top_player_list, year_month_list)]
+    all_player_date_combinations = sorted([f"player/{player}/games/{period}" for player, period in product(top_player_list, year_month_list)])
 
-    # Check if those combos exist in GCS currently -- if not remove them from the list
-    remaining_game_requests = player_date_permutations[:]
-    for combo in remaining_game_requests:
-        if combo in gcs_file_list:
-            remaining_game_requests.remove(combo)
-            
-    logger.info(f"Total request combinations: {len(player_date_permutations)}")
-    logger.info(f"Number of remaing requests: {len(remaining_game_requests)}")
+    # If the combination does not exist in GCS --> add to remaining combination list so it can be requested
+    remaining_combinations = [combo for combo in all_player_date_combinations if combo not in players_data_in_gcs]
+                
+    logger.info(f"Total request combinations: {len(all_player_date_combinations)}")
+    logger.info(f"Number of remaining requests: {len(remaining_combinations)}")
     
-    return remaining_game_requests 
+    return remaining_combinations
 
 
-def request_all_games_and_upload_to_gcs(bucket_name, top_player_list, year_month_list, headers, logger):
+def append_player_endpoints_to_https_chess_prefix(remaining_combo_list):
+
+    # Convert combos into URL request list
+    request_urls = [f"https://api.chess.com/pub/{endpoint}" for endpoint in remaining_combo_list]
+
+    return request_urls
+
+
+def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=3, max_delay=120):
+
+    retries = 0
+    while retries < max_retries:
+        response = requests.get(url, headers=headers)
+        status_code = response.status_code
+        if status_code == 200:
+            return response
+        
+        wait_time = min(base_delay * (4 ** retries) + random.uniform(0, 1), max_delay)
+        logger.warning(f"HTTP Status Code: {status_code} | Retry {retries + 1}/{max_retries} - Sleeping {wait_time:.2f} seconds | URL: {url}")
+        time.sleep(wait_time)
+        retries += 1
+    
+    logger.warning("Max retries reached. Request failed for {url}")
+    return None
+
+
+def request_from_list_and_upload_to_gcs(bucket_name, request_urls, headers, logger):
     logger.info('Requesting archived game data')
-    for player in top_player_list:
-        for period in year_month_list:
-            logger.info(f'Requesting Game Data | player: {player} | period {period}')
-            games_url = f'https://api.chess.com/pub/player/{player}/games/{period}'
-            games_response = exponential_backoff_request(games_url, headers, logger)
-            gcs_player_endpoint = f"players/{player}/games/{period}" 
-            upload_json_to_gcs_bucket(bucket_name, gcs_player_endpoint, games_response, logger)
-            sleep(1) 
+    for url in request_urls:
 
-            
-def append_prefix_to_gcs_files(prefix, excluded_prefixes, logger):
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    blobs = bucket.list_blobs()
-    
-    # The for loop will exlude any files that should not be targeted in the renaming
-    for blob in blobs:
-        if any(blob.name.startswith(f"{prefix}/") for prefix in excluded_prefixes):
-            logger.info("Skipping {blob.name} | Excluded from renaming process")
-            continue
+        # Requesting Data
+        games_response = exponential_backoff_request(url, headers, logger)
 
-        new_name = f"{prefix}/{blob.name}"
-        bucket.rename_blob(blob, new_name)
-        logger.info(f"Renamed {blob.name} -> {new_name}") 
+        # Extracting player and period components from url to build GCS path to save to
+        match = re.search(r'player/([^/]+)/games/(\d{4}/\d{2})', url)
+        if match:
+            player = match.group(1)
+            period = match.group(2)
+        gcs_player_endpoint = f"player/{player}/games/{period}" 
+
+        # Saving Data to GCS
+        upload_json_to_gcs_bucket(bucket_name, gcs_player_endpoint, games_response, logger)
