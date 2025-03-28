@@ -90,7 +90,7 @@ def append_player_endpoints_to_https_chess_prefix(remaining_combo_list):
     return request_urls
 
 
-def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=3, max_delay=120):
+def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=7, max_delay=120):
 
     retries = 0
     while retries < max_retries:
