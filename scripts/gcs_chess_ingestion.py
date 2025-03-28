@@ -115,41 +115,30 @@ def _(
 
 
 @app.cell
-def _(
-    bucket_name,
-    end_date,
-    generate_year_month_list,
-    get_top_player_list,
-    leaderboards_response,
-    list_files_in_gcs,
-    logger,
-    start_date,
-):
-    # Determine list of requests for players and specified period
-    year_month_list = generate_year_month_list(start_date, end_date)
-    top_player_list = get_top_player_list(leaderboards_response, logger)
-
+def _(bucket_name, list_files_in_gcs, logger):
     # Listing the current objects with player data in the chess api storage bucket
     all_files_in_gcs = list_files_in_gcs(bucket_name, logger)
     players_data_in_gcs = sorted([obj for obj in all_files_in_gcs if obj.startswith("player/")])
-    return (
-        all_files_in_gcs,
-        players_data_in_gcs,
-        top_player_list,
-        year_month_list,
-    )
+    return all_files_in_gcs, players_data_in_gcs
 
 
 @app.cell
 def _(
     append_player_endpoints_to_https_chess_prefix,
     bucket_name,
+    end_date,
     generate_remaining_endpoint_combinations,
+    generate_year_month_list,
+    get_top_player_list,
+    leaderboards_response,
     logger,
     players_data_in_gcs,
-    top_player_list,
-    year_month_list,
+    start_date,
 ):
+    # Determine list of requests for players and specified period
+    year_month_list = generate_year_month_list(start_date, end_date)
+    top_player_list = get_top_player_list(leaderboards_response, logger)
+
     # Determine remaining player/period combinations to request based on contents of GCS bucket
     remaining_combo_list = generate_remaining_endpoint_combinations(
         bucket_name, 
@@ -160,7 +149,7 @@ def _(
     )
 
     request_urls = append_player_endpoints_to_https_chess_prefix(remaining_combo_list)
-    return remaining_combo_list, request_urls
+    return remaining_combo_list, request_urls, top_player_list, year_month_list
 
 
 @app.cell
