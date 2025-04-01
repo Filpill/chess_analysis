@@ -1,6 +1,7 @@
 project_id = "checkmate-453316"
 bucket_region = "EU"
 deployment_bucket = "chess-deployments"
+trigger_bucket = "chess-triggers"
 ingestion_script = "scripts/gcs_chess_ingestion.py"
 function_gcs_ingestion = "functions/gcs_ingestion.py"
 function_shared = "functions/shared.py"

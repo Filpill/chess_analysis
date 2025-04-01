@@ -82,7 +82,7 @@ def _(initialise_cloud_logger, json, script_date_selection):
 
     # Initialise Logger Object
     logger = initialise_cloud_logger(project_name)
-    logger.info(f"Project: {project_name} | Bucket: {bucket_name} | Script Setting: {script_setting} | Ingestion Dates: {start_date} - {end_date} ")
+    logger.log_text(f"Project: {project_name} | Bucket: {bucket_name} | Script Setting: {script_setting} | Ingestion Dates: {start_date} - {end_date} ", severity="INFO")
     return (
         bucket_name,
         end_date,
@@ -106,7 +106,7 @@ def _(
     upload_json_to_gcs_bucket,
 ):
     # Getting current leaderboard data of top chess players
-    logger.info('Requesting the latest leaderboards')
+    logger.log_text('Requesting the latest leaderboards', severity="INFO")
     leaderboards_url = f'https://api.chess.com/pub/leaderboards'
     leaderboards_response = exponential_backoff_request(leaderboards_url, headers, logger)
     gcs_leaderboard_endpoint = f"leaderboards/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"

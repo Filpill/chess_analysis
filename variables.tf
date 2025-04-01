@@ -13,6 +13,11 @@ variable "deployment_bucket" {
     description = "Name of bucket containing deployment objects"
 }
 
+variable "trigger_bucket" {
+    type = string
+    description = "Name of bucket for trigger facilitation"
+}
+
 variable "ingestion_script" {
     type = string
     description = "Path to ingestion script"

@@ -56,7 +56,7 @@ def get_top_player_list(leaderboard_response, logger):
     format_list = list(leaderboard_response.json().keys())
 
     # Get all the top player names from each chess format
-    logger.info('Retrieving the names of top chess players')
+    logger.log_text('Retrieving the names of top chess players',severity="INFO")
     top_player_list = []
     for form in format_list:
         for i in range(len(leaderboard_response.json().get(form))):
@@ -76,8 +76,8 @@ def generate_remaining_endpoint_combinations(bucket_name, players_data_in_gcs, t
     # If the combination does not exist in GCS --> add to remaining combination list so it can be requested
     remaining_combinations = [combo for combo in all_player_date_combinations if combo not in players_data_in_gcs]
                 
-    logger.info(f"Total request combinations: {len(all_player_date_combinations)}")
-    logger.info(f"Number of remaining requests: {len(remaining_combinations)}")
+    logger.log_text(f"Total request combinations: {len(all_player_date_combinations)}", severity="INFO")
+    logger.log_text(f"Number of remaining requests: {len(remaining_combinations)}", severity="INFO")
     
     return remaining_combinations
 
@@ -90,30 +90,39 @@ def append_player_endpoints_to_https_chess_prefix(remaining_combo_list):
     return request_urls
 
 
-def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=10, max_delay=120):
+def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=3, max_delay=120):
 
     retries = 0
     while retries < max_retries:
         response = requests.get(url, headers=headers)
         status_code = response.status_code
+
         if status_code == 200:
             return response
-        
+
+        if status_code == 404:
+            logger.log_text(f"404 error for {url} - Endpoint currently not working...Skipping", severity="WARNING")
+            return None
+          
+        # Will attempt a retry process for non-404 codes with expontential backoff
         wait_time = min(base_delay * (4 ** retries) + random.uniform(0, 1), max_delay)
-        logger.warning(f"HTTP Status Code: {status_code} | Retry {retries + 1}/{max_retries} - Sleeping {wait_time:.2f} seconds | URL: {url}")
+        logger.log_text(f"HTTP Status Code: {status_code} | Retry {retries + 1}/{max_retries} - Sleeping {wait_time:.2f} seconds | URL: {url}", severity="WARNING")
         time.sleep(wait_time)
         retries += 1
     
-    logger.warning("Max retries reached. Request failed for {url}")
+    logger.log_text("Max retries reached. Request failed for {url}", severity="ERROR")
     return None
 
 
 def request_from_list_and_upload_to_gcs(bucket_name, request_urls, headers, logger):
-    logger.info('Requesting archived game data')
+    logger.log_text('Requesting archived game data', severity="INFO")
     for url in request_urls:
 
         # Requesting Data
         games_response = exponential_backoff_request(url, headers, logger)
+
+        if games_response == None:
+            continue
 
         # Extracting player and period components from url to build GCS path to save to
         match = re.search(r'player/([^/]+)/games/(\d{4}/\d{2})', url)

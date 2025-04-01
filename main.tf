@@ -43,3 +43,12 @@ resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
         data       = filebase64("./pipelines/gcs_chess_ingestion_job_config.json")
     }
 }
+
+# Create storage bucket to facilitate Pub/Sub Trigger
+resource "google_storage_bucket" "trigger" {
+    name          = var.trigger_bucket
+    location      = var.bucket_region
+    storage_class = "STANDARD"
+
+    uniform_bucket_level_access = true
+}
