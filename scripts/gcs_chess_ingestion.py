@@ -109,7 +109,7 @@ def _(
     logger.log_text('Requesting the latest leaderboards', severity="INFO")
     leaderboards_url = f'https://api.chess.com/pub/leaderboards'
     leaderboards_response = exponential_backoff_request(leaderboards_url, headers, logger)
-    gcs_leaderboard_endpoint = f"leaderboards/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+    gcs_leaderboard_endpoint = f"leaderboards/{datetime.now().strftime('%Y-%m-%d')}/{datetime.now().strftime('%H-%M-%S')}"
     upload_json_to_gcs_bucket(bucket_name, gcs_leaderboard_endpoint, leaderboards_response, logger)
     return gcs_leaderboard_endpoint, leaderboards_response, leaderboards_url
 
