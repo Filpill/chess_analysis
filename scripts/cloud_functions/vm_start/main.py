@@ -1,9 +1,7 @@
 import json
-import logging
 import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
 from google.oauth2 import service_account
-from google.cloud import secretmanager
 from google.auth import default
 
 def initialise_cloud_logger(PROJECT_ID):
@@ -14,15 +12,8 @@ def initialise_cloud_logger(PROJECT_ID):
     logger.propagate = False
     return logger
 
-def gcp_access_secret(PROJECT_ID, SECRET_ID, VERSION_ID="latest"):
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{PROJECT_ID}/secrets/{SECRET_ID}/versions/{VERSION_ID}"
-    response = client.access_secret_version(name=name)
-    return response.payload.data.decode('UTF-8')
-
 def main():
 
-    SECRET_ID     = 'VM_SERVICE_ACCOUNT'
     PROJECT_ID    = "checkmate-453316"
     ZONE          = "europe-west2-b"
     INSTANCE_NAME = "chess-ingestion-vm"
@@ -34,8 +25,7 @@ def main():
     logger = initialise_cloud_logger(PROJECT_ID)
     logger.log_text(f"Project: {PROJECT_ID} | Initialising VM Script and Deploying VM", severity="INFO")
 
-    service_account_creds = gcp_access_secret(PROJECT_ID, SECRET_ID)
-    credentials = service_account.Credentials.from_service_account_file(service_account_creds)
+    credentials, project = default()
     compute = discovery.build('compute', 'v1', credentials=credentials)
 
     config = {

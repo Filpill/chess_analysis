@@ -90,7 +90,7 @@ resource "google_cloud_run_v2_job" "vm_starter_job" {
   template {
     template {
       containers {
-        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/cloud_job_vm_start:latest"
+        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/cloud_job_vm_start:v004"
         env {
           name  = "LOG_EXECUTION_ID"
           value = "true"
