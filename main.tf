@@ -1,3 +1,6 @@
+#============================================
+# -------Script Deployment Resources---------
+#============================================
 # Create storage bucket for object related to deployments
 resource "google_storage_bucket" "static" {
     name          = var.deployment_bucket
@@ -28,60 +31,9 @@ resource "google_storage_bucket_object" "objects" {
 }
 
 
-# Create a Cloud Scheduler Job
-resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
-    paused        = false
-    name          = "gcs_chess_ingestion_job"
-    region        = "europe-west1"
-    description   = "Chess API Data Ingestion Job to GCS"
-    schedule      = "0 11 3 * *"
-    time_zone     = "UTC"
-
-    http_target {
-
-      uri         = "https://vm-starter-810099024571.europe-west1.run.app"
-      http_method = "POST"
-   
-      oidc_token {
-          service_account_email = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
-          audience             = "https://europe-west1-checkmate-453316.cloudfunctions.net/vm_starter"
-        }
-   }
-
-}
-
-#resource "google_cloudfunctions2_function" "vm_starter" {
-#  name        = "vm_starter"
-#  location    = "europe-west1"
-#  description = "A function to initialise a virtual machine"
-#
-#  build_config {
-#      runtime     = "python311"
-#      entry_point = "request"
-#      source {
-#          storage_source {
-#              bucket = "chess-deployments"
-#              object = "scripts/cloud_functions/vm_start/code.zip"
-#          }
-#      }
-#  }
-#
-#  service_config {
-#      all_traffic_on_latest_revision   = true
-#      available_cpu                    = "0.1666"
-#      available_memory                 = "256M"
-#      environment_variables            = {
-#          "LOG_EXECUTION_ID" = "true"
-#        }
-#      ingress_settings                 = "ALLOW_ALL"
-#      max_instance_count               = 100
-#      max_instance_request_concurrency = 1
-#      min_instance_count               = 0
-#      service                          = "projects/checkmate-453316/locations/europe-west1/services/vm-starter"
-#      service_account_email            = "810099024571-compute@developer.gserviceaccount.com"
-#      timeout_seconds                  = 60
-#    }
-#}
+#============================================
+# -------VM Initialisation Resources---------
+#============================================
 
 resource "google_cloud_run_v2_job" "vm_starter_job" {
   name     = "vm-starter-job"
@@ -94,10 +46,30 @@ resource "google_cloud_run_v2_job" "vm_starter_job" {
         env {
           name  = "LOG_EXECUTION_ID"
           value = "true"
+          }
         }
+        timeout = "60s"
+        service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
       }
-      timeout = "60s"
-      service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+    }
+}
+
+# Create a Cloud Scheduler Job
+resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
+    paused        = false
+    name          = "gcs_chess_ingestion_job"
+    region        = "europe-west1"
+    description   = "Chess API Data Ingestion Job to GCS"
+    schedule      = "0 11 3 * *"
+    time_zone     = "Europe/London"
+
+    
+    http_target {
+      http_method = "POST"
+      uri         = "https://${google_cloud_run_v2_job.vm_starter_job.location}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/checkmate-453316/jobs/vm-starter-job:run"
+      
+      oauth_token {
+        service_account_email = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
     }
   }
 }
