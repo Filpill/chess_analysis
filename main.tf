@@ -90,14 +90,14 @@ resource "google_cloud_run_v2_job" "vm_starter_job" {
   template {
     template {
       containers {
-        image = "europe-west1-docker.pkg.dev/checkmate-453316/gcf-artifacts/checkmate--453316__europe--west1__vm__starter:latest"
+        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/cloud_job_vm_start:latest"
         env {
           name  = "LOG_EXECUTION_ID"
           value = "true"
         }
       }
       timeout = "60s"
-      service_account = "810099024571-compute@developer.gserviceaccount.com"
+      service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
     }
   }
 }

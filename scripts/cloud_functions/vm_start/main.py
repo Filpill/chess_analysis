@@ -4,6 +4,7 @@ import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
 from google.oauth2 import service_account
 from google.cloud import secretmanager
+from google.auth import default
 
 def initialise_cloud_logger(PROJECT_ID):
     client = cloud_logging.Client(project=PROJECT_ID)
