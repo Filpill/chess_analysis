@@ -5,14 +5,6 @@ from googleapiclient import discovery
 from google.oauth2 import service_account
 from google.cloud import secretmanager
 
-SECRET_ID     = 'VM_SERVICE_ACCOUNT'
-PROJECT_ID    = "checkmate-453316"
-ZONE          = "europe-west2-b"
-INSTANCE_NAME = "chess-ingestion-vm"
-MACHINE_TYPE  = "e2-micro"
-VPC_NAME      = "filip-vpc"
-SUBNET_NAME   = "filip-vpc"
-
 def initialise_cloud_logger(PROJECT_ID):
     client = cloud_logging.Client(project=PROJECT_ID)
     client.setup_logging()
@@ -27,7 +19,15 @@ def gcp_access_secret(PROJECT_ID, SECRET_ID, VERSION_ID="latest"):
     response = client.access_secret_version(name=name)
     return response.payload.data.decode('UTF-8')
 
-def request():
+def main():
+
+    SECRET_ID     = 'VM_SERVICE_ACCOUNT'
+    PROJECT_ID    = "checkmate-453316"
+    ZONE          = "europe-west2-b"
+    INSTANCE_NAME = "chess-ingestion-vm"
+    MACHINE_TYPE  = "e2-micro"
+    VPC_NAME      = "filip-vpc"
+    SUBNET_NAME   = "filip-vpc"
 
     # Initialise Logger Object
     logger = initialise_cloud_logger(PROJECT_ID)
@@ -63,3 +63,6 @@ def request():
     ).execute()
 
     return logger.log_text(f"Instance {INSTANCE_NAME} creation started: {operation}", severity="INFO")
+
+if __name__ == "__main__":
+    main()
