@@ -14,6 +14,7 @@ locals {
         { file_path = var.function_gcs_ingestion },
         { file_path = var.function_shared },
         { file_path = var.ingestion_input_config },
+        { file_path = var.cloud_func_vm_start },
     ]
 }
 
@@ -26,29 +27,77 @@ resource "google_storage_bucket_object" "objects" {
     bucket  = google_storage_bucket.static.id
 }
 
-# Create Pub/Sub Topic for launching a VM Instance
-resource "google_pubsub_topic" "start_vm_topic" {
-    name = var.vm_pubsub_topic
-}
 
 # Create a Cloud Scheduler Job
 resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
     paused        = false
     name          = "gcs_chess_ingestion_job"
-    region        = var.job_region
+    region        = "europe-west1"
     description   = "Chess API Data Ingestion Job to GCS"
-    schedule      = "0 0 3 * *"
-    pubsub_target {
-        topic_name = resource.google_pubsub_topic.start_vm_topic.id
-        data       = filebase64("./pipelines/gcs_chess_ingestion_job_config.json")
-    }
+    schedule      = "0 11 3 * *"
+    time_zone     = "UTC"
+
+    http_target {
+
+      uri         = "https://vm-starter-810099024571.europe-west1.run.app"
+      http_method = "POST"
+   
+      oidc_token {
+          service_account_email = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+          audience             = "https://europe-west1-checkmate-453316.cloudfunctions.net/vm_starter"
+        }
+   }
+
 }
 
-# Create storage bucket to facilitate Pub/Sub Trigger
-resource "google_storage_bucket" "trigger" {
-    name          = var.trigger_bucket
-    location      = var.bucket_region
-    storage_class = "STANDARD"
+#resource "google_cloudfunctions2_function" "vm_starter" {
+#  name        = "vm_starter"
+#  location    = "europe-west1"
+#  description = "A function to initialise a virtual machine"
+#
+#  build_config {
+#      runtime     = "python311"
+#      entry_point = "request"
+#      source {
+#          storage_source {
+#              bucket = "chess-deployments"
+#              object = "scripts/cloud_functions/vm_start/code.zip"
+#          }
+#      }
+#  }
+#
+#  service_config {
+#      all_traffic_on_latest_revision   = true
+#      available_cpu                    = "0.1666"
+#      available_memory                 = "256M"
+#      environment_variables            = {
+#          "LOG_EXECUTION_ID" = "true"
+#        }
+#      ingress_settings                 = "ALLOW_ALL"
+#      max_instance_count               = 100
+#      max_instance_request_concurrency = 1
+#      min_instance_count               = 0
+#      service                          = "projects/checkmate-453316/locations/europe-west1/services/vm-starter"
+#      service_account_email            = "810099024571-compute@developer.gserviceaccount.com"
+#      timeout_seconds                  = 60
+#    }
+#}
 
-    uniform_bucket_level_access = true
+resource "google_cloud_run_v2_job" "vm_starter_job" {
+  name     = "vm-starter-job"
+  location = "europe-west1"
+
+  template {
+    template {
+      containers {
+        image = "europe-west1-docker.pkg.dev/checkmate-453316/gcf-artifacts/checkmate--453316__europe--west1__vm__starter:latest"
+        env {
+          name  = "LOG_EXECUTION_ID"
+          value = "true"
+        }
+      }
+      timeout = "60s"
+      service_account = "810099024571-compute@developer.gserviceaccount.com"
+    }
+  }
 }

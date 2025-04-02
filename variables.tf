@@ -38,6 +38,11 @@ variable "ingestion_input_config" {
     description = "Path to ingestion input configuration"
 }
 
+variable "cloud_func_vm_start" {
+    type = string
+    description = "Path to cloud function for starting VM"
+}
+
 variable "vm_pubsub_topic" {
     type = string
     description = "Name of Pub/Sub topic for initialising the VM's"
