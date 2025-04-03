@@ -5,7 +5,7 @@ INSTANCE_NAME="vm-chess-ingestion"
 SUB_NET="filip-vpc"
 MACHINE_TYPE="e2-medium"
 SERVICE_ACCOUNT="startvm-sa@checkmate-453316.iam.gserviceaccount.com"
-CONTAINER_IMAGE="europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/chess_ingestion_processor:v001"
+CONTAINER_IMAGE="europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/chess_ingestion_processor:1.0.0"
 SCOPES="https://www.googleapis.com/auth/cloud-platform"
 
 gcloud compute instances create-with-container $INSTANCE_NAME \
