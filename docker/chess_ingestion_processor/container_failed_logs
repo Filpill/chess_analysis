@@ -1,0 +1,3 @@
+#!/bin/sh
+CONTAINER_ID=$(docker ps -a --no-trunc --format "{{.ID}} {{.Status}}" | awk '/Exited/ {print $1; exit}')
+sudo cat /var/lib/docker/containers/$CONTAINER_ID/$CONTAINER_ID-json.log
