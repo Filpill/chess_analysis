@@ -7,7 +7,6 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /app
 
 # Make directories for storing functions and input files
-#RUN cd app/ && mkdir inputs && mkdir functions
 RUN mkdir /app/inputs && mkdir /app/functions
 
 # Install pip, git, and other dependencies
@@ -23,4 +22,5 @@ RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/mai
 RUN pip install -r /app/requirements.txt --break-system-packages
 
 # Set the entrypoint
-CMD ["python3", "/app/main.py"]
+#CMD ["python3", "/app/main.py"]
+CMD ["bash"]

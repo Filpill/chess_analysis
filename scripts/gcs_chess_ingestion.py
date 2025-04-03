@@ -74,7 +74,7 @@ def _(initialise_cloud_logger, json, script_date_selection):
 
     # Reading Script Input Variables
     try:
-        with open("../inputs/gcs_ingestion_settings.json") as f:
+        with open("./inputs/gcs_ingestion_settings.json") as f:
             gcs_ingestion_settings = json.load(f)
     except:
         with open("../inputs/gcs_ingestion_settings.json") as f:
