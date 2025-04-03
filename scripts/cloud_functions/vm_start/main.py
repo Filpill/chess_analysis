@@ -1,11 +1,11 @@
-import json
+import subprocess
 import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
 from google.oauth2 import service_account
 from google.auth import default
 
-def initialise_cloud_logger(PROJECT_ID):
-    client = cloud_logging.Client(project=PROJECT_ID)
+def initialise_cloud_logger(project_id):
+    client = cloud_logging.Client(project=project_id)
     client.setup_logging()
   
     logger = client.logger(__name__)
@@ -13,47 +13,25 @@ def initialise_cloud_logger(PROJECT_ID):
     return logger
 
 def main():
-
-    PROJECT_ID    = "checkmate-453316"
-    ZONE          = "europe-west2-b"
-    INSTANCE_NAME = "chess-ingestion-vm"
-    MACHINE_TYPE  = "e2-micro"
-    VPC_NAME      = "filip-vpc"
-    SUBNET_NAME   = "filip-vpc"
-
-    # Initialise Logger Object
-    logger = initialise_cloud_logger(PROJECT_ID)
-    logger.log_text(f"Project: {PROJECT_ID} | Initialising VM Script and Deploying VM", severity="INFO")
-
-    credentials, project = default()
+    credentials, project_id = default()
     compute = discovery.build('compute', 'v1', credentials=credentials)
 
-    config = {
-        "name": INSTANCE_NAME,
-        "machineType": f"zones/{ZONE}/machineTypes/{MACHINE_TYPE}",
-        "disks": [{
-            "boot": True,
-            "initializeParams": {
-                "sourceImage": "projects/debian-cloud/global/images/family/debian-12"
-            }
-        }],
-        "networkInterfaces": [{
-            "network": f"projects/{PROJECT_ID}/global/networks/{VPC_NAME}",
-            "subnetwork": f"projects/{PROJECT_ID}/regions/{ZONE[:-2]}/subnetworks/{SUBNET_NAME}",
-            "accessConfigs": [{
-                "type": "ONE_TO_ONE_NAT",  # Required for external access
-                "name": "External NAT"
-            }]
-        }]
-    }
+    # Initialise Logger Object
+    logger = initialise_cloud_logger(project_id)
+    logger.log_text(f"Reading VM initialiser script", severity="INFO")
 
-    operation = compute.instances().insert(
-        project=PROJECT_ID,
-        zone=ZONE,
-        body=config
-    ).execute()
+    # Read shell script
+    with open("vm_initialiser.sh", "r") as file:
+        vm_initialiser_script = file.read()
 
-    return logger.log_text(f"Instance {INSTANCE_NAME} creation started: {operation}", severity="INFO")
+    # Run the shell script using subprocess
+    logger.log_text(f"Running VM initialiser script...", severity="INFO")
+    script_runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
+
+    # Print the output and errors (if any)
+    logger.log_text(script_runner.stdout, severity="INFO")
+    logger.log_text(script_runner.stderr, severity="INFO")
+    print("Script complete!")
 
 if __name__ == "__main__":
     main()

@@ -23,4 +23,3 @@ RUN pip install -r /app/requirements.txt --break-system-packages
 
 # Set the entrypoint
 CMD ["python3", "/app/main.py"]
-#CMD ["bash"]

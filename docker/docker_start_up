@@ -1,0 +1,13 @@
+!/bin/sh
+AR_TYPE="europe-west2-docker.pkg.dev"
+IMAGE="checkmate-453316/docker-chess-repo"
+TAG="v001"
+sudo apt-get update
+sudo apt-get install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+newgrp docker
+gcloud auth configure-docker $TYPE --quiet
+docker pull $TYPE/$IMAGE:$TAG
+docker run -it $TYPE/$IMAGE:$TAG
