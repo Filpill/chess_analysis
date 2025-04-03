@@ -40,8 +40,9 @@ def _():
 @app.cell
 def _(sys):
     # Importing Local Functions
-    sys.path.append("./functions")
-    sys.path.append("./inputs")
+    for rel_path in (".", ".."):
+        sys.path.append(f"{rel_path}/functions")
+        sys.path.append(f"{rel_path}/inputs")
 
     from shared import initialise_cloud_logger
     from shared import upload_json_to_gcs_bucket
@@ -70,9 +71,14 @@ def _(sys):
 
 @app.cell
 def _(initialise_cloud_logger, json, script_date_selection):
+
     # Reading Script Input Variables
-    with open("./inputs/gcs_ingestion_settings.json") as f:
-        gcs_ingestion_settings = json.load(f)
+    try:
+        with open("../inputs/gcs_ingestion_settings.json") as f:
+            gcs_ingestion_settings = json.load(f)
+    except:
+        with open("../inputs/gcs_ingestion_settings.json") as f:
+            gcs_ingestion_settings = json.load(f)
 
     start_date, end_date = script_date_selection(gcs_ingestion_settings) # type: ignore
     script_setting       = gcs_ingestion_settings.get("script_setting")
