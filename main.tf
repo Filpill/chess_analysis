@@ -13,8 +13,11 @@ resource "google_storage_bucket" "static" {
 # Gather all files needed for deployment
 locals {
     files = [
+        { file_path = "functions/bq_func.py" },
+        { file_path = "functions/gcs_func.py" },
+        { file_path = "functions/general_func.py" },
+        { file_path = "scripts/bigquery_chess_transform_load.py" },
         { file_path = var.ingestion_script },
-        { file_path = var.function_gcs_ingestion },
         { file_path = var.function_shared },
         { file_path = var.ingestion_input_config },
         { file_path = var.cloud_func_vm_start },

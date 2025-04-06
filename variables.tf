@@ -23,6 +23,11 @@ variable "ingestion_script" {
     description = "Path to ingestion script"
 }
 
+variable "transform_script" {
+    type = string
+    description = "Path to transform script"
+}
+
 variable "function_gcs_ingestion" {
     type = string
     description = "Path to gcs ingestion functions"
