@@ -44,17 +44,18 @@ def _(sys):
         sys.path.append(f"{rel_path}/functions")
         sys.path.append(f"{rel_path}/inputs")
 
-    from shared import initialise_cloud_logger
-    from shared import upload_json_to_gcs_bucket
-    from shared import list_files_in_gcs
+    from shared_func import initialise_cloud_logger
 
-    from gcs_ingestion import script_date_selection
-    from gcs_ingestion import generate_year_month_list
-    from gcs_ingestion import get_top_player_list
-    from gcs_ingestion import generate_remaining_endpoint_combinations
-    from gcs_ingestion import append_player_endpoints_to_https_chess_prefix
-    from gcs_ingestion import exponential_backoff_request
-    from gcs_ingestion import request_from_list_and_upload_to_gcs
+    from gcs_func import upload_json_to_gcs_bucket
+    from gcs_func import list_files_in_gcs
+
+    from ingestion_func import script_date_selection
+    from ingestion_func import generate_year_month_list
+    from ingestion_func import get_top_player_list
+    from ingestion_func import generate_remaining_endpoint_combinations
+    from ingestion_func import append_player_endpoints_to_https_chess_prefix
+    from ingestion_func import exponential_backoff_request
+    from ingestion_func import request_from_list_and_upload_to_gcs
     return (
         append_player_endpoints_to_https_chess_prefix,
         exponential_backoff_request,
@@ -63,6 +64,7 @@ def _(sys):
         get_top_player_list,
         initialise_cloud_logger,
         list_files_in_gcs,
+        rel_path,
         request_from_list_and_upload_to_gcs,
         script_date_selection,
         upload_json_to_gcs_bucket,
@@ -71,7 +73,6 @@ def _(sys):
 
 @app.cell
 def _(initialise_cloud_logger, json, script_date_selection):
-
     # Reading Script Input Variables
     try:
         with open("./inputs/gcs_ingestion_settings.json") as f:

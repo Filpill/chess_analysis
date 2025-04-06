@@ -1,0 +1,447 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.11.30"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vQQp",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: ImportError('cannot import name 'list_files_in_gcs' from 'shared' (/home/filpill/projects/chess_analysis/./functions/shared.py)')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Error trying to reload module shared: unindent does not match any outer indentation level (shared.py, line 43) \n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/reload/autoreload.py&quot;</span>, line <span class=\"m\">442</span>, in <span class=\"n\">superreload</span>\n<span class=\"w\">    </span><span class=\"n\">module</span> <span class=\"o\">=</span> <span class=\"n\">reload</span><span class=\"p\">(</span><span class=\"n\">module</span><span class=\"p\">)</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/importlib/__init__.py&quot;</span>, line <span class=\"m\">169</span>, in <span class=\"n\">reload</span>\n<span class=\"w\">    </span><span class=\"n\">_bootstrap</span><span class=\"o\">.</span><span class=\"n\">_exec</span><span class=\"p\">(</span><span class=\"n\">spec</span><span class=\"p\">,</span> <span class=\"n\">module</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap&gt;&quot;</span>, line <span class=\"m\">621</span>, in <span class=\"n\">_exec</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap_external&gt;&quot;</span>, line <span class=\"m\">936</span>, in <span class=\"n\">exec_module</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap_external&gt;&quot;</span>, line <span class=\"m\">1074</span>, in <span class=\"n\">get_code</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap_external&gt;&quot;</span>, line <span class=\"m\">1004</span>, in <span class=\"n\">source_to_code</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap&gt;&quot;</span>, line <span class=\"m\">241</span>, in <span class=\"n\">_call_with_frames_removed</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/shared.py&quot;</span>, line <span class=\"m\">43</span>\n<span class=\"w\">    </span><span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">download_content_from_gcs</span><span class=\"p\">(</span><span class=\"n\">gcs_filename</span><span class=\"p\">,</span> <span class=\"n\">bucket_name</span><span class=\"p\">):</span>\n<span class=\"w\">                                                             </span><span class=\"pm\">^</span>\n<span class=\"gr\">IndentationError</span>: <span class=\"n\">unindent does not match any outer indentation level</span>\n</pre></div>\n</span><span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">141</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"n\">exec</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">body</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_2566/__marimo__cell_vQQp_.py&quot;</span>, line <span class=\"m\">15</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">shared</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">list_files_in_gcs</span>\n<span class=\"gr\">ImportError</span>: <span class=\"n\">cannot import name &#39;list_files_in_gcs&#39; from &#39;shared&#39; (/home/filpill/projects/chess_analysis/./functions/shared.py)</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "MiOR",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: TypeError('list_files_in_gcs() missing 1 required positional argument: 'logger'')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_2566/__marimo__cell_MiOR_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">list_files_in_gcs</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">)</span>\n<span class=\"gr\">TypeError</span>: <span class=\"n\">list_files_in_gcs() missing 1 required positional argument: &#39;logger&#39;</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "dIVp",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "STRa",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "QeLo",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "fc4ea32a360c1534fd46453e6a0fa81c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "2adeed1c9fd340d8dc0a6cdacda8024d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "2837e9609bbb16d300e6af43335c1f28",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "057a411ba9abb9faea028d60ecf6eb83",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='lEQa-0' random-id='c1159dc8-d989-6223-7813-c12deca49917'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/6322-25613-OdcpeU6b.json&quot;' data-total-rows='769' data-total-columns='20' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;url&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;game_date&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;time_control&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;end_time&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;rated&quot;, [&quot;boolean&quot;, &quot;bool&quot;]], [&quot;time_class&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;rules&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.uuid&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.username&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.rating&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;white.result&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies.white&quot;, [&quot;number&quot;, &quot;float64&quot;]], [&quot;black.uuid&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black.username&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black.rating&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;black.result&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies.black&quot;, [&quot;number&quot;, &quot;float64&quot;]], [&quot;eco&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;opening&quot;, [&quot;string&quot;, &quot;object&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-row-headers='[]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Downloading from GCS: player/111michael/games/2024/12\n"
+        }
+      ]
+    },
+    {
+      "id": "PKri",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PYdR",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: TypeError('the JSON object must be str, bytes or bytearray, not list')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5999/__marimo__cell_PYdR_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">pd</span><span class=\"o\">.</span><span class=\"n\">json_normalize</span><span class=\"p\">(</span><span class=\"n\">json</span><span class=\"o\">.</span><span class=\"n\">loads</span><span class=\"p\">(</span><span class=\"n\">gcs_data</span><span class=\"p\">))[</span><span class=\"mi\">0</span><span class=\"p\">]</span>\n<span class=\"w\">                      </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/json/__init__.py&quot;</span>, line <span class=\"m\">339</span>, in <span class=\"n\">loads</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">TypeError</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s1\">&#39;the JSON object must be str, bytes or bytearray, &#39;</span>\n<span class=\"gr\">TypeError</span>: <span class=\"n\">the JSON object must be str, bytes or bytearray, not list</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "uhUO",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "{\"url\": \"https://www.chess.com/game/live/127071028091\", \"pgn\": \"[Event \\\"Live Chess\\\"]\\n[Site \\\"Chess.com\\\"]\\n[Date \\\"2024.12.04\\\"]\\n[Round \\\"-\\\"]\\n[White \\\"Aleksey_Tarasov\\\"]\\n[Black \\\"111Michael\\\"]\\n[Result \\\"1-0\\\"]\\n[CurrentPosition \\\"1Q4Q1/8/2K5/8/k7/8/2R5/Q7 b - -\\\"]\\n[Timezone \\\"UTC\\\"]\\n[ECO \\\"C47\\\"]\\n[ECOUrl \\\"https://www.chess.com/openings/Four-Knights-Game-Scotch-Variation-Accepted-5.Nxd4-Bc5-6.Nxc6\\\"]\\n[UTCDate \\\"2024.12.04\\\"]\\n[UTCTime \\\"17:09:21\\\"]\\n[WhiteElo \\\"2018\\\"]\\n[BlackElo \\\"2063\\\"]\\n[TimeControl \\\"180\\\"]\\n[Termination \\\"Aleksey_Tarasov won by checkmate\\\"]\\n[StartTime \\\"17:09:21\\\"]\\n[EndDate \\\"2024.12.04\\\"]\\n[EndTime \\\"17:14:16\\\"]\\n[Link \\\"https://www.chess.com/game/live/127071028091\\\"]\\n\\n1. e4 {[%clk 0:03:00]} 1... Nc6 {[%clk 0:02:59.2]} 2. Nc3 {[%clk 0:02:57]} 2... e5 {[%clk 0:02:58.3]} 3. Nf3 {[%clk 0:02:55.9]} 3... Nf6 {[%clk 0:02:56.4]} 4. d4 {[%clk 0:02:55.1]} 4... exd4 {[%clk 0:02:52.7]} 5. Nxd4 {[%clk 0:02:54.5]} 5... Bc5 {[%clk 0:02:50.4]} 6. Nxc6 {[%clk 0:02:52.3]} 6... dxc6 {[%clk 0:02:50.3]} 7. Qxd8+ {[%clk 0:02:50.9]} 7... Kxd8 {[%clk 0:02:49.3]} 8. Bg5 {[%clk 0:02:48.9]} 8... Bg4 {[%clk 0:02:42.2]} 9. f3 {[%clk 0:02:47.5]} 9... Bd7 {[%clk 0:02:40.4]} 10. O-O-O {[%clk 0:02:40.3]} 10... Ke7 {[%clk 0:02:38.8]} 11. e5 {[%clk 0:02:38.4]} 11... Be6 {[%clk 0:02:35.4]} 12. exf6+ {[%clk 0:02:36.9]} 12... gxf6 {[%clk 0:02:35.3]} 13. Bh4 {[%clk 0:02:35.1]} 13... a5 {[%clk 0:02:33.8]} 14. Bd3 {[%clk 0:02:30.4]} 14... b5 {[%clk 0:02:32.2]} 15. Rhe1 {[%clk 0:02:29.6]} 15... Bd4 {[%clk 0:02:19.8]} 16. Ne4 {[%clk 0:02:26.4]} 16... b4 {[%clk 0:02:13.2]} 17. c3 {[%clk 0:02:25.1]} 17... bxc3 {[%clk 0:02:11.8]} 18. bxc3 {[%clk 0:02:24.5]} 18... Be5 {[%clk 0:02:11.3]} 19. g3 {[%clk 0:02:22]} 19... Rhg8 {[%clk 0:01:49.4]} 20. f4 {[%clk 0:02:20.8]} 20... Bd6 {[%clk 0:01:48.6]} 21. Bxf6+ {[%clk 0:02:17.3]} 21... Kd7 {[%clk 0:01:47]} 22. Ng5 {[%clk 0:02:12.5]} 22... Bxa2 {[%clk 0:01:43.8]} 23. Bxh7 {[%clk 0:02:07.6]} 23... Rgb8 {[%clk 0:01:39.4]} 24. Bf5+ {[%clk 0:02:06.9]} 24... Be6 {[%clk 0:01:35.2]} 25. Nxe6 {[%clk 0:02:05.2]} 25... fxe6 {[%clk 0:01:34.3]} 26. Bxe6+ {[%clk 0:02:04.4]} 26... Ke8 {[%clk 0:01:33.5]} 27. Bc4+ {[%clk 0:01:58.5]} 27... Kf8 {[%clk 0:01:32.6]} 28. Be5 {[%clk 0:01:57.2]} 28... Ba3+ {[%clk 0:01:29.7]} 29. Kc2 {[%clk 0:01:55.9]} 29... Rb2+ {[%clk 0:01:28.3]} 30. Kd3 {[%clk 0:01:55.1]} 30... Bc5 {[%clk 0:01:23.9]} 31. Rd2 {[%clk 0:01:49.1]} 31... Rd8+ {[%clk 0:01:22.1]} 32. Bd4 {[%clk 0:01:48.6]} 32... Bxd4 {[%clk 0:01:08.7]} 33. cxd4 {[%clk 0:01:47.5]} 33... Rxd2+ {[%clk 0:01:06.4]} 34. Kxd2 {[%clk 0:01:46.6]} 34... Rxd4+ {[%clk 0:01:06.3]} 35. Kc3 {[%clk 0:01:45.8]} 35... Rd6 {[%clk 0:01:05.2]} 36. f5 {[%clk 0:01:43.6]} 36... Rh6 {[%clk 0:01:04.4]} 37. Re2 {[%clk 0:01:41.7]} 37... Kg7 {[%clk 0:01:01.6]} 38. g4 {[%clk 0:01:39.8]} 38... Rh4 {[%clk 0:00:59.8]} 39. Rg2 {[%clk 0:01:38.1]} 39... Kf6 {[%clk 0:00:58.2]} 40. Be6 {[%clk 0:01:35.7]} 40... Rh3+ {[%clk 0:00:49.8]} 41. Kc4 {[%clk 0:01:33.9]} 41... a4 {[%clk 0:00:48.8]} 42. g5+ {[%clk 0:01:32.6]} 42... Ke7 {[%clk 0:00:47.2]} 43. Kb4 {[%clk 0:01:30.3]} 43... a3 {[%clk 0:00:45.9]} 44. g6 {[%clk 0:01:27.6]} 44... c5+ {[%clk 0:00:40.5]} 45. Kxc5 {[%clk 0:01:25.7]} 45... Re3 {[%clk 0:00:39.1]} 46. g7 {[%clk 0:01:23.4]} 46... Rxe6 {[%clk 0:00:38.7]} 47. fxe6 {[%clk 0:01:22.2]} 47... a2 {[%clk 0:00:38.6]} 48. Rxa2 {[%clk 0:01:20.7]} 48... c6 {[%clk 0:00:37.3]} 49. Kxc6 {[%clk 0:01:19.6]} 49... Kf6 {[%clk 0:00:34.7]} 50. g8=Q {[%clk 0:01:16.9]} 50... Ke5 {[%clk 0:00:34.3]} 51. Re2+ {[%clk 0:01:15.2]} 51... Kd4 {[%clk 0:00:33.5]} 52. e7 {[%clk 0:01:14.5]} 52... Kd3 {[%clk 0:00:32.7]} 53. e8=Q {[%clk 0:01:13.1]} 53... Kc3 {[%clk 0:00:31.8]} 54. h4 {[%clk 0:01:12.3]} 54... Kb4 {[%clk 0:00:31.7]} 55. Rc2 {[%clk 0:01:10.4]} 55... Ka3 {[%clk 0:00:30.8]} 56. Qb8 {[%clk 0:01:08.2]} 56... Ka4 {[%clk 0:00:29.7]} 57. h5 {[%clk 0:01:07.4]} 57... Ka5 {[%clk 0:00:29.6]} 58. h6 {[%clk 0:01:06.7]} 58... Ka4 {[%clk 0:00:29.5]} 59. h7 {[%clk 0:01:06]} 59... Ka5 {[%clk 0:00:29.4]} 60. h8=Q {[%clk 0:01:04.5]} 60... Ka4 {[%clk 0:00:29.3]} 61. Qa1# {[%clk 0:01:03.7]} 1-0\\n\", \"time_control\": \"180\", \"end_time\": 1733332456, \"rated\": true, \"tcn\": \"mC5Qbs0Kgv!TlBKBvB9IBQZQd787cM6EnvEZec70CKZSKT2TMFWGftXHheIBsCHzkszsjsBKow?!vDKRFT0ZCMSit3!53LiSMS1SLSZ8SA89TKRqck5jktqIdl47KBIBsBjltl7BlsBRDLRVem92wEVFmo2TASFxsAGyEMT0AzyqMUQIzIxuU2uSLSqioiYQIQ0T2~TKimKBS0Bt0~tspFszmkzq85qyFNyGNVGyV3yG3~Gy?a\", \"uuid\": \"80ffc6ef-b262-11ef-90b3-6cfe544c0428\", \"initial_setup\": \"\", \"fen\": \"1Q4Q1/8/2K5/8/k7/8/2R5/Q7 b - -\", \"time_class\": \"blitz\", \"rules\": \"chess\", \"white\": {\"rating\": 2018, \"result\": \"win\", \"@id\": \"https://api.chess.com/pub/player/aleksey_tarasov\", \"username\": \"Aleksey_Tarasov\", \"uuid\": \"cec0387e-09b0-11e5-8014-000000000000\"}, \"black\": {\"rating\": 2063, \"result\": \"checkmated\", \"@id\": \"https://api.chess.com/pub/player/111michael\", \"username\": \"111Michael\", \"uuid\": \"814b6e24-a4ce-11e0-8006-000000000000\"}, \"eco\": \"https://www.chess.com/openings/Four-Knights-Game-Scotch-Variation-Accepted-5.Nxd4-Bc5-6.Nxc6\"}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "elCo",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ImportError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "dnxE",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ImportError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "kDWJ",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ygHP",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "The variable 'columns' was defined by another cell",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ieGs",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DfiW",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Dataset checkmate-453316.chess_data already exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Table checkmate-453316.chess_data.games doesn't exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Adding paritioning scheme against game_date\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Created table checkmate-453316.chess_data.games\n"
+        }
+      ]
+    },
+    {
+      "id": "zOua",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: NotFound('404 POST https://bigquery.googleapis.com/bigquery/v2/projects/checkmate-453316/datasets/chess_data/tables?prettyPrint=false: Not found: Dataset checkmate-453316:chess_data')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Table checkmate-453316.chess_data.games doesn't exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Adding paritioning scheme against game_date\n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">141</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"n\">exec</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">body</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5999/__marimo__cell_zOua_.py&quot;</span>, line <span class=\"m\">4</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">create_bigquery_table</span><span class=\"p\">(</span><span class=\"n\">bq_table_name</span><span class=\"p\">,</span> <span class=\"n\">schema</span><span class=\"p\">,</span> <span class=\"n\">time_partitioning_field</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5999/__marimo__cell_ieGs_.py&quot;</span>, line <span class=\"m\">18</span>, in <span class=\"n\">create_bigquery_table</span>\n<span class=\"w\">    </span><span class=\"n\">table</span> <span class=\"o\">=</span> <span class=\"n\">client</span><span class=\"o\">.</span><span class=\"n\">create_table</span><span class=\"p\">(</span><span class=\"n\">table</span><span class=\"p\">)</span>\n<span class=\"w\">            </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py&quot;</span>, line <span class=\"m\">809</span>, in <span class=\"n\">create_table</span>\n<span class=\"w\">    </span><span class=\"n\">api_response</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_call_api</span><span class=\"p\">(</span>\n<span class=\"w\">                   </span><span class=\"pm\">^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py&quot;</span>, line <span class=\"m\">843</span>, in <span class=\"n\">_call_api</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">call</span><span class=\"p\">()</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">293</span>, in <span class=\"n\">retry_wrapped_func</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">retry_target</span><span class=\"p\">(</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">153</span>, in <span class=\"n\">retry_target</span>\n<span class=\"w\">    </span><span class=\"n\">_retry_error_helper</span><span class=\"p\">(</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_base.py&quot;</span>, line <span class=\"m\">212</span>, in <span class=\"n\">_retry_error_helper</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">final_exc</span> <span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">source_exc</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">144</span>, in <span class=\"n\">retry_target</span>\n<span class=\"w\">    </span><span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">target</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/_http/__init__.py&quot;</span>, line <span class=\"m\">494</span>, in <span class=\"n\">api_request</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">exceptions</span><span class=\"o\">.</span><span class=\"n\">from_http_response</span><span class=\"p\">(</span><span class=\"n\">response</span><span class=\"p\">)</span>\n<span class=\"gr\">google.api_core.exceptions.NotFound</span>: <span class=\"n\">404 POST https://bigquery.googleapis.com/bigquery/v2/projects/checkmate-453316/datasets/chess_data/tables?prettyPrint=false: Not found: Dataset checkmate-453316:chess_data</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "GDgX",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: BadRequest('400 POST https://bigquery.googleapis.com/bigquery/v2/projects/checkmate-453316/datasets/chess_data/tables?prettyPrint=false: Invalid field name \"white.uuid\". Fields must contain the allowed characters, and be at most 300 characters long. For allowed characters, please refer to https://cloud.google.com/bigquery/docs/schemas#column_names')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Dataset checkmate-453316.chess_data doesn't exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Created table checkmate-453316.chess_data\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Table checkmate-453316.chess_data.games doesn't exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Adding paritioning scheme against game_date\n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">141</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"n\">exec</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">body</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5999/__marimo__cell_GDgX_.py&quot;</span>, line <span class=\"m\">5</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">create_bigquery_table</span><span class=\"p\">(</span><span class=\"n\">table_id</span><span class=\"p\">,</span> <span class=\"n\">schema</span><span class=\"p\">,</span> <span class=\"n\">time_partitioning_field</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5999/__marimo__cell_ieGs_.py&quot;</span>, line <span class=\"m\">18</span>, in <span class=\"n\">create_bigquery_table</span>\n<span class=\"w\">    </span><span class=\"n\">table</span> <span class=\"o\">=</span> <span class=\"n\">client</span><span class=\"o\">.</span><span class=\"n\">create_table</span><span class=\"p\">(</span><span class=\"n\">table</span><span class=\"p\">)</span>\n<span class=\"w\">            </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py&quot;</span>, line <span class=\"m\">809</span>, in <span class=\"n\">create_table</span>\n<span class=\"w\">    </span><span class=\"n\">api_response</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_call_api</span><span class=\"p\">(</span>\n<span class=\"w\">                   </span><span class=\"pm\">^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py&quot;</span>, line <span class=\"m\">843</span>, in <span class=\"n\">_call_api</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">call</span><span class=\"p\">()</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">293</span>, in <span class=\"n\">retry_wrapped_func</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">retry_target</span><span class=\"p\">(</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">153</span>, in <span class=\"n\">retry_target</span>\n<span class=\"w\">    </span><span class=\"n\">_retry_error_helper</span><span class=\"p\">(</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_base.py&quot;</span>, line <span class=\"m\">212</span>, in <span class=\"n\">_retry_error_helper</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">final_exc</span> <span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">source_exc</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py&quot;</span>, line <span class=\"m\">144</span>, in <span class=\"n\">retry_target</span>\n<span class=\"w\">    </span><span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">target</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/_http/__init__.py&quot;</span>, line <span class=\"m\">494</span>, in <span class=\"n\">api_request</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">exceptions</span><span class=\"o\">.</span><span class=\"n\">from_http_response</span><span class=\"p\">(</span><span class=\"n\">response</span><span class=\"p\">)</span>\n<span class=\"gr\">google.api_core.exceptions.BadRequest</span>: <span class=\"n\">400 POST https://bigquery.googleapis.com/bigquery/v2/projects/checkmate-453316/datasets/chess_data/tables?prettyPrint=false: Invalid field name &quot;white.uuid&quot;. Fields must contain the allowed characters, and be at most 300 characters long. For allowed characters, please refer to https://cloud.google.com/bigquery/docs/schemas#column_names</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": "f68c57de63a91aa7aa878b0be8cfde23",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "The variable 'df' was defined by another cell",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "eff7d5dba32b4da32d9a67a519434d3f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (NameError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "4c802f8a6afed4f353f95b45c7f84c94",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Dataset checkmate-453316.chess_data already exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Table checkmate-453316.chess_data.games already exists\n"
+        }
+      ]
+    },
+    {
+      "id": "RGSE",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Dataset checkmate-453316.chess_data already exists\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Table checkmate-453316.chess_data.games already exists\n"
+        }
+      ]
+    }
+  ]
+}

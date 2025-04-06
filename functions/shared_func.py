@@ -24,18 +24,3 @@ def gcp_access_secret(project_id, secret_id, version_id="latest"):
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
     response = client.access_secret_version(name=name)
     return response.payload.data.decode('UTF-8')
-
-def upload_json_to_gcs_bucket(bucket_name, object_name, data, logger):
-    client = storage.Client()
-    bucket = client.get_bucket(bucket_name)
-    blob = bucket.blob(object_name)
-    blob.upload_from_string(json.dumps(data.json()), content_type="application/json")
-    logger.log_text(f'Success | Uploaded {object_name} to GCS bucket: {bucket_name}', severity="INFO")
-
-def list_files_in_gcs(bucket_name, logger):
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    blobs = bucket.list_blobs()
-    file_list = [blob.name for blob in blobs]
-    logger.log_text(f'Listing Files in GCS bucket: {bucket_name}', severity="INFO")
-    return file_list 

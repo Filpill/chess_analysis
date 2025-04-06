@@ -13,7 +13,7 @@ from google.cloud import storage
 from itertools import product
 
 sys.path.append("../functions")
-from shared import *
+from shared_func import *
 
 def script_date_selection(gcs_ingestion_settings):
     script_setting = gcs_ingestion_settings.get("script_setting")
