@@ -1,2 +1,5 @@
+functions/__pycache__/
+scripts/__pycache__/
+scripts/__marimo__/
 .terraform/
 *.bkp
