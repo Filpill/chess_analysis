@@ -6,7 +6,7 @@
   "cells": [
     {
       "id": "Hbol",
-      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "code_hash": "b9ec7cc316b602576c06721f0e86c3d7",
       "outputs": [
         {
           "type": "data",
@@ -101,19 +101,6 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "fc4ea32a360c1534fd46453e6a0fa81c",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "vblA",
       "code_hash": "2adeed1c9fd340d8dc0a6cdacda8024d",
       "outputs": [
         {
@@ -126,7 +113,7 @@
       "console": []
     },
     {
-      "id": "bkHC",
+      "id": "vblA",
       "code_hash": "2837e9609bbb16d300e6af43335c1f28",
       "outputs": [
         {
@@ -139,13 +126,13 @@
       "console": []
     },
     {
-      "id": "lEQa",
-      "code_hash": "057a411ba9abb9faea028d60ecf6eb83",
+      "id": "bkHC",
+      "code_hash": "059f6df34593258194756484b754eb35",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='lEQa-0' random-id='c1159dc8-d989-6223-7813-c12deca49917'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/6322-25613-OdcpeU6b.json&quot;' data-total-rows='769' data-total-columns='20' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;url&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;game_date&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;time_control&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;end_time&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;rated&quot;, [&quot;boolean&quot;, &quot;bool&quot;]], [&quot;time_class&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;rules&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.uuid&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.username&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white.rating&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;white.result&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies.white&quot;, [&quot;number&quot;, &quot;float64&quot;]], [&quot;black.uuid&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black.username&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black.rating&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;black.result&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies.black&quot;, [&quot;number&quot;, &quot;float64&quot;]], [&quot;eco&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;opening&quot;, [&quot;string&quot;, &quot;object&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-row-headers='[]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+            "text/plain": ""
           }
         }
       ],
@@ -158,8 +145,27 @@
       ]
     },
     {
+      "id": "lEQa",
+      "code_hash": "d3b5d98c4bf0be4147aaa76dadd301f2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='lEQa-0' random-id='5ac34436-1fe1-f6bd-cd71-89bc54acea46'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/7408-45273-1Ta2Olg5.json&quot;' data-total-rows='769' data-total-columns='14' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;url&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;game_date&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;ingested_dt&quot;, [&quot;datetime&quot;, &quot;datetime64[ns]&quot;]], [&quot;time_control&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;end_time&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;rated&quot;, [&quot;boolean&quot;, &quot;bool&quot;]], [&quot;time_class&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;rules&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;eco&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;opening&quot;, [&quot;string&quot;, &quot;object&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-row-headers='[]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/narwhals/translate.py:1019: UserWarning: Discarding nonzero nanoseconds in conversion.\n  return scalar_like.to_pydatetime()\n"
+        }
+      ]
+    },
+    {
       "id": "PKri",
-      "code_hash": null,
+      "code_hash": "231aa23f9f4dd284e7c7f50c5645bdea",
       "outputs": [
         {
           "type": "data",
@@ -371,33 +377,58 @@
     },
     {
       "id": "Xref",
-      "code_hash": "f68c57de63a91aa7aa878b0be8cfde23",
+      "code_hash": "daba768d95c49568e24139126a54620d",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "The variable 'df' was defined by another cell",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Data appended to checkmate-453316.chess_data.games\n"
+        }
+      ]
     },
     {
       "id": "SFPL",
-      "code_hash": "eff7d5dba32b4da32d9a67a519434d3f",
+      "code_hash": "85a74cfd58c7daa91e859b1fb0bc84f8",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (NameError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/table.py:1933: UserWarning: BigQuery Storage module not found, fetch data with the REST endpoint instead.\n  warnings.warn(\n"
+        }
+      ]
+    },
+    {
+      "id": "BYtC",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
     },
     {
-      "id": "BYtC",
-      "code_hash": "4c802f8a6afed4f353f95b45c7f84c94",
+      "id": "RGSE",
+      "code_hash": null,
       "outputs": [
         {
           "type": "data",
@@ -420,8 +451,142 @@
       ]
     },
     {
-      "id": "RGSE",
+      "id": "vKiX",
       "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "This cell raised an exception: ValueError('This method requires pyarrow to be installed')",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_25613/__marimo__cell_vKiX_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">append_df_to_bigquery_table</span><span class=\"p\">(</span><span class=\"n\">df</span><span class=\"p\">,</span> <span class=\"n\">table_id</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/bq_func.py&quot;</span>, line <span class=\"m\">77</span>, in <span class=\"n\">append_df_to_bigquery_table</span>\n<span class=\"w\">    </span><span class=\"n\">job</span> <span class=\"o\">=</span> <span class=\"n\">client</span><span class=\"o\">.</span><span class=\"n\">load_table_from_dataframe</span><span class=\"p\">(</span><span class=\"n\">df</span><span class=\"p\">,</span> <span class=\"n\">table_id</span><span class=\"p\">,</span> <span class=\"n\">job_config</span><span class=\"o\">=</span><span class=\"n\">job_config</span><span class=\"p\">)</span>\n<span class=\"w\">          </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/client.py&quot;</span>, line <span class=\"m\">2752</span>, in <span class=\"n\">load_table_from_dataframe</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">ValueError</span><span class=\"p\">(</span><span class=\"s2\">&quot;This method requires pyarrow to be installed&quot;</span><span class=\"p\">)</span>\n<span class=\"gr\">ValueError</span>: <span class=\"n\">This method requires pyarrow to be installed</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "pTrN",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ImportError): ",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Downloading from GCS: player/111michael/games/2024/12\n"
+        }
+      ]
+    },
+    {
+      "id": "Mgzc",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Mgzc-0' random-id='07759954-a24b-74c2-fdf8-2f7cfb9b4b68'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/429-33498-ta8ZsrW3.json&quot;' data-total-rows='1' data-total-columns='13' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;url&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;game_date&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;time_control&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;end_time&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;rated&quot;, [&quot;boolean&quot;, &quot;bool&quot;]], [&quot;time_class&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;rules&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;eco&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;opening&quot;, [&quot;string&quot;, &quot;object&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-row-headers='[]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "QNhw",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ImportError): ",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">141</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"n\">exec</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">body</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_36029/__marimo__cell_QNhw_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">SELECT</span> <span class=\"n\">DISTINCT</span> <span class=\"n\">game_id</span> <span class=\"n\">FROM</span> <span class=\"err\">`</span><span class=\"p\">{</span><span class=\"n\">table_id</span><span class=\"p\">}</span><span class=\"err\">`</span>\n<span class=\"w\">                                   </span><span class=\"pm\">^^^^^^^^</span>\n<span class=\"gr\">NameError</span>: <span class=\"n\">name &#39;table_id&#39; is not defined</span>\n</pre></div>\n</span>"
+        }
+      ]
+    },
+    {
+      "id": "Qhje",
+      "code_hash": "6897402164914a4f30cbcefa141ca4c6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Qhje-0' random-id='eac1cc80-4619-4a70-eaac-15e97afacd86'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/251-45273-8trZyFO0.json&quot;' data-total-rows='769' data-total-columns='1' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;unknown&quot;, &quot;Int64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-row-headers='[]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Oojw",
+      "code_hash": "cac95b1ee4d82a79b6edbdeefbbafb7a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Number of missing games from BQ Table 0\n"
+        }
+      ]
+    },
+    {
+      "id": "tnUj",
+      "code_hash": "4be094b4ffdd6ed7fc6dfde0711e43c0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/bigquery/table.py:1933: UserWarning: BigQuery Storage module not found, fetch data with the REST endpoint instead.\n  warnings.warn(\n"
+        }
+      ]
+    },
+    {
+      "id": "EmkG",
+      "code_hash": "9acd2f4a36f9414950d2128872602ef2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='EmkG-0' random-id='5bd606ba-f84e-0a8a-dc73-c1ecc82be8d5'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;./@file/2-45273-lCpCyGF7.json&quot;' data-total-rows='0' data-total-columns='14' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;game_id&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;url&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;game_date&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;ingested_dt&quot;, [&quot;datetime&quot;, &quot;datetime64[ns]&quot;]], [&quot;time_control&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;end_time&quot;, [&quot;integer&quot;, &quot;int64&quot;]], [&quot;rated&quot;, [&quot;boolean&quot;, &quot;bool&quot;]], [&quot;time_class&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;rules&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;white&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;black&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;accuracies&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;eco&quot;, [&quot;string&quot;, &quot;object&quot;]], [&quot;opening&quot;, [&quot;string&quot;, &quot;object&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-row-headers='[&quot;&quot;]' data-has-stable-row-id='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "sViV",
+      "code_hash": "16b2c731c6951863219ade3a14456078",
       "outputs": [
         {
           "type": "data",

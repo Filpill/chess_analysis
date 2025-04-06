@@ -64,3 +64,44 @@ def check_bigquery_table_exists(table_id: str) -> bool:
     except NotFound:
         print(f"Table {table_id} doesn't exists")
         return False
+
+def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str) -> None:
+
+    # Configure the query job to append results
+    client = bigquery.Client()
+    job_config = bigquery.LoadJobConfig(
+          write_disposition=bigquery.WriteDisposition.WRITE_APPEND
+    )
+
+    # Load the DataFrame into BigQuery
+    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
+    job.result()  # Wait for the job to complete
+    print(f"Data appended to {table_id}")
+
+
+def query_bq_to_dataframe(
+        query: str, location: str, logger: cloud_logging.Logger
+) -> pd.DataFrame:
+
+    client = bigquery.Client()
+    logger.log_text(f"Executing query: {query}", severity="INFO")
+
+    # Execute the query and get the result as a pandas DataFrame
+    query_job = client.query(query, location=location)
+
+    # Log job status information
+    job_id = query_job.job_id
+    logger.log_text(f"Query job started with job ID: {job_id}", severity="INFO")
+
+    # Wait for the job to complete and convert the results to DataFrame
+    df = query_job.to_dataframe()
+
+    # Log the size of the resulting DataFrame
+    rows = len(df)
+    cols = len(df.columns)
+    logger.log_text(
+        f"Query completed successfully. DataFrame created with {rows} rows and {cols} columns.",
+        severity="INFO"
+    )
+
+    return df
