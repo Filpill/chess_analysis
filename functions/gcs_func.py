@@ -34,3 +34,12 @@ def download_content_from_gcs(gcs_filename, bucket_name):
     print(f"Downloading from GCS: {gcs_filename}")
     content = blob.download_as_text()
     return content
+
+def delete_gcs_object(gcs_filename, bucket_name, logger):
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(gcs_filename)
+
+    blob.delete()
+    print(f"Deleted object {gcs_filename} from bucket {bucket_name}")
+    logger.log_text(f"Deleted object {gcs_filename} from bucket: {bucket_name}", severity="INFO")

@@ -76,7 +76,7 @@ def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str) -> None:
     # Load the DataFrame into BigQuery
     job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
     job.result()  # Wait for the job to complete
-    print(f"Data appended to {table_id}")
+    print(f"{len(df)} records appended to {table_id}")
 
 
 def query_bq_to_dataframe(

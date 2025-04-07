@@ -89,7 +89,7 @@ def _(initialise_cloud_logger, json, script_date_selection):
 
     # Initialise Logger Object
     logger = initialise_cloud_logger(project_name)
-    logger.log_text(f"Project: {project_name} | Bucket: {bucket_name} | Script Setting: {script_setting} | Ingestion Dates: {start_date} - {end_date} ", severity="INFO")
+    logger.log_text(f"Initialising Ingestion Script to Append data to GCS | Project: {project_name} | Bucket: {bucket_name} | Script Setting: {script_setting} | Ingestion Dates: {start_date} - {end_date} ", severity="INFO")
     return (
         bucket_name,
         end_date,

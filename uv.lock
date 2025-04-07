@@ -158,6 +158,7 @@ dependencies = [
     { name = "google-api-python-client" },
     { name = "google-cloud" },
     { name = "google-cloud-bigquery" },
+    { name = "google-cloud-bigquery-storage" },
     { name = "google-cloud-logging" },
     { name = "google-cloud-storage" },
     { name = "ipykernel" },
@@ -173,6 +174,7 @@ requires-dist = [
     { name = "google-api-python-client", specifier = ">=2.166.0" },
     { name = "google-cloud", specifier = ">=0.34.0" },
     { name = "google-cloud-bigquery", specifier = ">=3.31.0" },
+    { name = "google-cloud-bigquery-storage", specifier = ">=2.30.0" },
     { name = "google-cloud-logging", specifier = ">=3.11.4" },
     { name = "google-cloud-storage", specifier = ">=3.1.0" },
     { name = "ipykernel", specifier = ">=6.29.5" },
@@ -422,6 +424,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/73/91/4c7274f4d5faf13ac000b06353deaf3579575bf0e4bbad07fa68b9f09ba9/google_cloud_bigquery-3.31.0.tar.gz", hash = "sha256:b89dc716dbe4abdb7a4f873f7050100287bc98514e0614c5d54cd6a8e9fb0991", size = 479961 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e8/bc/4cb8c61fc6dd817a4a390b745ec7b305f4578f547a16d09d54c8a790624b/google_cloud_bigquery-3.31.0-py3-none-any.whl", hash = "sha256:97f4a3219854ff01d6a3a57312feecb0b6e13062226b823f867e2d3619c4787b", size = 250099 },
+]
+
+[[package]]
+name = "google-cloud-bigquery-storage"
+version = "2.30.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "google-api-core", extra = ["grpc"] },
+    { name = "google-auth" },
+    { name = "proto-plus" },
+    { name = "protobuf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c6/06/533b77e86ba1f8b981d830c87e73f6cf4b27851a53217b5c074b9e9b4cea/google_cloud_bigquery_storage-2.30.0.tar.gz", hash = "sha256:41ac83fa9eddbc820102177984ab92f8b7bbdfa7d90ea64b3a0af5ecb4fca3f2", size = 256189 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2b/99/851241dd9ff4694498f465ee4fa22d6b7a1a81eda2bff49b43ef168943a0/google_cloud_bigquery_storage-2.30.0-py3-none-any.whl", hash = "sha256:c4cea1a2969bf46d1cc3fda644552dcf301b33378f3a1c7de945e1603edffadd", size = 256195 },
 ]
 
 [[package]]
