@@ -56,7 +56,7 @@ def get_top_player_list(leaderboard_response, logger):
     format_list = list(leaderboard_response.json().keys())
 
     # Get all the top player names from each chess format
-    logger.log_text('Retrieving the names of top chess players',severity="INFO")
+    log_printer('Retrieving the names of top chess players', logger)
     top_player_list = []
     for form in format_list:
         for i in range(len(leaderboard_response.json().get(form))):
@@ -76,8 +76,8 @@ def generate_remaining_endpoint_combinations(bucket_name, players_data_in_gcs, t
     # If the combination does not exist in GCS --> add to remaining combination list so it can be requested
     remaining_combinations = [combo for combo in all_player_date_combinations if combo not in players_data_in_gcs]
                 
-    logger.log_text(f"Total request combinations: {len(all_player_date_combinations)}", severity="INFO")
-    logger.log_text(f"Number of remaining requests: {len(remaining_combinations)}", severity="INFO")
+    log_printer(f"Total request combinations: {len(all_player_date_combinations)}", logger)
+    log_printer(f"Number of remaining requests: {len(remaining_combinations)}", logger)
     
     return remaining_combinations
 
@@ -101,21 +101,21 @@ def exponential_backoff_request(url, headers, logger, max_retries=5, base_delay=
             return response
 
         if status_code == 404:
-            logger.log_text(f"404 error for {url} - Endpoint currently not working...Skipping", severity="WARNING")
+            log_printer(f"404 error for {url} - Endpoint currently not working...Skipping", logger, severity="WARNING")
             return None
           
         # Will attempt a retry process for non-404 codes with expontential backoff
         wait_time = min(base_delay * (4 ** retries) + random.uniform(0, 1), max_delay)
-        logger.log_text(f"HTTP Status Code: {status_code} | Retry {retries + 1}/{max_retries} - Sleeping {wait_time:.2f} seconds | URL: {url}", severity="WARNING")
+        log_printer(f"HTTP Status Code: {status_code} | Retry {retries + 1}/{max_retries} - Sleeping {wait_time:.2f} seconds | URL: {url}", logger, severity="WARNING")
         time.sleep(wait_time)
         retries += 1
     
-    logger.log_text("Max retries reached. Request failed for {url}", severity="ERROR")
+    log_printer("Max retries reached. Request failed for {url}", logger, severity="ERROR")
     return None
 
 
 def request_from_list_and_upload_to_gcs(bucket_name, request_urls, headers, logger):
-    logger.log_text('Requesting archived game data', severity="INFO")
+    log_printer(f'Requesting archived game data', logger)
     for url in request_urls:
 
         # Requesting Data

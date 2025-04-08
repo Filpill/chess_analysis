@@ -25,17 +25,19 @@ def _():
     from google.cloud import bigquery
     from google.cloud import storage
     from google.cloud.exceptions import NotFound
+    from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
     # Local Libraries
     sys.path.append(f"./inputs")
     sys.path.append(f"./functions")
+    from shared_func import log_printer
     from shared_func import initialise_cloud_logger
 
-    from general_func import extract_last_url_component
-    from general_func import convert_unix_ts_to_date
-    from general_func import return_missing_data_list
-    from general_func import generate_games_dataframe
-    from general_func import compare_sets_and_return_non_matches
+    from transform_func import extract_last_url_component
+    from transform_func import convert_unix_ts_to_date
+    from transform_func import return_missing_data_list
+    from transform_func import generate_games_dataframe
+    from transform_func import compare_sets_and_return_non_matches
 
     from gcs_func import list_files_in_gcs
     from gcs_func import download_content_from_gcs
@@ -48,6 +50,7 @@ def _():
     from bq_func import append_df_to_bigquery_table
     from bq_func import query_bq_to_dataframe
     return (
+        CloudLoggingHandler,
         List,
         NotFound,
         append_df_to_bigquery_table,
@@ -66,6 +69,7 @@ def _():
         initialise_cloud_logger,
         json,
         list_files_in_gcs,
+        log_printer,
         mo,
         np,
         pandas_gbq,
@@ -73,6 +77,7 @@ def _():
         pyarrow,
         query_bq_to_dataframe,
         return_missing_data_list,
+        setup_logging,
         storage,
         sys,
         warnings,
@@ -80,11 +85,12 @@ def _():
 
 
 @app.cell
-def _(initialise_cloud_logger):
-    script_setting = "test"
-    test_volume  = 15 # Max number of files to be downloaded during testing mode
-    dev_endpoint_testcase = "player/hoshor/games/2024/12"
+def _(initialise_cloud_logger, log_printer):
+    script_setting = "prod" # prod / test / dev
+    test_volume  = 15 # For "test" setting Max number of files to be downloaded during testing mode
+    #dev_endpoint_testcase = "player/hoshor/games/2024/12"
     #dev_endpoint_testcase = "player/laurent2003/games/2024/12"
+    dev_endpoint_testcase = "player/elvenesian/games/2024/12"
 
     bucket_name   = "chess-api"
     project_id    = "checkmate-453316"
@@ -96,7 +102,8 @@ def _(initialise_cloud_logger):
     dataset_id = f"{project_id}.{dataset_name}"
     table_id = f"{project_id}.{dataset_name}.{table_name}"
     logger = initialise_cloud_logger(project_id)
-    logger.log_text(f"Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {project_id} | Bucket: {bucket_name} | Script Setting: {script_setting} | date_endpoint: {date_endpoint} ", severity="INFO")
+
+    log_printer(f"Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {project_id} | Bucket: {bucket_name} | Script Setting: {script_setting} | date_endpoint: {date_endpoint}", logger)
     return (
         bucket_name,
         dataset_id,
@@ -122,6 +129,7 @@ def _(
     create_bigquery_table,
     dataset_id,
     location,
+    logger,
     table_id,
 ):
     # Definining Schema of BigQuery Table
@@ -161,11 +169,11 @@ def _(
     ]
     time_partitioning_field ="game_date"
 
-    if check_bigquery_dataset_exists(dataset_id) == False:
+    if check_bigquery_dataset_exists(dataset_id, logger) == False:
         create_bigquery_dataset(dataset_id, location)
 
-    if check_bigquery_table_exists(table_id) == False:
-        create_bigquery_table(table_id, schema, time_partitioning_field)
+    if check_bigquery_table_exists(table_id, logger) == False:
+        create_bigquery_table(table_id, schema, logger, time_partitioning_field)
     return schema, time_partitioning_field
 
 
@@ -187,7 +195,8 @@ def _(
     table_id,
 ):
     # Determine which endpoints are missing from BQ and q
-    endpoints_missing_from_bq = return_missing_data_list("gcs_endpoint", table_id, list_filtered_game_endpoints, location, logger)
+    endpoints_missing_from_bq = sorted(return_missing_data_list("gcs_endpoint", table_id, list_filtered_game_endpoints, location, logger))
+    # endpoints_missing_from_bq
     return (endpoints_missing_from_bq,)
 
 
@@ -197,6 +206,7 @@ def _(
     dev_endpoint_testcase,
     endpoints_missing_from_bq,
     generate_games_dataframe,
+    log_printer,
     logger,
     pd,
     script_setting,
@@ -220,22 +230,30 @@ def _(
                 list_of_game_dfs.append(df)
 
         df_combined = pd.concat(list_of_game_dfs)
-        print("Transformed all downloads into list of dataframes and concatenated together")
+        log_printer("Transformed all downloads into list of dataframes and concatenated together", logger)
     return df, df_combined, gcs_filename, i, list_of_game_dfs
 
 
 @app.cell
-def _(df_combined, location, logger, return_missing_data_list, table_id):
+def _(
+    df_combined,
+    location,
+    log_printer,
+    logger,
+    return_missing_data_list,
+    table_id,
+):
     # Determine missing game_id's from BigQuery and filter list accordingly
     games_missing_from_bq = return_missing_data_list("game_id", table_id, df_combined["game_id"], location, logger)
     df_filtered = df_combined[df_combined["game_id"].isin(games_missing_from_bq)]
     games_filtered_away = len(df_combined) - len(df_filtered)
-    print(f"\nNumber of game_id's filtered away from combined dataframe: {games_filtered_away}")
+    print("\n")
+    log_printer(f"Number of game_id's filtered away from combined dataframe: {games_filtered_away}", logger)
 
     # De-duplication process for game_id's in scenarios where where players inside batch play each other
     df_deduplicated = df_filtered.drop_duplicates(subset="game_id", keep="first")
     duplicates_removed = len(df_filtered) - len(df_deduplicated)
-    print(f"Number of duplicate game_id's removed from combined dataframe: {duplicates_removed}")
+    log_printer(f"Number of duplicate game_id's removed from combined dataframe: {duplicates_removed}", logger)
     return (
         df_deduplicated,
         df_filtered,
@@ -252,8 +270,8 @@ def _(df_deduplicated):
 
 
 @app.cell
-def _(append_df_to_bigquery_table, df_deduplicated, table_id):
-    append_df_to_bigquery_table(df_deduplicated, table_id)
+def _(append_df_to_bigquery_table, df_deduplicated, logger, table_id):
+    append_df_to_bigquery_table(df_deduplicated, table_id, logger)
     return
 
 

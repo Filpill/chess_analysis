@@ -1,11 +1,13 @@
 import re
 import sys
 import json
+import numpy as np
 import pandas as pd
 from datetime import datetime
 from gcs_func import download_content_from_gcs
 from gcs_func import delete_gcs_object
 from bq_func  import query_bq_to_dataframe
+from shared_func import log_printer
 
 def extract_last_url_component(url):
     return url.split("/")[-1]
@@ -19,14 +21,14 @@ def compare_sets_and_return_non_matches(col1, col2):
     non_matching = list((col1 - col2))
     return non_matching
 
-def extract_eco_url_from_pgn(pgn):
+def extract_eco_url_from_pgn(pgn, logger):
     match = re.search(r'\[ECOUrl\s+"([^"]+)"\]', pgn)
     if match:
         eco_url = match.group(1)
         return eco_url
     else:
         return "ECO Not Found"
-        print("ECO URL not found.")
+        log_printer("ECO URL not found.", logger)
 
 def return_missing_data_list(bq_datapoint, table_id, local_list, location, logger):
     
@@ -35,13 +37,13 @@ def return_missing_data_list(bq_datapoint, table_id, local_list, location, logge
         SELECT DISTINCT {bq_datapoint} FROM `{table_id}`
     """
     
-    print(f"Querying List Of Unique {bq_datapoint} Already Landing in BigQuery: {query}")
+    log_printer(f"Querying List Of Unique {bq_datapoint} Already Landing in BigQuery: {query}", logger)
     df_bq_unique = query_bq_to_dataframe(query, location, logger)
     
     # Determine datapoints that are missing from BigQuery Table
     missing_from_bq = compare_sets_and_return_non_matches(local_list, df_bq_unique[bq_datapoint])
-    print(f"Number of {bq_datapoint} from local list: {len(local_list)}")
-    print(f"Number of missing {bq_datapoint} from BQ Table: {len(missing_from_bq)}")
+    log_printer(f"Number of {bq_datapoint} from local list: {len(local_list)}", logger)
+    log_printer(f"Number of missing {bq_datapoint} from BQ Table: {len(missing_from_bq)}", logger)
 
     return missing_from_bq
 
@@ -49,7 +51,7 @@ def return_missing_data_list(bq_datapoint, table_id, local_list, location, logge
 def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
 
     # Download Data From GCS and Store into DataFrame
-    content = download_content_from_gcs(gcs_filename, bucket_name)
+    content = download_content_from_gcs(gcs_filename, bucket_name ,logger)
     data_dict = json.loads(content).get("games")
     df = pd.DataFrame(data_dict)
 
@@ -76,12 +78,15 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
     if "accuracies" not in df.columns:
         df["accuracies"] = dict()
 
+    if "eco" not in df.columns:
+        df["eco"] = np.nan
+
     # Transformations for non-zero length
     if len(df) > 0: 
 
         # Apply Transformations
         df["eco"] = df.apply(
-             lambda row: row["eco"] if pd.notna(row["eco"]) else extract_eco_url_from_pgn(row["pgn"]),
+             lambda row: row["eco"] if pd.notna(row["eco"]) else extract_eco_url_from_pgn(row["pgn"], logger),
              axis=1
          )
 
@@ -100,7 +105,7 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
     # Delete GCS data if no data found for date period
     if len(df) == 0 :
 
-        print(f"No data in following GCS endpoint: {gcs_filename}")
+        log_printer(f"No data in following GCS endpoint: {gcs_filename}", logger)
         delete_gcs_object(gcs_filename, bucket_name, logger)
         
         return None
