@@ -38,6 +38,7 @@ def _():
     from transform_func import return_missing_data_list
     from transform_func import generate_games_dataframe
     from transform_func import compare_sets_and_return_non_matches
+    from transform_func import deletion_interaction_list_handler
 
     from gcs_func import list_files_in_gcs
     from gcs_func import download_content_from_gcs
@@ -63,6 +64,7 @@ def _():
         create_bigquery_dataset,
         create_bigquery_table,
         delete_gcs_object,
+        deletion_interaction_list_handler,
         download_content_from_gcs,
         extract_last_url_component,
         generate_games_dataframe,
@@ -88,19 +90,22 @@ def _():
 def _(initialise_cloud_logger, log_printer):
     script_setting = "prod" # prod / test / dev
     test_volume  = 15 # For "test" setting Max number of files to be downloaded during testing mode
+
+    #---------------------------------------------------------------------#
+    #----------------------Test Case Investigation------------------------#
+    #-------------------(Set script_setting to "dev")---------------------#
     #dev_endpoint_testcase = "player/hoshor/games/2024/12"
     #dev_endpoint_testcase = "player/laurent2003/games/2024/12"
     dev_endpoint_testcase = "player/elvenesian/games/2024/12"
+    #--------------------------------------------------------------------#
 
     bucket_name   = "chess-api"
     project_id    = "checkmate-453316"
     dataset_name  = "chess_data"
-    table_name    = "games"
     location      = "EU"
-    date_endpoint = "2024/12"
+    date_endpoint = "2025/02"
 
     dataset_id = f"{project_id}.{dataset_name}"
-    table_id = f"{project_id}.{dataset_name}.{table_name}"
     logger = initialise_cloud_logger(project_id)
 
     log_printer(f"Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {project_id} | Bucket: {bucket_name} | Script Setting: {script_setting} | date_endpoint: {date_endpoint}", logger)
@@ -114,8 +119,6 @@ def _(initialise_cloud_logger, log_printer):
         logger,
         project_id,
         script_setting,
-        table_id,
-        table_name,
         test_volume,
     )
 
@@ -128,15 +131,53 @@ def _(
     create_bigquery_dataset,
     create_bigquery_table,
     dataset_id,
+    dataset_name,
     location,
     logger,
-    table_id,
+    project_id,
 ):
-    # Definining Schema of BigQuery Table
-    schema = [
+    # Definining Schema of Loading Completed BigQuery Table
+    table_id_loading_completed = f"{project_id}.{dataset_name}.loading_completed"
+
+    schema_loading_completed = [
+        bigquery.SchemaField(name="gcs_endpoint",              field_type="STRING",    mode="REQUIRED", description="The path to data endpoint inside GCS bucket"),
+        bigquery.SchemaField(name="gcs_game_month",            field_type="DATE",      mode="REQUIRED", description="The month relating to GCS object that was involved in data loading"),
+        bigquery.SchemaField(name="gcs_object_interaction_dt", field_type="TIMESTAMP", mode="REQUIRED", description="The timestamp of the interaction of the GCS object that was involved in data loading"),
+        bigquery.SchemaField(name="acton_taken",               field_type="STRING",    mode="NULLABLE", description="Action taken when interacting with GCS object"),
+    ]
+    loading_time_partitioning_field ="gcs_game_month"
+
+    if check_bigquery_dataset_exists(dataset_id, logger) == False:
+        create_bigquery_dataset(dataset_id, location)
+
+    if check_bigquery_table_exists(table_id_loading_completed, logger) == False:
+        create_bigquery_table(table_id_loading_completed, schema_loading_completed, logger, loading_time_partitioning_field)
+    return (
+        loading_time_partitioning_field,
+        schema_loading_completed,
+        table_id_loading_completed,
+    )
+
+
+@app.cell
+def _(
+    bigquery,
+    check_bigquery_dataset_exists,
+    check_bigquery_table_exists,
+    create_bigquery_dataset,
+    create_bigquery_table,
+    dataset_id,
+    dataset_name,
+    location,
+    logger,
+    project_id,
+):
+    # Definining Schema of Games BigQuery Table
+    table_id_games = f"{project_id}.{dataset_name}.games"
+
+    schema_games = [
         bigquery.SchemaField(name="game_id",       field_type="INT64",     mode="REQUIRED", description="The ID of the chess game played"),
         bigquery.SchemaField(name="url",           field_type="STRING",    mode="REQUIRED", description="The URL of the chess game played"),
-        bigquery.SchemaField(name="gcs_endpoint",  field_type="STRING",    mode="REQUIRED", description="The path to data endpoint inside GCS bucket"),
         bigquery.SchemaField(name="game_date",     field_type="DATE",      mode="REQUIRED", description="The date of the chess game played"),
         bigquery.SchemaField(name="ingested_dt",   field_type="TIMESTAMP", mode="REQUIRED", description="The timestamp of the ingested data"),
         bigquery.SchemaField(name="time_control",  field_type="STRING",    mode="REQUIRED", description="The time control of the chess game played"),
@@ -145,36 +186,36 @@ def _(
         bigquery.SchemaField(name="time_class",    field_type="STRING",    mode="REQUIRED", description="The time classification for the game"),
         bigquery.SchemaField(name="rules",         field_type="STRING",    mode="REQUIRED", description="The chess ruleset of the respective chess game"),
 
-        bigquery.SchemaField(name="white", field_type="RECORD", mode="REQUIRED", description="White player details", fields=[
-                bigquery.SchemaField(name="uuid",     field_type="STRING",     mode="REQUIRED", description="The unique identifier of a player's username"),
-                bigquery.SchemaField(name="username", field_type="STRING",     mode="REQUIRED", description="The username of the chess player"),
-                bigquery.SchemaField(name="rating",   field_type="INT64",      mode="REQUIRED", description="The rating of the chess player at the time of the game"),
-                bigquery.SchemaField(name="result",   field_type="STRING",     mode="REQUIRED", description="The result of the respective chess game"),
+        bigquery.SchemaField(name="white",         field_type="RECORD",    mode="REQUIRED", description="White player details", fields=[
+                bigquery.SchemaField(name="uuid",       field_type="STRING",     mode="REQUIRED", description="The unique identifier of a player's username"),
+                bigquery.SchemaField(name="username",   field_type="STRING",     mode="REQUIRED", description="The username of the chess player"),
+                bigquery.SchemaField(name="rating",     field_type="INT64",      mode="REQUIRED", description="The rating of the chess player at the time of the game"),
+                bigquery.SchemaField(name="result",     field_type="STRING",     mode="REQUIRED", description="The result of the respective chess game"),
         ]),
 
-        bigquery.SchemaField(name="black", field_type="RECORD", mode="REQUIRED", description="Black player details", fields=[
-                bigquery.SchemaField(name="uuid",     field_type="STRING",     mode="REQUIRED", description="The unique identifier of a player's username"),
-                bigquery.SchemaField(name="username", field_type="STRING",     mode="REQUIRED", description="The username of the chess player"),
-                bigquery.SchemaField(name="rating",   field_type="INT64",      mode="REQUIRED", description="The rating of the chess player at the time of the game"),
-                bigquery.SchemaField(name="result",   field_type="STRING",     mode="REQUIRED", description="The result of the respective chess game"),
+        bigquery.SchemaField(name="black",          field_type="RECORD",    mode="REQUIRED", description="Black player details", fields=[
+                bigquery.SchemaField(name="uuid",       field_type="STRING",     mode="REQUIRED", description="The unique identifier of a player's username"),
+                bigquery.SchemaField(name="username",   field_type="STRING",     mode="REQUIRED", description="The username of the chess player"),
+                bigquery.SchemaField(name="rating",     field_type="INT64",      mode="REQUIRED", description="The rating of the chess player at the time of the game"),
+                bigquery.SchemaField(name="result",     field_type="STRING",     mode="REQUIRED", description="The result of the respective chess game"),
         ]),
 
-        bigquery.SchemaField(name="accuracies", field_type="RECORD", mode="NULLABLE", description="Player accuracies", fields=[
-                bigquery.SchemaField(name="white", field_type="FLOAT64",       mode="NULLABLE", description="White - The accuracy of the respective chess game"),
-                bigquery.SchemaField(name="black", field_type="FLOAT64",       mode="NULLABLE", description="Black - The accuracy of the respective chess game"),
+        bigquery.SchemaField(name="accuracies",     field_type="RECORD",    mode="NULLABLE", description="Player accuracies", fields=[
+                bigquery.SchemaField(name="white",      field_type="FLOAT64",    mode="NULLABLE", description="White - The accuracy of the respective chess game"),
+                bigquery.SchemaField(name="black",      field_type="FLOAT64",    mode="NULLABLE", description="Black - The accuracy of the respective chess game"),
         ]),
 
         bigquery.SchemaField(name="eco",     field_type="STRING",          mode="REQUIRED", description="The Encyclopedia of Chess Openings URL for the chess opening played"),
         bigquery.SchemaField(name="opening", field_type="STRING",          mode="REQUIRED", description="The name of the chess opening played"),
     ]
-    time_partitioning_field ="game_date"
+    games_time_partitioning_field ="game_date"
 
     if check_bigquery_dataset_exists(dataset_id, logger) == False:
         create_bigquery_dataset(dataset_id, location)
 
-    if check_bigquery_table_exists(table_id, logger) == False:
-        create_bigquery_table(table_id, schema, logger, time_partitioning_field)
-    return schema, time_partitioning_field
+    if check_bigquery_table_exists(table_id_games, logger) == False:
+        create_bigquery_table(table_id_games, schema_games, logger, games_time_partitioning_field)
+    return games_time_partitioning_field, schema_games, table_id_games
 
 
 @app.cell
@@ -192,10 +233,10 @@ def _(
     location,
     logger,
     return_missing_data_list,
-    table_id,
+    table_id_loading_completed,
 ):
-    # Determine which endpoints are missing from BQ and q
-    endpoints_missing_from_bq = sorted(return_missing_data_list("gcs_endpoint", table_id, list_filtered_game_endpoints, location, logger))
+    # Determine which endpoints that have not been processed from GCS to BQ destination
+    endpoints_missing_from_bq = sorted(return_missing_data_list("gcs_endpoint", table_id_loading_completed, list_filtered_game_endpoints, location, logger))
     # endpoints_missing_from_bq
     return (endpoints_missing_from_bq,)
 
@@ -219,19 +260,33 @@ def _(
     # Download game data from each endpoint in GCS and store dataframes into list
     if script_setting in ("prod", "test"):
         list_of_game_dfs = []
+        list_of_interaction_dicts = []
         for i, gcs_filename in enumerate(endpoints_missing_from_bq):
 
             # When in test setting, this will apply a limiter to the volume of data being
             if script_setting == "test" and i == test_volume:
                 break
 
-            df = generate_games_dataframe(gcs_filename, bucket_name, logger)
+            df, interaction_dict = generate_games_dataframe(gcs_filename, bucket_name, logger)
+
+            list_of_interaction_dicts.append(interaction_dict)
+
             if df is not None:
                 list_of_game_dfs.append(df)
 
         df_combined = pd.concat(list_of_game_dfs)
+        df_interaction_list = pd.DataFrame(list_of_interaction_dicts)
         log_printer("Transformed all downloads into list of dataframes and concatenated together", logger)
-    return df, df_combined, gcs_filename, i, list_of_game_dfs
+    return (
+        df,
+        df_combined,
+        df_interaction_list,
+        gcs_filename,
+        i,
+        interaction_dict,
+        list_of_game_dfs,
+        list_of_interaction_dicts,
+    )
 
 
 @app.cell
@@ -241,10 +296,10 @@ def _(
     log_printer,
     logger,
     return_missing_data_list,
-    table_id,
+    table_id_games,
 ):
     # Determine missing game_id's from BigQuery and filter list accordingly
-    games_missing_from_bq = return_missing_data_list("game_id", table_id, df_combined["game_id"], location, logger)
+    games_missing_from_bq = return_missing_data_list("game_id", table_id_games, df_combined["game_id"], location, logger)
     df_filtered = df_combined[df_combined["game_id"].isin(games_missing_from_bq)]
     games_filtered_away = len(df_combined) - len(df_filtered)
     print("\n")
@@ -270,8 +325,33 @@ def _(df_deduplicated):
 
 
 @app.cell
-def _(append_df_to_bigquery_table, df_deduplicated, logger, table_id):
-    append_df_to_bigquery_table(df_deduplicated, table_id, logger)
+def _(df_interaction_list):
+    df_interaction_list
+    return
+
+
+@app.cell
+def _(
+    bucket_name,
+    deletion_interaction_list_handler,
+    df_interaction_list,
+    logger,
+):
+    deletion_interaction_list_handler(df_interaction_list, bucket_name, logger)
+    return
+
+
+@app.cell
+def _(
+    append_df_to_bigquery_table,
+    df_deduplicated,
+    df_interaction_list,
+    logger,
+    table_id_games,
+    table_id_loading_completed,
+):
+    append_df_to_bigquery_table(df_deduplicated, table_id_games, logger)
+    append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed, logger)
     return
 
 

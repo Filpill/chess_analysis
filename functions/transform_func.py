@@ -3,7 +3,7 @@ import sys
 import json
 import numpy as np
 import pandas as pd
-from datetime import datetime
+from datetime import date, datetime
 from gcs_func import download_content_from_gcs
 from gcs_func import delete_gcs_object
 from bq_func  import query_bq_to_dataframe
@@ -47,6 +47,20 @@ def return_missing_data_list(bq_datapoint, table_id, local_list, location, logge
 
     return missing_from_bq
 
+def gcs_action_taken_dict(gcs_filename, action_taken, logger):
+
+    # Dictionary to determine what action was taken when handling the GCS data
+    # To load into BQ table later
+    _, _, _, year, month = gcs_filename.split("/")
+
+    interaction_dict = {
+        "gcs_endpoint" :  gcs_filename,
+        "gcs_game_month" : datetime(int(year), int(month), 1),
+        "gcs_object_interaction_dt" : datetime.now(),
+        "action_taken" : action_taken
+    }
+
+    return interaction_dict
 
 def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
 
@@ -59,7 +73,6 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
     columns = [
         "game_id",
         "url",
-        "gcs_endpoint",
         "game_date",
         "ingested_dt",
         "time_control",
@@ -91,7 +104,6 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
          )
 
         df["opening"] = df["eco"].apply(lambda x: extract_last_url_component(x).replace("-"," "))
-        df["gcs_endpoint"] = gcs_filename
         df["game_id"] = df["url"].apply(lambda x: extract_last_url_component(x))
         df["game_date"] = pd.to_datetime(df["end_time"], unit="s").dt.strftime('%Y-%m-%d')
         df["game_date"] = pd.to_datetime(df["game_date"]).dt.date
@@ -100,13 +112,33 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
         # Fixing Types
         df["game_id"] = df["game_id"].astype(int)
 
-        return df[columns]
+        # Dictionary to determine what action was taken when handling the GCS data
+        # To load into BQ table later
+        interaction_dict = {
+            "gcs_endpoint" :  gcs_filename,
+            "gcs_game_month" : date.today(),
+            "gcs_object_interaction_dt" : datetime.now(),
+            "action_taken" : "Loaded"
+        }
 
-    # Delete GCS data if no data found for date period
+        # Generate interaction dict
+        interaction_dict = gcs_action_taken_dict(gcs_filename, "Loaded", logger)
+
+        return df[columns], interaction_dict
+
+    # Ammend action to take for GCS data that is empty (prepping for deletion)
     if len(df) == 0 :
 
-        log_printer(f"No data in following GCS endpoint: {gcs_filename}", logger)
-        delete_gcs_object(gcs_filename, bucket_name, logger)
-        
-        return None
-    
+        # Generate interaction dict
+        interaction_dict = gcs_action_taken_dict(gcs_filename, "Deleted", logger)
+
+        return None, interaction_dict
+
+
+def deletion_interaction_list_handler(df, bucket_name, logger):                                
+
+    df_to_banish_to_shadow_realm = df[df['action_taken']=="Deleted"]
+
+    for gcs_filename in df_to_banish_to_shadow_realm["gcs_endpoint"]:
+         log_printer(f"No data in following GCS endpoint: {gcs_filename}", logger)
+         delete_gcs_object(gcs_filename, bucket_name, logger)
