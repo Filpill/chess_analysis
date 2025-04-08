@@ -15,7 +15,7 @@ locals {
     files = [
         { file_path = "functions/bq_func.py" },
         { file_path = "functions/gcs_func.py" },
-        { file_path = "functions/general_func.py" },
+        { file_path = "functions/transform_func.py" },
         { file_path = "scripts/bigquery_chess_transform_load.py" },
         { file_path = var.ingestion_script },
         { file_path = var.function_shared },
