@@ -23,9 +23,9 @@ def extract_eco_url_from_pgn(pgn):
     match = re.search(r'\[ECOUrl\s+"([^"]+)"\]', pgn)
     if match:
         eco_url = match.group(1)
-        print("ECO URL Extracted From PGN Data:", eco_url)
         return eco_url
     else:
+        return "ECO Not Found"
         print("ECO URL not found.")
 
 def return_missing_data_list(bq_datapoint, table_id, local_list, location, logger):
@@ -69,23 +69,23 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
         "black",
         "accuracies",
         "eco",
-        #"opening"
+        "opening"
     ]
 
     # Create empty column for any datapoints that don't exist
     if "accuracies" not in df.columns:
-        df["accuracies" ] = dict()
-
-    if "eco" not in df.columns:
-        df["eco"] = df["pgn"].apply(lambda x: extract_eco_url_from_pgn(x))
-
-    #if "eco" in df.columns:
-        #df["opening"] = df["eco"].apply(lambda x: extract_last_url_component(x).replace("-"," "))
+        df["accuracies"] = dict()
 
     # Transformations for non-zero length
     if len(df) > 0: 
 
         # Apply Transformations
+        df["eco"] = df.apply(
+             lambda row: row["eco"] if pd.notna(row["eco"]) else extract_eco_url_from_pgn(row["pgn"]),
+             axis=1
+         )
+
+        df["opening"] = df["eco"].apply(lambda x: extract_last_url_component(x).replace("-"," "))
         df["gcs_endpoint"] = gcs_filename
         df["game_id"] = df["url"].apply(lambda x: extract_last_url_component(x))
         df["game_date"] = pd.to_datetime(df["end_time"], unit="s").dt.strftime('%Y-%m-%d')
@@ -95,9 +95,13 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
         # Fixing Types
         df["game_id"] = df["game_id"].astype(int)
 
+        return df[columns]
+
     # Delete GCS data if no data found for date period
     if len(df) == 0 :
+
         print(f"No data in following GCS endpoint: {gcs_filename}")
         delete_gcs_object(gcs_filename, bucket_name, logger)
+        
+        return None
     
-    return df[columns]

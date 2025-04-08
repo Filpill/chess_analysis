@@ -81,9 +81,10 @@ def _():
 
 @app.cell
 def _(initialise_cloud_logger):
-    script_setting = "dev"
+    script_setting = "test"
     test_volume  = 15 # Max number of files to be downloaded during testing mode
     dev_endpoint_testcase = "player/hoshor/games/2024/12"
+    #dev_endpoint_testcase = "player/laurent2003/games/2024/12"
 
     bucket_name   = "chess-api"
     project_id    = "checkmate-453316"
@@ -215,7 +216,8 @@ def _(
                 break
 
             df = generate_games_dataframe(gcs_filename, bucket_name, logger)
-            list_of_game_dfs.append(df)
+            if df is not None:
+                list_of_game_dfs.append(df)
 
         df_combined = pd.concat(list_of_game_dfs)
         print("Transformed all downloads into list of dataframes and concatenated together")
@@ -223,16 +225,12 @@ def _(
 
 
 @app.cell
-def _(df_combined):
-    df_combined
-    return
-
-
-@app.cell
 def _(df_combined, location, logger, return_missing_data_list, table_id):
     # Determine missing game_id's from BigQuery and filter list accordingly
     games_missing_from_bq = return_missing_data_list("game_id", table_id, df_combined["game_id"], location, logger)
     df_filtered = df_combined[df_combined["game_id"].isin(games_missing_from_bq)]
+    games_filtered_away = len(df_combined) - len(df_filtered)
+    print(f"\nNumber of game_id's filtered away from combined dataframe: {games_filtered_away}")
 
     # De-duplication process for game_id's in scenarios where where players inside batch play each other
     df_deduplicated = df_filtered.drop_duplicates(subset="game_id", keep="first")
@@ -242,6 +240,7 @@ def _(df_combined, location, logger, return_missing_data_list, table_id):
         df_deduplicated,
         df_filtered,
         duplicates_removed,
+        games_filtered_away,
         games_missing_from_bq,
     )
 
