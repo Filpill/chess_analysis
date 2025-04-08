@@ -125,14 +125,23 @@ def _(initialise_cloud_logger, log_printer):
 
 @app.cell
 def _(
-    bigquery,
     check_bigquery_dataset_exists,
-    check_bigquery_table_exists,
     create_bigquery_dataset,
-    create_bigquery_table,
     dataset_id,
-    dataset_name,
     location,
+    logger,
+):
+    if check_bigquery_dataset_exists(dataset_id, logger) == False:
+        create_bigquery_dataset(dataset_id, location)
+    return
+
+
+@app.cell
+def _(
+    bigquery,
+    check_bigquery_table_exists,
+    create_bigquery_table,
+    dataset_name,
     logger,
     project_id,
 ):
@@ -147,9 +156,6 @@ def _(
     ]
     loading_time_partitioning_field ="gcs_game_month"
 
-    if check_bigquery_dataset_exists(dataset_id, logger) == False:
-        create_bigquery_dataset(dataset_id, location)
-
     if check_bigquery_table_exists(table_id_loading_completed, logger) == False:
         create_bigquery_table(table_id_loading_completed, schema_loading_completed, logger, loading_time_partitioning_field)
     return (
@@ -162,13 +168,9 @@ def _(
 @app.cell
 def _(
     bigquery,
-    check_bigquery_dataset_exists,
     check_bigquery_table_exists,
-    create_bigquery_dataset,
     create_bigquery_table,
-    dataset_id,
     dataset_name,
-    location,
     logger,
     project_id,
 ):
@@ -209,9 +211,6 @@ def _(
         bigquery.SchemaField(name="opening", field_type="STRING",          mode="REQUIRED", description="The name of the chess opening played"),
     ]
     games_time_partitioning_field ="game_date"
-
-    if check_bigquery_dataset_exists(dataset_id, logger) == False:
-        create_bigquery_dataset(dataset_id, location)
 
     if check_bigquery_table_exists(table_id_games, logger) == False:
         create_bigquery_table(table_id_games, schema_games, logger, games_time_partitioning_field)

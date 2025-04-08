@@ -33,6 +33,7 @@ The project is segmented into the following directories which contain the follow
 | :------------- | :------------- |
 | **scripts/**   | Core python scripts/notebooks to process chess data  |
 | **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
+| **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
 | **functions/** | Functions which are imported into the core data processing scripts  |
 | **inputs/** | Input parameter files for passing into core data processing scripts |
 | **diagrams/** | Illustrations for architectural design  |
@@ -105,10 +106,16 @@ This is a high-level view of the key components in the pipeline architecture and
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/pipeline_architecture.png " alt="drawing" width="800"/>
 </p>
 
-
 ## Ingestion Dataflow
+The following flow chart illustrates how data is processed when ingesting data into GCS:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/ingestion_dataflow.png " alt="drawing" width="800"/>
+</p>
+
+## Transform/Load Dataflow
+The following flow chart illustrates how data is processed when transforming and loading data from GCS to BigQuery:
+<p align = center>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
 </p>
 
 ## Chess Analysis
