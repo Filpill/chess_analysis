@@ -34,6 +34,8 @@ The project is segmented into the following directories which contain the follow
 | **scripts/**   | Core python scripts/notebooks to process chess data  |
 | **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
 | **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
+| **dash/**   | Contains files for developing "Dash" python applications  |
+| **bigquery/sql**   | Contains files runnining SQL scripts on BQ  |
 | **functions/** | Functions which are imported into the core data processing scripts  |
 | **inputs/** | Input parameter files for passing into core data processing scripts |
 | **diagrams/** | Illustrations for architectural design  |
