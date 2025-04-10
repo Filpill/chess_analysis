@@ -1,12 +1,12 @@
 @font-face {
-    font-family: "JetBrainsMonoNerd";
-    src: url("/assets/fonts/JetBrainsMonoNerdFontMono-Medium.ttf") format("truetype");
+    font-family: "IntoneMonoNerd";
+    src: url("/assets/fonts/IntoneMonoNerdFontMono-Medium.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }
 
 body {
-    font-family: "JetBrainsMonoNerd";
+    font-family: "IntoneMonoNerd";
     background-image: url("https://images.chesscomfiles.com/chess-themes/backgrounds/originals/large/game_room.png");
     background-size: cover;
     background-repeat: repeat;
@@ -17,20 +17,28 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     display: inline-block;
-    background-image: linear-gradient(to bottom, #0d2611 10%, #45734b 95%, #609b69 100%);
     color: white;           /* optional: for contrast */
-    padding: 0.25rem 1rem;   /* optional: for spacing inside the header */
+    padding: 0.1rem 1rem;   /* optional: for spacing inside the header */
     border-radius: 7px;     /* optional: slight rounded corners */
     margin: 0.25rem 0;
     transition: all 0.3s ease-in-out;  /* smooth transition */
 }
 
 h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
-    background-image:  linear-gradient(to bottom, #0d2611 1%, #45734b 95%, #609b69 100%);
     box-shadow: 0 0 10px rgba(255, 126, 95, 0.7); /* soft glow */
     transform: scale(1.005); /* slight zoom */
 }
 
+.div-filler-outer {
+    background-color:#333633;
+    padding: 1rem;
+    border-radius: 12px;
+    color: white;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
 
 /*For nerdfont icons*/
 .bigger-nf-icon {
@@ -41,34 +49,20 @@ h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
 
 /*For dropdowns*/
 .select-value {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 /*For Date Picker*/
-/* Make input box background dark */
-.DateInput_input {
-    background-color: #45734b;
-    color: white;
-    font-weight: bold;
-    font-size: 150%;
-    border: 5px solid #609b69 ;
-}
 
 /* Highlight selected date */
-.DayPicker-Day--selected {
+.DayPicker, {
     background-color: #45734b;
     color: white;
 }
 
 /* On hover */
-.DayPicker-Day:hover {
+.CalendarDay:hover {
     background-color: #609b69;
     color: white;
 }
 
-/* Overall calendar background */
-.CalendarDay {
-    background-color: #45734b ;
-    color: white;
-    border:2px solid #609b69;
-}
