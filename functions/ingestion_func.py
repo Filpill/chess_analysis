@@ -14,6 +14,7 @@ from itertools import product
 
 sys.path.append("../functions")
 from shared_func import *
+from gcs_func import *
 
 def script_date_selection(gcs_ingestion_settings):
     script_setting = gcs_ingestion_settings.get("script_setting")

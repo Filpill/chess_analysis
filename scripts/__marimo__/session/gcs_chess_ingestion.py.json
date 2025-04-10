@@ -32,7 +32,7 @@
     },
     {
       "id": "vblA",
-      "code_hash": "baf039c45e297959908edaf31044f02a",
+      "code_hash": "a41bccff3fe5e65678881c8e49abd3e9",
       "outputs": [
         {
           "type": "data",
@@ -54,7 +54,13 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:22 UTC: Success | Uploaded leaderboards/2025-04-10/15-51-20 to GCS bucket: chess-api\n"
+        }
+      ]
     },
     {
       "id": "lEQa",
@@ -67,7 +73,13 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:23 UTC: Listing Files in GCS bucket: chess-api\n"
+        }
+      ]
     },
     {
       "id": "jkEH",
@@ -132,7 +144,23 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:23 UTC: Retrieving the names of top chess players\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:25 UTC: Total request combinations: 543\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:25 UTC: Number of remaining requests: 543\n"
+        }
+      ]
     },
     {
       "id": "Xref",
@@ -140,7 +168,7 @@
       "outputs": [
         {
           "type": "error",
-          "ename": "exception",
+          "ename": "interruption",
           "evalue": "This cell was interrupted and needs to be re-run",
           "traceback": []
         }
@@ -148,8 +176,88 @@
       "console": [
         {
           "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:25 UTC: Requesting archived game data\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:27 UTC: Success | Uploaded player/12teen/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:30 UTC: Success | Uploaded player/15-big/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:32 UTC: Success | Uploaded player/2012vachamp/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:34 UTC: Success | Uploaded player/2problemchild/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:38 UTC: Success | Uploaded player/aa175/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:51 UTC: Success | Uploaded player/abdallahalkordi/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:54 UTC: Success | Uploaded player/abebaabiodun/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:51:58 UTC: Success | Uploaded player/abykhovsky/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:01 UTC: Success | Uploaded player/acm-dasari_vijval/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:03 UTC: Success | Uploaded player/adam657/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:06 UTC: Success | Uploaded player/adityajoshi1998/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:08 UTC: Success | Uploaded player/aelin_ashryver_galat/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:10 UTC: Success | Uploaded player/agadmatorandharish/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:11 UTC: Success | Uploaded player/akukanmasihpemula/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-10 15:52:13 UTC: Success | Uploaded player/al1aks/games/2025/03 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
           "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_5255/__marimo__cell_Xref_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">request_from_list_and_upload_to_gcs</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">,</span> <span class=\"n\">request_urls</span><span class=\"p\">,</span> <span class=\"n\">headers</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/gcs_ingestion.py&quot;</span>, line <span class=\"m\">122</span>, in <span class=\"n\">request_from_list_and_upload_to_gcs</span>\n<span class=\"w\">    </span><span class=\"n\">games_response</span> <span class=\"o\">=</span> <span class=\"n\">exponential_backoff_request</span><span class=\"p\">(</span><span class=\"n\">url</span><span class=\"p\">,</span> <span class=\"n\">headers</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n<span class=\"w\">                     </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/gcs_ingestion.py&quot;</span>, line <span class=\"m\">97</span>, in <span class=\"n\">exponential_backoff_request</span>\n<span class=\"w\">    </span><span class=\"n\">response</span> <span class=\"o\">=</span> <span class=\"n\">requests</span><span class=\"o\">.</span><span class=\"n\">get</span><span class=\"p\">(</span><span class=\"n\">url</span><span class=\"p\">,</span> <span class=\"n\">headers</span><span class=\"o\">=</span><span class=\"n\">headers</span><span class=\"p\">)</span>\n<span class=\"w\">               </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/requests/api.py&quot;</span>, line <span class=\"m\">73</span>, in <span class=\"n\">get</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">request</span><span class=\"p\">(</span><span class=\"s2\">&quot;get&quot;</span><span class=\"p\">,</span> <span class=\"n\">url</span><span class=\"p\">,</span> <span class=\"n\">params</span><span class=\"o\">=</span><span class=\"n\">params</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/requests/api.py&quot;</span>, line <span class=\"m\">59</span>, in <span class=\"n\">request</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">session</span><span class=\"o\">.</span><span class=\"n\">request</span><span class=\"p\">(</span><span class=\"n\">method</span><span class=\"o\">=</span><span class=\"n\">method</span><span class=\"p\">,</span> <span class=\"n\">url</span><span class=\"o\">=</span><span class=\"n\">url</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/requests/sessions.py&quot;</span>, line <span class=\"m\">589</span>, in <span class=\"n\">request</span>\n<span class=\"w\">    </span><span class=\"n\">resp</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">send</span><span class=\"p\">(</span><span class=\"n\">prep</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">send_kwargs</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/requests/sessions.py&quot;</span>, line <span class=\"m\">703</span>, in <span class=\"n\">send</span>\n<span class=\"w\">    </span><span class=\"n\">r</span> <span class=\"o\">=</span> <span class=\"n\">adapter</span><span class=\"o\">.</span><span class=\"n\">send</span><span class=\"p\">(</span><span class=\"n\">request</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n<span class=\"w\">        </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/requests/adapters.py&quot;</span>, line <span class=\"m\">667</span>, in <span class=\"n\">send</span>\n<span class=\"w\">    </span><span class=\"n\">resp</span> <span class=\"o\">=</span> <span class=\"n\">conn</span><span class=\"o\">.</span><span class=\"n\">urlopen</span><span class=\"p\">(</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/urllib3/connectionpool.py&quot;</span>, line <span class=\"m\">787</span>, in <span class=\"n\">urlopen</span>\n<span class=\"w\">    </span><span class=\"n\">response</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_make_request</span><span class=\"p\">(</span>\n<span class=\"w\">               </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/urllib3/connectionpool.py&quot;</span>, line <span class=\"m\">534</span>, in <span class=\"n\">_make_request</span>\n<span class=\"w\">    </span><span class=\"n\">response</span> <span class=\"o\">=</span> <span class=\"n\">conn</span><span class=\"o\">.</span><span class=\"n\">getresponse</span><span class=\"p\">()</span>\n<span class=\"w\">               </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/urllib3/connection.py&quot;</span>, line <span class=\"m\">516</span>, in <span class=\"n\">getresponse</span>\n<span class=\"w\">    </span><span class=\"n\">httplib_response</span> <span class=\"o\">=</span> <span class=\"nb\">super</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">getresponse</span><span class=\"p\">()</span>\n<span class=\"w\">                       </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/http/client.py&quot;</span>, line <span class=\"m\">1395</span>, in <span class=\"n\">getresponse</span>\n<span class=\"w\">    </span><span class=\"n\">response</span><span class=\"o\">.</span><span class=\"n\">begin</span><span class=\"p\">()</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/http/client.py&quot;</span>, line <span class=\"m\">325</span>, in <span class=\"n\">begin</span>\n<span class=\"w\">    </span><span class=\"n\">version</span><span class=\"p\">,</span> <span class=\"n\">status</span><span class=\"p\">,</span> <span class=\"n\">reason</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_read_status</span><span class=\"p\">()</span>\n<span class=\"w\">                              </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/http/client.py&quot;</span>, line <span class=\"m\">286</span>, in <span class=\"n\">_read_status</span>\n<span class=\"w\">    </span><span class=\"n\">line</span> <span class=\"o\">=</span> <span class=\"nb\">str</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">fp</span><span class=\"o\">.</span><span class=\"n\">readline</span><span class=\"p\">(</span><span class=\"n\">_MAXLINE</span> <span class=\"o\">+</span> <span class=\"mi\">1</span><span class=\"p\">),</span> <span class=\"s2\">&quot;iso-8859-1&quot;</span><span class=\"p\">)</span>\n<span class=\"w\">               </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/socket.py&quot;</span>, line <span class=\"m\">718</span>, in <span class=\"n\">readinto</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_sock</span><span class=\"o\">.</span><span class=\"n\">recv_into</span><span class=\"p\">(</span><span class=\"n\">b</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/ssl.py&quot;</span>, line <span class=\"m\">1314</span>, in <span class=\"n\">recv_into</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">read</span><span class=\"p\">(</span><span class=\"n\">nbytes</span><span class=\"p\">,</span> <span class=\"n\">buffer</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/ssl.py&quot;</span>, line <span class=\"m\">1166</span>, in <span class=\"n\">read</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_sslobj</span><span class=\"o\">.</span><span class=\"n\">read</span><span class=\"p\">(</span><span class=\"nb\">len</span><span class=\"p\">,</span> <span class=\"n\">buffer</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/handlers.py&quot;</span>, line <span class=\"m\">32</span>, in <span class=\"n\">interrupt_handler</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">MarimoInterrupt</span>\n<span class=\"gr\">KeyboardInterrupt</span>\n</pre></div>\n</span>"
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_32830/__marimo__cell_Xref_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">request_from_list_and_upload_to_gcs</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">,</span> <span class=\"n\">request_urls</span><span class=\"p\">,</span> <span class=\"n\">headers</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/ingestion_func.py&quot;</span>, line <span class=\"m\">136</span>, in <span class=\"n\">request_from_list_and_upload_to_gcs</span>\n<span class=\"w\">    </span><span class=\"n\">upload_json_to_gcs_bucket</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">,</span> <span class=\"n\">gcs_player_endpoint</span><span class=\"p\">,</span> <span class=\"n\">games_response</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/gcs_func.py&quot;</span>, line <span class=\"m\">17</span>, in <span class=\"n\">upload_json_to_gcs_bucket</span>\n<span class=\"w\">    </span><span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">storage</span><span class=\"o\">.</span><span class=\"n\">Client</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/storage/client.py&quot;</span>, line <span class=\"m\">247</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"nb\">super</span><span class=\"p\">(</span><span class=\"n\">Client</span><span class=\"p\">,</span> <span class=\"bp\">self</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"fm\">__init__</span><span class=\"p\">(</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py&quot;</span>, line <span class=\"m\">339</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"n\">Client</span><span class=\"o\">.</span><span class=\"fm\">__init__</span><span class=\"p\">(</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py&quot;</span>, line <span class=\"m\">196</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"n\">credentials</span><span class=\"p\">,</span> <span class=\"n\">_</span> <span class=\"o\">=</span> <span class=\"n\">google</span><span class=\"o\">.</span><span class=\"n\">auth</span><span class=\"o\">.</span><span class=\"n\">default</span><span class=\"p\">(</span><span class=\"n\">scopes</span><span class=\"o\">=</span><span class=\"n\">scopes</span><span class=\"p\">)</span>\n<span class=\"w\">                     </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">685</span>, in <span class=\"n\">default</span>\n<span class=\"w\">    </span><span class=\"n\">credentials</span><span class=\"p\">,</span> <span class=\"n\">project_id</span> <span class=\"o\">=</span> <span class=\"n\">checker</span><span class=\"p\">()</span>\n<span class=\"w\">                              </span><span class=\"pm\">^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">678</span>, in <span class=\"n\">&lt;lambda&gt;</span>\n<span class=\"w\">    </span><span class=\"k\">lambda</span><span class=\"p\">:</span> <span class=\"n\">_get_explicit_environ_credentials</span><span class=\"p\">(</span><span class=\"n\">quota_project_id</span><span class=\"o\">=</span><span class=\"n\">quota_project_id</span><span class=\"p\">),</span>\n<span class=\"w\">            </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">290</span>, in <span class=\"n\">_get_explicit_environ_credentials</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">_get_gcloud_sdk_credentials</span><span class=\"p\">(</span><span class=\"n\">quota_project_id</span><span class=\"o\">=</span><span class=\"n\">quota_project_id</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">265</span>, in <span class=\"n\">_get_gcloud_sdk_credentials</span>\n<span class=\"w\">    </span><span class=\"n\">project_id</span> <span class=\"o\">=</span> <span class=\"n\">_cloud_sdk</span><span class=\"o\">.</span><span class=\"n\">get_project_id</span><span class=\"p\">()</span>\n<span class=\"w\">                 </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_cloud_sdk.py&quot;</span>, line <span class=\"m\">106</span>, in <span class=\"n\">get_project_id</span>\n<span class=\"w\">    </span><span class=\"n\">project</span> <span class=\"o\">=</span> <span class=\"n\">_run_subprocess_ignore_stderr</span><span class=\"p\">(</span>\n<span class=\"w\">              </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_cloud_sdk.py&quot;</span>, line <span class=\"m\">88</span>, in <span class=\"n\">_run_subprocess_ignore_stderr</span>\n<span class=\"w\">    </span><span class=\"n\">output</span> <span class=\"o\">=</span> <span class=\"n\">subprocess</span><span class=\"o\">.</span><span class=\"n\">check_output</span><span class=\"p\">(</span><span class=\"n\">command</span><span class=\"p\">,</span> <span class=\"n\">stderr</span><span class=\"o\">=</span><span class=\"n\">devnull</span><span class=\"p\">)</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">466</span>, in <span class=\"n\">check_output</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">run</span><span class=\"p\">(</span><span class=\"o\">*</span><span class=\"n\">popenargs</span><span class=\"p\">,</span> <span class=\"n\">stdout</span><span class=\"o\">=</span><span class=\"n\">PIPE</span><span class=\"p\">,</span> <span class=\"n\">timeout</span><span class=\"o\">=</span><span class=\"n\">timeout</span><span class=\"p\">,</span> <span class=\"n\">check</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">550</span>, in <span class=\"n\">run</span>\n<span class=\"w\">    </span><span class=\"n\">stdout</span><span class=\"p\">,</span> <span class=\"n\">stderr</span> <span class=\"o\">=</span> <span class=\"n\">process</span><span class=\"o\">.</span><span class=\"n\">communicate</span><span class=\"p\">(</span><span class=\"nb\">input</span><span class=\"p\">,</span> <span class=\"n\">timeout</span><span class=\"o\">=</span><span class=\"n\">timeout</span><span class=\"p\">)</span>\n<span class=\"w\">                     </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">1196</span>, in <span class=\"n\">communicate</span>\n<span class=\"w\">    </span><span class=\"n\">stdout</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">stdout</span><span class=\"o\">.</span><span class=\"n\">read</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/handlers.py&quot;</span>, line <span class=\"m\">32</span>, in <span class=\"n\">interrupt_handler</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">MarimoInterrupt</span>\n<span class=\"gr\">KeyboardInterrupt</span>\n</pre></div>\n</span>"
         }
       ]
     },
