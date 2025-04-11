@@ -17,7 +17,8 @@ jobs:
       id-token: write  # Required for OIDC
 
     steps:
-    - name: Checkout code
+    - id: 'checkout'
+      name: Checkout code
       uses: actions/checkout@v4
 
     - id: 'auth'

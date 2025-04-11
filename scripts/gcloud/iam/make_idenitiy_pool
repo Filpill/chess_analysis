@@ -1,0 +1,9 @@
+#!/bin/sh
+POOL_NAME="github-pool"
+PROJECT_ID="checkmate-453316"
+DISPLAY_NAME="Github Actions Pool"
+
+gcloud iam workload-identity-pools create $POOL_NAME \
+  --project=$PROJECT_ID \
+  --location="global" \
+  --display-name=$DISPLAY_NAME

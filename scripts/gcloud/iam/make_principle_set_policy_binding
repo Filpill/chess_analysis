@@ -1,0 +1,13 @@
+#!/bin/sh
+POOL_NAME="github-pool"
+PROJECT_ID="checkmate-453316"
+PROJECT_NUMBER="810099024571"
+DISPLAY_NAME="github-pool"
+SERVICE_ACCOUNT="github-actions-sa@checkmate-453316.iam.gserviceaccount.com"
+REPOSITORY="Filpill/chess_analysis"
+
+gcloud iam service-accounts add-iam-policy-binding \
+  $SERVICE_ACCOUNT  \
+  --project=$PROJECT_ID \
+  --role=roles/iam.workloadIdentityUser \
+  --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_NAME/attribute.repository/$REPOSITORY"
