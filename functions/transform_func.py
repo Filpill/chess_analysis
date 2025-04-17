@@ -112,15 +112,6 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
         # Fixing Types
         df["game_id"] = df["game_id"].astype(int)
 
-        # Dictionary to determine what action was taken when handling the GCS data
-        # To load into BQ table later
-        interaction_dict = {
-            "gcs_endpoint" :  gcs_filename,
-            "gcs_game_month" : date.today(),
-            "gcs_object_interaction_dt" : datetime.now(),
-            "action_taken" : "Loaded"
-        }
-
         # Generate interaction dict
         interaction_dict = gcs_action_taken_dict(gcs_filename, "Loaded", logger)
 
