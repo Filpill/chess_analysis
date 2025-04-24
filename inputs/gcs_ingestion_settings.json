@@ -1,7 +1,7 @@
 {
     "script_setting": "manual",
-    "manual_start_date": "2024-11-01",
-    "manual_end_date": "2024-11-01",
+    "manual_start_date": "2024-10-01",
+    "manual_end_date": "2024-10-01",
     "request_headers": {
         "User-Agent": "gcs_chess_ingestion.py (Python 3.11) (username: filiplivancic; contact: filiplivancic@gmail.com)"
     },

@@ -47,18 +47,18 @@ cte_base_agg AS (
       , t.rules
       , CASE
             WHEN result = "win"                 THEN "win"
-            WHEN result = "timevsinsufficient"  THEN "draw"
             WHEN result = "timeout"             THEN "loss"
             WHEN result = "threecheck"          THEN "loss"
-            WHEN result = "stalemate"           THEN "draw"
             WHEN result = "resigned"            THEN "loss"
-            WHEN result = "repetition"          THEN "draw"
             WHEN result = "kingofthehill"       THEN "loss"
-            WHEN result = "insufficient"        THEN "draw"
             WHEN result = "checkmated"          THEN "loss"
             WHEN result = "bughousepartnerlose" THEN "loss"
-            WHEN result = "agreed"              THEN "draw"
             WHEN result = "abandoned"           THEN "loss"
+            WHEN result = "timevsinsufficient"  THEN "draw"
+            WHEN result = "stalemate"           THEN "draw"
+            WHEN result = "repetition"          THEN "draw"
+            WHEN result = "insufficient"        THEN "draw"
+            WHEN result = "agreed"              THEN "draw"
             WHEN result = "50move"              THEN "draw"
         END                              AS win_loss_draw   
       , COUNT(*)                         AS game_count
