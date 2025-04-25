@@ -3,5 +3,5 @@ scripts/__pycache__/
 scripts/__marimo__/
 .terraform/
 *.bkp
-dash/all_data.csv
-dash/game_test.csv
+dash/sandbox/game_test.csv
+dash/monthly_player_chess_openings.csv
