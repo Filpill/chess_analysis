@@ -35,7 +35,7 @@ The project is segmented into the following directories which contain the follow
 | **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
 | **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
 | **dash/**   | Contains files for developing "Dash" python applications  |
-| **bigquery/sql**   | Contains files runnining SQL scripts on BQ  |
+| **bigquery/**   | Contains files runnining SQL scripts on BQ  |
 | **functions/** | Functions which are imported into the core data processing scripts  |
 | **inputs/** | Input parameter files for passing into core data processing scripts |
 | **diagrams/** | Illustrations for architectural design  |
@@ -102,19 +102,19 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 > *Local docker bash scripts are not saved in this project repo*
 
-## Architecture Diagram
-This is a high-level view of the key components in the pipeline architecture and how data is flowing downstream:
+## Ingestion Architecture
+This is a high-level view of the key components in the pipeline architecture and how the ingestion system operates:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/pipeline_architecture.png " alt="drawing" width="800"/>
 </p>
 
-## Ingestion Dataflow
+## Ingestion Dataflow into GCS
 The following flow chart illustrates how data is processed when ingesting data into GCS:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/ingestion_dataflow.png " alt="drawing" width="800"/>
 </p>
 
-## Transform/Load Dataflow
+## Transform/Load Dataflow into BigQuery
 The following flow chart illustrates how data is processed when transforming and loading data from GCS to BigQuery:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
