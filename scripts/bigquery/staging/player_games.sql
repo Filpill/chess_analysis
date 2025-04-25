@@ -4,8 +4,9 @@ DECLARE script_setting STRING;
 
 BEGIN
 
+/*===========================================================*/
 /* ------ Select Script Setting Here - "dev" or "prod"
-            Only affecting date range of data ------------  */
+--------------Only affecting date range of data ------------  */
 SET script_setting = "prod"; 
 
 IF script_setting = "prod" THEN
@@ -15,6 +16,8 @@ ELSEIF script_setting = "dev" THEN
       SET start_date = CURRENT_DATE()-27;
       SET end_date = CURRENT_DATE()-25;
 END IF;
+/*===========================================================*/
+
 
 CREATE OR REPLACE TABLE `checkmate-453316.chess_staging.player_games` 
 PARTITION BY game_date
@@ -59,10 +62,10 @@ WITH cte_white_black_union AS (
 cte_base AS (
 
     SELECT 
-        game_id
-      , game_date
-      , DATE_TRUNC(game_date, MONTH)                           AS game_month
-      , FORMAT_DATE('%b-%y', DATE_TRUNC(game_date, MONTH))     AS game_month_formatted
+        t.game_id
+      , t.game_date
+      , cal.cal_month_start                                    AS game_month
+      , cal.month_year_type1                                   AS game_month_str
       , t.username
       , t.rating
       , t.piece_color
@@ -70,20 +73,20 @@ cte_base AS (
       , t.rules
       , t.result                                               AS raw_result
       , CASE
-            WHEN result = "win"                 THEN "win"
-            WHEN result = "timeout"             THEN "loss"
-            WHEN result = "threecheck"          THEN "loss"
-            WHEN result = "resigned"            THEN "loss"
-            WHEN result = "kingofthehill"       THEN "loss"
-            WHEN result = "checkmated"          THEN "loss"
-            WHEN result = "bughousepartnerlose" THEN "loss"
-            WHEN result = "abandoned"           THEN "loss"
-            WHEN result = "timevsinsufficient"  THEN "draw"
-            WHEN result = "stalemate"           THEN "draw"
-            WHEN result = "repetition"          THEN "draw"
-            WHEN result = "insufficient"        THEN "draw"
-            WHEN result = "agreed"              THEN "draw"
-            WHEN result = "50move"              THEN "draw"
+            WHEN t.result = "win"                 THEN "win"
+            WHEN t.result = "timeout"             THEN "loss"
+            WHEN t.result = "threecheck"          THEN "loss"
+            WHEN t.result = "resigned"            THEN "loss"
+            WHEN t.result = "kingofthehill"       THEN "loss"
+            WHEN t.result = "checkmated"          THEN "loss"
+            WHEN t.result = "bughousepartnerlose" THEN "loss"
+            WHEN t.result = "abandoned"           THEN "loss"
+            WHEN t.result = "timevsinsufficient"  THEN "draw"
+            WHEN t.result = "stalemate"           THEN "draw"
+            WHEN t.result = "repetition"          THEN "draw"
+            WHEN t.result = "insufficient"        THEN "draw"
+            WHEN t.result = "agreed"              THEN "draw"
+            WHEN t.result = "50move"              THEN "draw"
         END                                                   AS win_loss_draw   
       , t.opening_line                                        AS opening_line
       , TRIM(
@@ -91,14 +94,18 @@ cte_base AS (
         )                                                     AS opening
       , t.accuracy
     FROM cte_white_black_union t
+    LEFT JOIN `checkmate-453316.universal.calendar` cal
+        ON t.game_date = cal.cal_date
 
     WHERE 1=1 
       AND game_date BETWEEN start_date AND end_date
-      AND rated = True
+      AND rated = TRUE
 
 )
 
 SELECT * FROM cte_base
+
 );
 
 END;
+
