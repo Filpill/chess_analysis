@@ -18,7 +18,7 @@ ELSEIF script_setting = "dev" THEN
 END IF;
 /*===========================================================*/
 
-CREATE OR REPLACE TABLE `checkmate-453316.chess_aggregate.monthly_player_games` 
+CREATE OR REPLACE TABLE `checkmate-453316.chess_staging.monthly_player_games` 
 PARTITION BY game_month
 AS (
 
@@ -35,7 +35,7 @@ cte_base_aggregate AS (
             , t.opening
             , AVG(t.rating)                                             AS avg_rating
             , AVG(t.accuracy)                                           AS avg_accuracy
-            , SUM(CASE WHEN t.win_loss_draw = "win" THEN 1 ELSE 0 END)  AS win_count
+            , SUM(CASE WHEN t.win_loss_draw = "win"  THEN 1 ELSE 0 END) AS win_count
             , SUM(CASE WHEN t.win_loss_draw = "loss" THEN 1 ELSE 0 END) AS loss_count
             , SUM(CASE WHEN t.win_loss_draw = "draw" THEN 1 ELSE 0 END) AS draw_count
             , COUNT(*)                                                  AS total
