@@ -120,6 +120,13 @@ The following flow chart illustrates how data is processed when transforming and
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
 </p>
 
+## BigQuery SQL Transformation and Data Modelling
+This illustration contains the high-level data model for the BigQuery SQL transformations:
+<p align = center>                                                                                                                                   
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/sql_tables.png " alt="drawing" width="800"/> 
+</p>                                                                                                                                                 
+
+
 ## Chess Analysis
 Here are a couple of sample matplotlib charts which are analysing some player data:
 <p align = center>
