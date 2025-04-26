@@ -58,7 +58,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:00 UTC: Success | Uploaded leaderboards/2025-04-17/16-48-58 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:30:52 UTC: Success | Uploaded leaderboards/2025-04-26/21-30-50 to GCS bucket: chess-api\n"
         }
       ]
     },
@@ -77,7 +77,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:03 UTC: Listing Files in GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:30:55 UTC: Listing Files in GCS bucket: chess-api\n"
         }
       ]
     },
@@ -148,17 +148,17 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:03 UTC: Retrieving the names of top chess players\n"
+          "text": "[INFO] 2025-04-26 21:30:55 UTC: Retrieving the names of top chess players\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:05 UTC: Total request combinations: 544\n"
+          "text": "[INFO] 2025-04-26 21:30:57 UTC: Total request combinations: 1086\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:05 UTC: Number of remaining requests: 505\n"
+          "text": "[INFO] 2025-04-26 21:30:57 UTC: Number of remaining requests: 641\n"
         }
       ]
     },
@@ -167,427 +167,3222 @@
       "code_hash": "1309f2375287e6e1a93b05fb3991bacb",
       "outputs": [
         {
-          "type": "error",
-          "ename": "interruption",
-          "evalue": "This cell was interrupted and needs to be re-run",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": [
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:05 UTC: Requesting archived game data\n"
+          "text": "[INFO] 2025-04-26 21:30:57 UTC: Requesting archived game data\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:08 UTC: Success | Uploaded player/12teen/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:30:58 UTC: Success | Uploaded player/alexjos12/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:11 UTC: Success | Uploaded player/15-big/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:00 UTC: Success | Uploaded player/amelia91/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:13 UTC: Success | Uploaded player/2012vachamp/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:02 UTC: Success | Uploaded player/amelia91/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:14 UTC: Success | Uploaded player/2problemchild/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:04 UTC: Success | Uploaded player/anetadolche/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:18 UTC: Success | Uploaded player/aa175/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:06 UTC: Success | Uploaded player/anhtai2503/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:21 UTC: Success | Uploaded player/abdallahalkordi/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:07 UTC: Success | Uploaded player/anhtai2503/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:24 UTC: Success | Uploaded player/abdimalik_abdisalimov/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:09 UTC: Success | Uploaded player/anishgiri/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:27 UTC: Success | Uploaded player/abebaabiodun/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:11 UTC: Success | Uploaded player/anychessy/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:31 UTC: Success | Uploaded player/abykhovsky/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:13 UTC: Success | Uploaded player/anychessy/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:33 UTC: Success | Uploaded player/acm-dasari_vijval/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:14 UTC: Success | Uploaded player/aoitsukibluemoon/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:35 UTC: Success | Uploaded player/adam657/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:16 UTC: Success | Uploaded player/aoitsukibluemoon/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:37 UTC: Success | Uploaded player/adityajoshi1998/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:18 UTC: Success | Uploaded player/aquarium76/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:39 UTC: Success | Uploaded player/aelin_ashryver_galat/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:20 UTC: Success | Uploaded player/aquarium76/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:41 UTC: Success | Uploaded player/agadmatorandharish/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:22 UTC: Success | Uploaded player/ariellevy8/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:44 UTC: Success | Uploaded player/agv0/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:24 UTC: Success | Uploaded player/ariellevy8/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:46 UTC: Success | Uploaded player/akukanmasihpemula/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:26 UTC: Success | Uploaded player/arkadiykhromaev/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:48 UTC: Success | Uploaded player/alainlar/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:30 UTC: Success | Uploaded player/arysya/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:50 UTC: Success | Uploaded player/alexander2063/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:32 UTC: Success | Uploaded player/arysya/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:52 UTC: Success | Uploaded player/alexjos12/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:36 UTC: Success | Uploaded player/ashina22/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:54 UTC: Success | Uploaded player/alextruskavetsky/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:38 UTC: Success | Uploaded player/atabayevsaparmyrat/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:57 UTC: Success | Uploaded player/alirezagolzar/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:40 UTC: Success | Uploaded player/avvatar/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:49:59 UTC: Success | Uploaded player/aljehin1892/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:42 UTC: Success | Uploaded player/avvatar/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:01 UTC: Success | Uploaded player/allanstig/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:44 UTC: Success | Uploaded player/azerichess/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:05 UTC: Success | Uploaded player/almasrakhmatullaev/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:46 UTC: Success | Uploaded player/azzipapap/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:06 UTC: Success | Uploaded player/amelia91/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:48 UTC: Success | Uploaded player/azzipapap/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:08 UTC: Success | Uploaded player/andersnm/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:50 UTC: Success | Uploaded player/baku_boulevard/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:11 UTC: Success | Uploaded player/andreikka/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:52 UTC: Success | Uploaded player/barbaroskabrel/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:13 UTC: Success | Uploaded player/anishgiri/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:54 UTC: Success | Uploaded player/barbaroskabrel/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:15 UTC: Success | Uploaded player/antonsuryana_id/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:56 UTC: Success | Uploaded player/beatles_22/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:17 UTC: Success | Uploaded player/anychessy/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:57 UTC: Success | Uploaded player/bezdomny4e/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:19 UTC: Success | Uploaded player/aoitsukibluemoon/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:31:59 UTC: Success | Uploaded player/billiekimbah/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:22 UTC: Success | Uploaded player/apoditio/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:01 UTC: Success | Uploaded player/bjornahlander/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:23 UTC: Success | Uploaded player/aquarium76/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:03 UTC: Success | Uploaded player/boldharp/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:25 UTC: Success | Uploaded player/arconii/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:05 UTC: Success | Uploaded player/boldharp/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:27 UTC: Success | Uploaded player/arecinos/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:07 UTC: Success | Uploaded player/boumpatacra/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:29 UTC: Success | Uploaded player/ariellevy8/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:09 UTC: Success | Uploaded player/boumpatacra/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:32 UTC: Success | Uploaded player/arkadiykhromaev/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:11 UTC: Success | Uploaded player/caminator2000/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:34 UTC: Success | Uploaded player/arseniy_nesterov/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:12 UTC: Success | Uploaded player/carlpremoving/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:37 UTC: Success | Uploaded player/artooon/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:15 UTC: Success | Uploaded player/carmenspeed/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:40 UTC: Success | Uploaded player/ashina22/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:16 UTC: Success | Uploaded player/carmenspeed/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:42 UTC: Success | Uploaded player/assamadey/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:18 UTC: Success | Uploaded player/casper_schoppen/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:44 UTC: Success | Uploaded player/atabayevsaparmyrat/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:20 UTC: Success | Uploaded player/casper_schoppen/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:46 UTC: Success | Uploaded player/avril_lavigne36/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:22 UTC: Success | Uploaded player/chefshouse/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:48 UTC: Success | Uploaded player/avvatar/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:24 UTC: Success | Uploaded player/chessisart7/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:50 UTC: Success | Uploaded player/azerichess/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:26 UTC: Success | Uploaded player/chessisart7/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:52 UTC: Success | Uploaded player/baku_boulevard/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:28 UTC: Success | Uploaded player/chessmateyesmate/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:54 UTC: Success | Uploaded player/baxyq/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:30 UTC: Success | Uploaded player/chessmateyesmate/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:56 UTC: Success | Uploaded player/beastsdc01/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:32 UTC: Success | Uploaded player/chesspanda123/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:50:58 UTC: Success | Uploaded player/beatles_22/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:33 UTC: Success | Uploaded player/chesspanda123/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:00 UTC: Success | Uploaded player/bezdomny4e/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:35 UTC: Success | Uploaded player/chesswarrior7197/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:02 UTC: Success | Uploaded player/bigfish1995/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:38 UTC: Success | Uploaded player/chopper1905/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:04 UTC: Success | Uploaded player/billiekimbah/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:44 UTC: Success | Uploaded player/christopheryoo/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:06 UTC: Success | Uploaded player/bilodeaua/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:53 UTC: Success | Uploaded player/chucklemange/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:08 UTC: Success | Uploaded player/bistarkoboza/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:32:57 UTC: Success | Uploaded player/ckgchess/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:10 UTC: Success | Uploaded player/bjornahlander/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:05 UTC: Success | Uploaded player/cleveeeeeeeeeeeeeeeeeeer/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:12 UTC: Success | Uploaded player/blenderle/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:14 UTC: Success | Uploaded player/cleveeeeeeeeeeeeeeeeeeer/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:14 UTC: Success | Uploaded player/bobsfan/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:20 UTC: Success | Uploaded player/coachumbrella/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:17 UTC: Success | Uploaded player/bogdandeac/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:25 UTC: Success | Uploaded player/coachumbrella/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:19 UTC: Success | Uploaded player/bubabar2010/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:28 UTC: Success | Uploaded player/codywickham/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:21 UTC: Success | Uploaded player/budisavljevic/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:31 UTC: Success | Uploaded player/codywickham/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:24 UTC: Success | Uploaded player/calessa/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:37 UTC: Success | Uploaded player/coerced/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:26 UTC: Success | Uploaded player/caminator2000/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:41 UTC: Success | Uploaded player/commando_droid/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:29 UTC: Success | Uploaded player/carlosthekid/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:44 UTC: Success | Uploaded player/cripep/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:31 UTC: Success | Uploaded player/carlpremoving/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:51 UTC: Success | Uploaded player/cubaq53/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:33 UTC: Success | Uploaded player/carlsenvan/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:54 UTC: Success | Uploaded player/cubaq53/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:36 UTC: Success | Uploaded player/carocrush96/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:33:58 UTC: Success | Uploaded player/d-lnk/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:39 UTC: Success | Uploaded player/caseyfloridian/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:00 UTC: Success | Uploaded player/d-lnk/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:41 UTC: Success | Uploaded player/casper_schoppen/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:05 UTC: Success | Uploaded player/d1d1dylan/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:43 UTC: Success | Uploaded player/caspiisrael/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:11 UTC: Success | Uploaded player/d1sintegrator/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:46 UTC: Success | Uploaded player/cayse/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:14 UTC: Success | Uploaded player/dalmatinac101/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:48 UTC: Success | Uploaded player/celaenaxsardothien/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:17 UTC: Success | Uploaded player/dalmatinac101/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:50 UTC: Success | Uploaded player/championocean/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:34 UTC: Success | Uploaded player/danielnaroditsky/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:52 UTC: Success | Uploaded player/chasing_checkmate/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:37 UTC: Success | Uploaded player/daniksell/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:54 UTC: Success | Uploaded player/chefshouse/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:41 UTC: Success | Uploaded player/daniksell/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:57 UTC: Success | Uploaded player/chessbrah/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:45 UTC: Success | Uploaded player/danilocuellar/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:51:59 UTC: Success | Uploaded player/chessisart7/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:46 UTC: Success | Uploaded player/darkpharaon/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:52:01 UTC: Success | Uploaded player/chessmateyesmate/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:52 UTC: Success | Uploaded player/daved13/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:52:03 UTC: Success | Uploaded player/chessmn16/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:34:58 UTC: Success | Uploaded player/daved13/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:52:05 UTC: Success | Uploaded player/chesspanda123/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:35:05 UTC: Success | Uploaded player/davethesecond/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:52:07 UTC: Success | Uploaded player/chesswarrior7197/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:35:08 UTC: Success | Uploaded player/davidchen100/games/2024/10 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[INFO] 2025-04-17 16:52:11 UTC: Success | Uploaded player/chickencrossroad/games/2024/10 to GCS bucket: chess-api\n"
+          "text": "[INFO] 2025-04-26 21:35:10 UTC: Success | Uploaded player/davidchen100/games/2024/11 to GCS bucket: chess-api\n"
         },
         {
           "type": "stream",
-          "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/executor.py&quot;</span>, line <span class=\"m\">142</span>, in <span class=\"n\">execute_cell</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"nb\">eval</span><span class=\"p\">(</span><span class=\"n\">cell</span><span class=\"o\">.</span><span class=\"n\">last_expr</span><span class=\"p\">,</span> <span class=\"n\">glbls</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_27595/__marimo__cell_Xref_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">request_from_list_and_upload_to_gcs</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">,</span> <span class=\"n\">request_urls</span><span class=\"p\">,</span> <span class=\"n\">headers</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/ingestion_func.py&quot;</span>, line <span class=\"m\">136</span>, in <span class=\"n\">request_from_list_and_upload_to_gcs</span>\n<span class=\"w\">    </span><span class=\"n\">upload_json_to_gcs_bucket</span><span class=\"p\">(</span><span class=\"n\">bucket_name</span><span class=\"p\">,</span> <span class=\"n\">gcs_player_endpoint</span><span class=\"p\">,</span> <span class=\"n\">games_response</span><span class=\"p\">,</span> <span class=\"n\">logger</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/./functions/gcs_func.py&quot;</span>, line <span class=\"m\">17</span>, in <span class=\"n\">upload_json_to_gcs_bucket</span>\n<span class=\"w\">    </span><span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">storage</span><span class=\"o\">.</span><span class=\"n\">Client</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/storage/client.py&quot;</span>, line <span class=\"m\">247</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"nb\">super</span><span class=\"p\">(</span><span class=\"n\">Client</span><span class=\"p\">,</span> <span class=\"bp\">self</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"fm\">__init__</span><span class=\"p\">(</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py&quot;</span>, line <span class=\"m\">338</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"n\">_ClientProjectMixin</span><span class=\"o\">.</span><span class=\"fm\">__init__</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">,</span> <span class=\"n\">project</span><span class=\"o\">=</span><span class=\"n\">project</span><span class=\"p\">,</span> <span class=\"n\">credentials</span><span class=\"o\">=</span><span class=\"n\">credentials</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py&quot;</span>, line <span class=\"m\">286</span>, in <span class=\"n\">__init__</span>\n<span class=\"w\">    </span><span class=\"n\">project</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_determine_default</span><span class=\"p\">(</span><span class=\"n\">project</span><span class=\"p\">)</span>\n<span class=\"w\">              </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/client/__init__.py&quot;</span>, line <span class=\"m\">305</span>, in <span class=\"n\">_determine_default</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">_determine_default_project</span><span class=\"p\">(</span><span class=\"n\">project</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/cloud/_helpers/__init__.py&quot;</span>, line <span class=\"m\">152</span>, in <span class=\"n\">_determine_default_project</span>\n<span class=\"w\">    </span><span class=\"n\">_</span><span class=\"p\">,</span> <span class=\"n\">project</span> <span class=\"o\">=</span> <span class=\"n\">google</span><span class=\"o\">.</span><span class=\"n\">auth</span><span class=\"o\">.</span><span class=\"n\">default</span><span class=\"p\">()</span>\n<span class=\"w\">                 </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">685</span>, in <span class=\"n\">default</span>\n<span class=\"w\">    </span><span class=\"n\">credentials</span><span class=\"p\">,</span> <span class=\"n\">project_id</span> <span class=\"o\">=</span> <span class=\"n\">checker</span><span class=\"p\">()</span>\n<span class=\"w\">                              </span><span class=\"pm\">^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">678</span>, in <span class=\"n\">&lt;lambda&gt;</span>\n<span class=\"w\">    </span><span class=\"k\">lambda</span><span class=\"p\">:</span> <span class=\"n\">_get_explicit_environ_credentials</span><span class=\"p\">(</span><span class=\"n\">quota_project_id</span><span class=\"o\">=</span><span class=\"n\">quota_project_id</span><span class=\"p\">),</span>\n<span class=\"w\">            </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">290</span>, in <span class=\"n\">_get_explicit_environ_credentials</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">_get_gcloud_sdk_credentials</span><span class=\"p\">(</span><span class=\"n\">quota_project_id</span><span class=\"o\">=</span><span class=\"n\">quota_project_id</span><span class=\"p\">)</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_default.py&quot;</span>, line <span class=\"m\">265</span>, in <span class=\"n\">_get_gcloud_sdk_credentials</span>\n<span class=\"w\">    </span><span class=\"n\">project_id</span> <span class=\"o\">=</span> <span class=\"n\">_cloud_sdk</span><span class=\"o\">.</span><span class=\"n\">get_project_id</span><span class=\"p\">()</span>\n<span class=\"w\">                 </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_cloud_sdk.py&quot;</span>, line <span class=\"m\">106</span>, in <span class=\"n\">get_project_id</span>\n<span class=\"w\">    </span><span class=\"n\">project</span> <span class=\"o\">=</span> <span class=\"n\">_run_subprocess_ignore_stderr</span><span class=\"p\">(</span>\n<span class=\"w\">              </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/google/auth/_cloud_sdk.py&quot;</span>, line <span class=\"m\">88</span>, in <span class=\"n\">_run_subprocess_ignore_stderr</span>\n<span class=\"w\">    </span><span class=\"n\">output</span> <span class=\"o\">=</span> <span class=\"n\">subprocess</span><span class=\"o\">.</span><span class=\"n\">check_output</span><span class=\"p\">(</span><span class=\"n\">command</span><span class=\"p\">,</span> <span class=\"n\">stderr</span><span class=\"o\">=</span><span class=\"n\">devnull</span><span class=\"p\">)</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">466</span>, in <span class=\"n\">check_output</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"n\">run</span><span class=\"p\">(</span><span class=\"o\">*</span><span class=\"n\">popenargs</span><span class=\"p\">,</span> <span class=\"n\">stdout</span><span class=\"o\">=</span><span class=\"n\">PIPE</span><span class=\"p\">,</span> <span class=\"n\">timeout</span><span class=\"o\">=</span><span class=\"n\">timeout</span><span class=\"p\">,</span> <span class=\"n\">check</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span>\n<span class=\"w\">           </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">550</span>, in <span class=\"n\">run</span>\n<span class=\"w\">    </span><span class=\"n\">stdout</span><span class=\"p\">,</span> <span class=\"n\">stderr</span> <span class=\"o\">=</span> <span class=\"n\">process</span><span class=\"o\">.</span><span class=\"n\">communicate</span><span class=\"p\">(</span><span class=\"nb\">input</span><span class=\"p\">,</span> <span class=\"n\">timeout</span><span class=\"o\">=</span><span class=\"n\">timeout</span><span class=\"p\">)</span>\n<span class=\"w\">                     </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/.local/share/uv/python/cpython-3.11.11-linux-x86_64-gnu/lib/python3.11/subprocess.py&quot;</span>, line <span class=\"m\">1196</span>, in <span class=\"n\">communicate</span>\n<span class=\"w\">    </span><span class=\"n\">stdout</span> <span class=\"o\">=</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">stdout</span><span class=\"o\">.</span><span class=\"n\">read</span><span class=\"p\">()</span>\n<span class=\"w\">             </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/home/filpill/projects/chess_analysis/.venv/lib/python3.11/site-packages/marimo/_runtime/handlers.py&quot;</span>, line <span class=\"m\">32</span>, in <span class=\"n\">interrupt_handler</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"n\">MarimoInterrupt</span>\n<span class=\"gr\">KeyboardInterrupt</span>\n</pre></div>\n</span>"
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:14 UTC: Success | Uploaded player/deathincoolingmoonlight/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:19 UTC: Success | Uploaded player/dedic8/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:21 UTC: Success | Uploaded player/dedic8/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:23 UTC: Success | Uploaded player/denizozen/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:26 UTC: Success | Uploaded player/denizozen/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:28 UTC: Success | Uploaded player/denlaz/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:31 UTC: Success | Uploaded player/depthfirst/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:35 UTC: Success | Uploaded player/depthfirst/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:45 UTC: Success | Uploaded player/devanshgandhre/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:49 UTC: Success | Uploaded player/devanshgandhre/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:54 UTC: Success | Uploaded player/dieblauesau/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:56 UTC: Success | Uploaded player/dieblauesau/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:57 UTC: Success | Uploaded player/dino_ballecer/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:35:59 UTC: Success | Uploaded player/dino_ballecer/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:07 UTC: Success | Uploaded player/doktorlech83/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:09 UTC: Success | Uploaded player/dolphin_2010/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:11 UTC: Success | Uploaded player/donenfrm/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:13 UTC: Success | Uploaded player/donenfrm/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:15 UTC: Success | Uploaded player/doraemon7/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:17 UTC: Success | Uploaded player/dr_tyger/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:19 UTC: Success | Uploaded player/dragonb70/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:21 UTC: Success | Uploaded player/drchampionsteinl/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:23 UTC: Success | Uploaded player/drchampionsteinl/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:25 UTC: Success | Uploaded player/drunkenmushy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:27 UTC: Success | Uploaded player/dtn70/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:29 UTC: Success | Uploaded player/dtn70/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:31 UTC: Success | Uploaded player/dual_flurry/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:33 UTC: Success | Uploaded player/duckbald/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:35 UTC: Success | Uploaded player/dumplings/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:37 UTC: Success | Uploaded player/eclipse_whisper/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:38 UTC: Success | Uploaded player/eclipse_whisper/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:40 UTC: Success | Uploaded player/einoel/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:42 UTC: Success | Uploaded player/el008/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:48 UTC: Success | Uploaded player/elliotaldersontwitch/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:50 UTC: Success | Uploaded player/elvenesian/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:52 UTC: Success | Uploaded player/elvenesian/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:53 UTC: Success | Uploaded player/emanresu100/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:55 UTC: Success | Uploaded player/emanresu100/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:36:58 UTC: Success | Uploaded player/emeraldddd/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:00 UTC: Success | Uploaded player/erythrah857/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:02 UTC: Success | Uploaded player/erythrah857/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:03 UTC: Success | Uploaded player/eurander/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:05 UTC: Success | Uploaded player/extoad/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:07 UTC: Success | Uploaded player/fabianocaruana/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:10 UTC: Success | Uploaded player/fairchess_on_youtube/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:12 UTC: Success | Uploaded player/fanis129/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:14 UTC: Success | Uploaded player/fanis129/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:17 UTC: Success | Uploaded player/faustinooro/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:20 UTC: Success | Uploaded player/federicosellitti/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:23 UTC: Success | Uploaded player/fingahgm/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:24 UTC: Success | Uploaded player/fingahgm/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:26 UTC: Success | Uploaded player/fireheart92/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:28 UTC: Success | Uploaded player/firouzja2003/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:31 UTC: Success | Uploaded player/forge13/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:34 UTC: Success | Uploaded player/forge13/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:36 UTC: Success | Uploaded player/formerprodigy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:38 UTC: Success | Uploaded player/francisbegbie/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:40 UTC: Success | Uploaded player/frank0288/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:41 UTC: Success | Uploaded player/fratz71/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:43 UTC: Success | Uploaded player/fratz71/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:46 UTC: Success | Uploaded player/frederiksvane/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:48 UTC: Success | Uploaded player/frejathemaid/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:50 UTC: Success | Uploaded player/frejathemaid/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:52 UTC: Success | Uploaded player/gabuzyan_chessmood/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:54 UTC: Success | Uploaded player/gabuzyan_chessmood/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:55 UTC: Success | Uploaded player/gejimayu/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:37:57 UTC: Success | Uploaded player/gejimayu/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:00 UTC: Success | Uploaded player/gena217/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:06 UTC: Success | Uploaded player/generalzod/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:07 UTC: Success | Uploaded player/georgia_carson/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:09 UTC: Success | Uploaded player/ghandeevam2003/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:11 UTC: Success | Uploaded player/giacomomagic/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:13 UTC: Success | Uploaded player/giacomomagic/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:14 UTC: Success | Uploaded player/globaloney/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:16 UTC: Success | Uploaded player/globaloney/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:18 UTC: Success | Uploaded player/gmam0nax/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:21 UTC: Success | Uploaded player/gmbenjaminbok/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:23 UTC: Success | Uploaded player/gmbmw/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:25 UTC: Success | Uploaded player/gmbmw/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:29 UTC: Success | Uploaded player/gmg/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:33 UTC: Success | Uploaded player/gmg/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:35 UTC: Success | Uploaded player/gmharikrishna/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:36 UTC: Success | Uploaded player/gmjimbudon/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:38 UTC: Success | Uploaded player/gmjimbudon/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:40 UTC: Success | Uploaded player/gmsolver/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:42 UTC: Success | Uploaded player/gmwso/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:44 UTC: Success | Uploaded player/gogiametutune/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:38:48 UTC: Success | Uploaded player/goldcollector/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:01 UTC: Success | Uploaded player/goldcollector/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:06 UTC: Success | Uploaded player/goldentomato/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:13 UTC: Success | Uploaded player/golferman/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:14 UTC: Success | Uploaded player/govalya/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:17 UTC: Success | Uploaded player/gpsji27/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:19 UTC: Success | Uploaded player/grischuk/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:21 UTC: Success | Uploaded player/grootjuf/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:23 UTC: Success | Uploaded player/guanchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:25 UTC: Success | Uploaded player/guanxinyi/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:27 UTC: Success | Uploaded player/guanxinyi/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:29 UTC: Success | Uploaded player/guelphan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:30 UTC: Success | Uploaded player/guenterb4/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:32 UTC: Success | Uploaded player/guenterb4/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:37 UTC: Success | Uploaded player/guerreroequilibrado/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:41 UTC: Success | Uploaded player/gugotico/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:43 UTC: Success | Uploaded player/gundultobat/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:45 UTC: Success | Uploaded player/gundultobat/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:48 UTC: Success | Uploaded player/gurelediz/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:50 UTC: Success | Uploaded player/gurwichcrossroad/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:52 UTC: Success | Uploaded player/gurwichcrossroad/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:39:56 UTC: Success | Uploaded player/guywithbadusername/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:01 UTC: Success | Uploaded player/h-hess28/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:06 UTC: Success | Uploaded player/h-hess28/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:09 UTC: Success | Uploaded player/hahidioto/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:11 UTC: Success | Uploaded player/hamstergang/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:13 UTC: Success | Uploaded player/hamstergang/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:15 UTC: Success | Uploaded player/hangendepion/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:16 UTC: Success | Uploaded player/hangendepion/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:18 UTC: Success | Uploaded player/hansen/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:20 UTC: Success | Uploaded player/hansontwitch/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:22 UTC: Success | Uploaded player/hasan120447/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:24 UTC: Success | Uploaded player/hat070/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:25 UTC: Success | Uploaded player/hat070/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:27 UTC: Success | Uploaded player/heimaat/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:29 UTC: Success | Uploaded player/hein123/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:30 UTC: Success | Uploaded player/hein123/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:32 UTC: Success | Uploaded player/here4chessonly/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:37 UTC: Success | Uploaded player/heroman97/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:39 UTC: Success | Uploaded player/hieuphuc4321/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:41 UTC: Success | Uploaded player/hikaru/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:43 UTC: Success | Uploaded player/hockbrd/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:46 UTC: Success | Uploaded player/horkko/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:49 UTC: Success | Uploaded player/horkko/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:51 UTC: Success | Uploaded player/horvi1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:54 UTC: Success | Uploaded player/hoshor/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:56 UTC: Success | Uploaded player/huibski/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:58 UTC: Success | Uploaded player/huibski/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:40:59 UTC: Success | Uploaded player/husseinzamel2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:01 UTC: Success | Uploaded player/husseinzamel2/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:07 UTC: Success | Uploaded player/icy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:09 UTC: Success | Uploaded player/iggy82/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:11 UTC: Success | Uploaded player/igor_kowalski/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:13 UTC: Success | Uploaded player/igor_kowalski/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:14 UTC: Success | Uploaded player/igramsamozagambit/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:18 UTC: Success | Uploaded player/ilanschnaider/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:23 UTC: Success | Uploaded player/ilanschnaider/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:24 UTC: Success | Uploaded player/ilyar1988h/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:29 UTC: Success | Uploaded player/imad_d/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:31 UTC: Success | Uploaded player/imissedqf5/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:34 UTC: Success | Uploaded player/imsosman/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:38 UTC: Success | Uploaded player/imsosman/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:40 UTC: Success | Uploaded player/indianlad/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:42 UTC: Success | Uploaded player/indianlad/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:43 UTC: Success | Uploaded player/interlocularchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:45 UTC: Success | Uploaded player/ioannis1979/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:47 UTC: Success | Uploaded player/ioannis1979/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:49 UTC: Success | Uploaded player/ipdd/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:51 UTC: Success | Uploaded player/isaisa1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:41:55 UTC: Success | Uploaded player/isengard1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:00 UTC: Success | Uploaded player/isengard1/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:01 UTC: Success | Uploaded player/itamarchess2006/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:03 UTC: Success | Uploaded player/iturrizaga/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:05 UTC: Success | Uploaded player/iturrizaga/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:07 UTC: Success | Uploaded player/jackcoleman/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:12 UTC: Success | Uploaded player/jackrodgers/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:13 UTC: Success | Uploaded player/jaime_tahoe/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:17 UTC: Success | Uploaded player/jarlcarlander/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:20 UTC: Success | Uploaded player/javameister1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:22 UTC: Success | Uploaded player/jcibarra/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:25 UTC: Success | Uploaded player/jcibarra/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:30 UTC: Success | Uploaded player/jezchezz/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:35 UTC: Success | Uploaded player/jianda2019/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:38 UTC: Success | Uploaded player/jim_jams/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:40 UTC: Success | Uploaded player/jmb27/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:42 UTC: Success | Uploaded player/jockerhahahahahahha/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:43 UTC: Success | Uploaded player/johnborth1/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:45 UTC: Success | Uploaded player/jolintsai/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:47 UTC: Success | Uploaded player/joppie2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:50 UTC: Success | Uploaded player/jordacheevon-0001/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:52 UTC: Success | Uploaded player/jorgos81/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:56 UTC: Success | Uploaded player/jospem/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:57 UTC: Success | Uploaded player/jozefuram/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:42:59 UTC: Success | Uploaded player/jozefuram/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:01 UTC: Success | Uploaded player/jsinanan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:03 UTC: Success | Uploaded player/jt898989/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:05 UTC: Success | Uploaded player/jt898989/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:06 UTC: Success | Uploaded player/juanpedro_penamartin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:08 UTC: Success | Uploaded player/juanpedro_penamartin/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:10 UTC: Success | Uploaded player/juga1959/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:14 UTC: Success | Uploaded player/kacparov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:15 UTC: Success | Uploaded player/kadunkuimalammikko/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:17 UTC: Success | Uploaded player/kadunkuimalammikko/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:21 UTC: Success | Uploaded player/kaln11/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:24 UTC: Success | Uploaded player/karpof69/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:26 UTC: Success | Uploaded player/kate69696969/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:27 UTC: Success | Uploaded player/kate69696969/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:29 UTC: Success | Uploaded player/kawhi_leonard2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:31 UTC: Success | Uploaded player/kesc/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:33 UTC: Success | Uploaded player/kesc/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:34 UTC: Success | Uploaded player/kevin_gibson/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:36 UTC: Success | Uploaded player/kingnight1900/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:38 UTC: Success | Uploaded player/kingsize76/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:40 UTC: Success | Uploaded player/kingsize76/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:41 UTC: Success | Uploaded player/kingsman132/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:43 UTC: Success | Uploaded player/kingsman132/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:45 UTC: Success | Uploaded player/konavets/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:49 UTC: Success | Uploaded player/koncheto/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:51 UTC: Success | Uploaded player/krysttall/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:53 UTC: Success | Uploaded player/kumareshp/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:55 UTC: Success | Uploaded player/kumareshp/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:56 UTC: Success | Uploaded player/l8txxxx/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:43:58 UTC: Success | Uploaded player/l8txxxx/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:01 UTC: Success | Uploaded player/lachesisq/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:03 UTC: Success | Uploaded player/lacs1986/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:04 UTC: Success | Uploaded player/lacs1986/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:09 UTC: Success | Uploaded player/larso/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:11 UTC: Success | Uploaded player/lastgladiator1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:13 UTC: Success | Uploaded player/laurent2003/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:14 UTC: Success | Uploaded player/laurent2003/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:17 UTC: Success | Uploaded player/lebron/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:19 UTC: Success | Uploaded player/lebron/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:22 UTC: Success | Uploaded player/legendisback1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:24 UTC: Success | Uploaded player/lemur17/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:27 UTC: Success | Uploaded player/leonardocesarini27/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:30 UTC: Success | Uploaded player/levcet/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:32 UTC: Success | Uploaded player/levonaronian/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:33 UTC: Success | Uploaded player/levonaronian/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:36 UTC: Success | Uploaded player/liamclery2020/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:38 UTC: Success | Uploaded player/liemle/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:41 UTC: Success | Uploaded player/littleplotkin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:54 UTC: Success | Uploaded player/liviu78rom/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:44:56 UTC: Success | Uploaded player/lixifan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:00 UTC: Success | Uploaded player/lmaginelosingtoacat/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:01 UTC: Success | Uploaded player/lolzitzme/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:03 UTC: Success | Uploaded player/lolzitzme/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:05 UTC: Success | Uploaded player/lorem6ic/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:07 UTC: Success | Uploaded player/lorem6ic/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:08 UTC: Success | Uploaded player/lovevae/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:11 UTC: Success | Uploaded player/lucapaciolichess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:13 UTC: Success | Uploaded player/lumpy-athlete/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:15 UTC: Success | Uploaded player/lustigerspieler/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:16 UTC: Success | Uploaded player/lustigerspieler/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:18 UTC: Success | Uploaded player/lyonbeast/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:21 UTC: Success | Uploaded player/magnetus_chess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:23 UTC: Success | Uploaded player/magnuscatalan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:27 UTC: Success | Uploaded player/magnuscatalan/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:28 UTC: Success | Uploaded player/mahsawitreko/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:31 UTC: Success | Uploaded player/maldivas/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:33 UTC: Success | Uploaded player/man666/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:36 UTC: Success | Uploaded player/manusutha/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:38 UTC: Success | Uploaded player/masafsha/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:39 UTC: Success | Uploaded player/mastercard117/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:41 UTC: Success | Uploaded player/mastercard117/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:43 UTC: Success | Uploaded player/matalkaya/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:45 UTC: Success | Uploaded player/matein28/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:47 UTC: Success | Uploaded player/mateo880/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:49 UTC: Success | Uploaded player/mateo880/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:51 UTC: Success | Uploaded player/matingatack/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:52 UTC: Success | Uploaded player/matingatack/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:56 UTC: Success | Uploaded player/maximgovorukha/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:45:58 UTC: Success | Uploaded player/maxygamer69/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:00 UTC: Success | Uploaded player/mcjazza/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:02 UTC: Success | Uploaded player/mcjazza/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:04 UTC: Success | Uploaded player/mcqueen444/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:06 UTC: Success | Uploaded player/mcqueen444/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:08 UTC: Success | Uploaded player/mfberna/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:10 UTC: Success | Uploaded player/micki-taryan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:13 UTC: Success | Uploaded player/midnightfox/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:15 UTC: Success | Uploaded player/midnightfox/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:17 UTC: Success | Uploaded player/mikhail_bryakin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:24 UTC: Success | Uploaded player/minmj_chess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:28 UTC: Success | Uploaded player/mishanick/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:32 UTC: Success | Uploaded player/miterryble/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:35 UTC: Success | Uploaded player/miwoho/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:39 UTC: Success | Uploaded player/miwoho/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:41 UTC: Success | Uploaded player/mizant/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:43 UTC: Success | Uploaded player/mkirkus/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:45 UTC: Success | Uploaded player/mmichael/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:47 UTC: Success | Uploaded player/molecularchemist/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:49 UTC: Success | Uploaded player/mongoose1000/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:51 UTC: Success | Uploaded player/morphy1984/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:53 UTC: Success | Uploaded player/mostafa_sakha/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:55 UTC: Success | Uploaded player/mrbf/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:57 UTC: Success | Uploaded player/mrbf/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:46:58 UTC: Success | Uploaded player/mrezbakeee/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:00 UTC: Success | Uploaded player/mrezbakeee/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:03 UTC: Success | Uploaded player/mrtattaglia/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:05 UTC: Success | Uploaded player/mrturtlekin262772/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:06 UTC: Success | Uploaded player/muxmuk/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:08 UTC: Success | Uploaded player/muxmuk/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:11 UTC: Success | Uploaded player/mykola-bortnyk/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:13 UTC: Success | Uploaded player/mysterychess27/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:14 UTC: Success | Uploaded player/mysterychess27/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:17 UTC: Success | Uploaded player/mysteryshuttler/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:21 UTC: Success | Uploaded player/mywarrior500/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:23 UTC: Success | Uploaded player/mywarrior500/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:27 UTC: Success | Uploaded player/n00b2345/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:29 UTC: Success | Uploaded player/nagalon/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:32 UTC: Success | Uploaded player/nanofer314/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:34 UTC: Success | Uploaded player/navinoisyboy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:36 UTC: Success | Uploaded player/newgost/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:38 UTC: Success | Uploaded player/newgost/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:40 UTC: Success | Uploaded player/ngochoang88/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:43 UTC: Success | Uploaded player/nihalsarin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:45 UTC: Success | Uploaded player/niklasschmider/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:48 UTC: Success | Uploaded player/nikotheodorou/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:50 UTC: Success | Uploaded player/nilsberndsen/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:52 UTC: Success | Uploaded player/niranjanj7/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:54 UTC: Success | Uploaded player/niranjanj7/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:47:59 UTC: Success | Uploaded player/nixkram/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:01 UTC: Success | Uploaded player/njal28/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:03 UTC: Success | Uploaded player/njal28/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:05 UTC: Success | Uploaded player/nobody18072004/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:07 UTC: Success | Uploaded player/nobody18072004/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:12 UTC: Success | Uploaded player/nochewycandy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:14 UTC: Success | Uploaded player/nochwitnochzwart/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:16 UTC: Success | Uploaded player/nograymatter/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:17 UTC: Success | Uploaded player/nograymatter/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:19 UTC: Success | Uploaded player/not_najdorfs_player/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:24 UTC: Success | Uploaded player/novebg/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:29 UTC: Success | Uploaded player/oleksandr_bortnyk/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:30 UTC: Success | Uploaded player/oliv9136/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:32 UTC: Success | Uploaded player/omer1997/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:34 UTC: Success | Uploaded player/omer1997/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:36 UTC: Success | Uploaded player/orange_ghost/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:38 UTC: Success | Uploaded player/osamahammoudeh/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:40 UTC: Success | Uploaded player/osamahammoudeh/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:42 UTC: Success | Uploaded player/ozimov13/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:44 UTC: Success | Uploaded player/pandrlak/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:48 UTC: Success | Uploaded player/parhamov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:50 UTC: Success | Uploaded player/pastaaontwitch/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:52 UTC: Success | Uploaded player/pawelczarnota/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:54 UTC: Success | Uploaded player/pawnmarchdestroyer/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:55 UTC: Success | Uploaded player/pawnosaurus/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:48:57 UTC: Success | Uploaded player/pawnosaurus/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:00 UTC: Success | Uploaded player/pawnpromotes/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:02 UTC: Success | Uploaded player/pawnsnotdead/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:07 UTC: Success | Uploaded player/penguingm1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:14 UTC: Success | Uploaded player/pepe/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:18 UTC: Success | Uploaded player/perilthedragon/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:20 UTC: Success | Uploaded player/peshkach/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:24 UTC: Success | Uploaded player/philippians46/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:26 UTC: Success | Uploaded player/philosopher_of_chess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:28 UTC: Success | Uploaded player/philosopher_of_chess/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:30 UTC: Success | Uploaded player/pifion/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:32 UTC: Success | Uploaded player/pifion/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:34 UTC: Success | Uploaded player/pjf73/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:36 UTC: Success | Uploaded player/pknm/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:38 UTC: Success | Uploaded player/pknm/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:40 UTC: Success | Uploaded player/pluspion94/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:42 UTC: Success | Uploaded player/plutomeister/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:43 UTC: Success | Uploaded player/plutomeister/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:46 UTC: Success | Uploaded player/polish_fighter3000/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:48 UTC: Success | Uploaded player/portusboy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:49 UTC: Success | Uploaded player/portusboy/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:52 UTC: Success | Uploaded player/pranavsharma20/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:53 UTC: Success | Uploaded player/professordiarrheastein/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:55 UTC: Success | Uploaded player/professordiarrheastein/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:57 UTC: Success | Uploaded player/profofchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:49:59 UTC: Success | Uploaded player/profofchess/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:01 UTC: Success | Uploaded player/prospicient_pawn/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:03 UTC: Success | Uploaded player/prospicient_pawn/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:05 UTC: Success | Uploaded player/protipwarhorses/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:07 UTC: Success | Uploaded player/protipwarhorses/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:09 UTC: Success | Uploaded player/psvidler/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:10 UTC: Success | Uploaded player/psvidler/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:12 UTC: Success | Uploaded player/pursuitofhappyness2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:14 UTC: Success | Uploaded player/qatb/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:16 UTC: Success | Uploaded player/qatb/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:18 UTC: Success | Uploaded player/qihunanxia0705/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:20 UTC: Success | Uploaded player/quxx123456/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:22 UTC: Success | Uploaded player/rakesh/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:31 UTC: Success | Uploaded player/random1006/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:33 UTC: Success | Uploaded player/raspevana_veverica12/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:36 UTC: Success | Uploaded player/raspevana_veverica12/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:42 UTC: Success | Uploaded player/ratatal/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:47 UTC: Success | Uploaded player/ratatal/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:49 UTC: Success | Uploaded player/raunaksadhwani2005/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:51 UTC: Success | Uploaded player/razgovor/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:50:53 UTC: Success | Uploaded player/rcaf1956/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:02 UTC: Success | Uploaded player/real_chess_switch/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:05 UTC: Success | Uploaded player/redmummy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:08 UTC: Success | Uploaded player/rednova1729/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:10 UTC: Success | Uploaded player/reinaqueenchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:11 UTC: Success | Uploaded player/reinaqueenchess/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:13 UTC: Success | Uploaded player/renzogm/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:15 UTC: Success | Uploaded player/renzogm/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:17 UTC: Success | Uploaded player/rezacz/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:19 UTC: Success | Uploaded player/rezacz/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:21 UTC: Success | Uploaded player/riankapriaga/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:23 UTC: Success | Uploaded player/ridanguil/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:25 UTC: Success | Uploaded player/righty1486/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:28 UTC: Success | Uploaded player/ripol/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:30 UTC: Success | Uploaded player/roadto2000elosvn/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:34 UTC: Success | Uploaded player/roseychess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:36 UTC: Success | Uploaded player/rpragchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:38 UTC: Success | Uploaded player/runningsmile/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:40 UTC: Success | Uploaded player/runningsmile/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:44 UTC: Success | Uploaded player/runno/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:47 UTC: Success | Uploaded player/salem-ar/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:49 UTC: Success | Uploaded player/salem-ar/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:51 UTC: Success | Uploaded player/sanchess17/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:54 UTC: Success | Uploaded player/santoblue/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:56 UTC: Success | Uploaded player/santoblue/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:51:58 UTC: Success | Uploaded player/sardar_irani_313/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:00 UTC: Success | Uploaded player/sardar_irani_313/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:03 UTC: Success | Uploaded player/sargsyan_shant/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:04 UTC: Success | Uploaded player/sarl123/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:06 UTC: Success | Uploaded player/sarl123/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:11 UTC: Success | Uploaded player/sarvesh1300/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:13 UTC: Success | Uploaded player/schachspielerr/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:15 UTC: Success | Uploaded player/schoolmeester/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:17 UTC: Success | Uploaded player/schubertsshenanigans/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:19 UTC: Success | Uploaded player/sciolaro/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:22 UTC: Success | Uploaded player/seanwinshand/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:26 UTC: Success | Uploaded player/seductiveprincess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:29 UTC: Success | Uploaded player/seductiveprincess/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:31 UTC: Success | Uploaded player/sgchess01/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:33 UTC: Success | Uploaded player/shadowjolteon/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:37 UTC: Success | Uploaded player/shadowking71/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:52:50 UTC: Success | Uploaded player/shalaw55/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:10 UTC: Success | Uploaded player/shalaw55/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:12 UTC: Success | Uploaded player/sharpcube/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:14 UTC: Success | Uploaded player/shimastream/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:20 UTC: Success | Uploaded player/shnitez/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:22 UTC: Success | Uploaded player/sibelephant/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:23 UTC: Success | Uploaded player/sibelephant/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:25 UTC: Success | Uploaded player/sina-movahed/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:27 UTC: Success | Uploaded player/sina-movahed/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:30 UTC: Success | Uploaded player/skipper_chess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:32 UTC: Success | Uploaded player/sky-net/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:34 UTC: Success | Uploaded player/smallpal/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:36 UTC: Success | Uploaded player/snr1024/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:38 UTC: Success | Uploaded player/soundlord1/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:40 UTC: Success | Uploaded player/spicycaterpillar/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:43 UTC: Success | Uploaded player/statham/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:45 UTC: Success | Uploaded player/stellferd2010/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:46 UTC: Success | Uploaded player/stellferd2010/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:49 UTC: Success | Uploaded player/stevedavis/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:51 UTC: Success | Uploaded player/stgundul/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:53 UTC: Success | Uploaded player/stgundul/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:55 UTC: Success | Uploaded player/stukanmartin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:56 UTC: Success | Uploaded player/stukanmartin/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:53:58 UTC: Success | Uploaded player/stunningframe/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:04 UTC: Success | Uploaded player/syrbatman/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:06 UTC: Success | Uploaded player/tafo7566/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:08 UTC: Success | Uploaded player/tafo7566/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:10 UTC: Success | Uploaded player/tankety/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:12 UTC: Success | Uploaded player/tankety/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:14 UTC: Success | Uploaded player/tartody/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:15 UTC: Success | Uploaded player/td9/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:17 UTC: Success | Uploaded player/tedremarkable/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:19 UTC: Success | Uploaded player/tedw7/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:21 UTC: Success | Uploaded player/tedw7/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:24 UTC: Success | Uploaded player/temus_galaktionov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:26 UTC: Success | Uploaded player/tenismaster/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:29 UTC: Success | Uploaded player/tenismaster/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:31 UTC: Success | Uploaded player/teo2000/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:33 UTC: Success | Uploaded player/teo2000/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:35 UTC: Success | Uploaded player/tepcovua2007/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:38 UTC: Success | Uploaded player/theduck/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:40 UTC: Success | Uploaded player/thetaker89/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:42 UTC: Success | Uploaded player/thetaker89/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:44 UTC: Success | Uploaded player/thisonechessstreamer/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:46 UTC: Success | Uploaded player/thorinmunro/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:48 UTC: Success | Uploaded player/threecheckaddict/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:49 UTC: Success | Uploaded player/threecheckaddict/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:51 UTC: Success | Uploaded player/thunderbird1d4/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:53 UTC: Success | Uploaded player/thunderbird1d4/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:55 UTC: Success | Uploaded player/timitym3k/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:56 UTC: Success | Uploaded player/timitym3k/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:54:58 UTC: Success | Uploaded player/tinniemittin/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:00 UTC: Success | Uploaded player/tinniemittin/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:02 UTC: Success | Uploaded player/tjarkvos/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:05 UTC: Success | Uploaded player/tobias_koelle/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:07 UTC: Success | Uploaded player/togch4mp/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:09 UTC: Success | Uploaded player/toivok3/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:11 UTC: Success | Uploaded player/tomasjbg/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:15 UTC: Success | Uploaded player/tomasjbg/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:18 UTC: Success | Uploaded player/torphunter/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:21 UTC: Success | Uploaded player/tradjabov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:23 UTC: Success | Uploaded player/trainer2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:26 UTC: Success | Uploaded player/trident777/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:27 UTC: Success | Uploaded player/tulachess999/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:29 UTC: Success | Uploaded player/ubdip/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:31 UTC: Success | Uploaded player/underworldmike/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:33 UTC: Success | Uploaded player/urielsidabutar/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:35 UTC: Success | Uploaded player/urss-panchy/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:37 UTC: Success | Uploaded player/vaathi_coming/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:39 UTC: Success | Uploaded player/valentin_chiru/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:42 UTC: Success | Uploaded player/vampyreslayer/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:44 UTC: Success | Uploaded player/var4king/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:46 UTC: Success | Uploaded player/var4king/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:48 UTC: Success | Uploaded player/vasskas/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:50 UTC: Success | Uploaded player/vi_pranav/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:53 UTC: Success | Uploaded player/vibhu11/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:55 UTC: Success | Uploaded player/viditchess/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:55:57 UTC: Success | Uploaded player/viditchess/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:00 UTC: Success | Uploaded player/villers-le-sec/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:02 UTC: Success | Uploaded player/vincentkeymer/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:04 UTC: Success | Uploaded player/vira_111/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:08 UTC: Success | Uploaded player/vishwadeep1995/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:12 UTC: Success | Uploaded player/vitaliikrylov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:14 UTC: Success | Uploaded player/vizumatv4hoda/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:17 UTC: Success | Uploaded player/vjbaker/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:19 UTC: Success | Uploaded player/vkrasi01/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:20 UTC: Success | Uploaded player/vladimirkramnik/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:22 UTC: Success | Uploaded player/vladimirkramnik/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:25 UTC: Success | Uploaded player/vladislavkovalev/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:26 UTC: Success | Uploaded player/volsung75/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:29 UTC: Success | Uploaded player/voronkovilya/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:30 UTC: Success | Uploaded player/voronkovilya/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:32 UTC: Success | Uploaded player/vsavicevic/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:34 UTC: Success | Uploaded player/vse_po_kaify/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:36 UTC: Success | Uploaded player/vugarrasulov/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:38 UTC: Success | Uploaded player/vvg_vvg/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:40 UTC: Success | Uploaded player/vvg_vvg/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:42 UTC: Success | Uploaded player/walfaper/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:44 UTC: Success | Uploaded player/walfaper/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:46 UTC: Success | Uploaded player/watch_chuckmoulton_twitch/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:48 UTC: Success | Uploaded player/watch_chuckmoulton_twitch/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:50 UTC: Success | Uploaded player/westkonan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:52 UTC: Success | Uploaded player/westkonan/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:53 UTC: Success | Uploaded player/will643/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:55 UTC: Success | Uploaded player/will643/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:57 UTC: Success | Uploaded player/winter_unique/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:56:59 UTC: Success | Uploaded player/winter_unique/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:01 UTC: Success | Uploaded player/wizardchessmaster/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:08 UTC: Success | Uploaded player/wk_willianhille/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:10 UTC: Success | Uploaded player/wmyx24/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:15 UTC: Success | Uploaded player/wonderfultime/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:20 UTC: Success | Uploaded player/worriedegg/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:22 UTC: Success | Uploaded player/wow_such_player/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:24 UTC: Success | Uploaded player/wow_such_player/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:26 UTC: Success | Uploaded player/wudileige/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:27 UTC: Success | Uploaded player/wudileige/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:29 UTC: Success | Uploaded player/x_tgr_x/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:31 UTC: Success | Uploaded player/x_tgr_x/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:33 UTC: Success | Uploaded player/yasminechesss2/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:35 UTC: Success | Uploaded player/yasminechesss2/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:36 UTC: Success | Uploaded player/yearsofwar/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:38 UTC: Success | Uploaded player/yearsofwar/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:40 UTC: Success | Uploaded player/yoboiisback12345/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:42 UTC: Success | Uploaded player/yoboiisback12345/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:45 UTC: Success | Uploaded player/yosephtaher/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:47 UTC: Success | Uploaded player/youssef_zerrari/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:49 UTC: Success | Uploaded player/youssef_zerrari/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:51 UTC: Success | Uploaded player/yurisooiii/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:55 UTC: Success | Uploaded player/z_ucan/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:56 UTC: Success | Uploaded player/zalezac/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:57:58 UTC: Success | Uploaded player/zalezac/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:08 UTC: Success | Uploaded player/zamelzamel/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:10 UTC: Success | Uploaded player/zeitgeist1001/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:12 UTC: Success | Uploaded player/zerovektor/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:15 UTC: Success | Uploaded player/zgorl/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:19 UTC: Success | Uploaded player/zhigalko_sergei/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:30 UTC: Success | Uploaded player/zmuh2001/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:32 UTC: Success | Uploaded player/zombie9999/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:34 UTC: Success | Uploaded player/zorroxeno/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:36 UTC: Success | Uploaded player/zorroxeno/games/2024/11 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:38 UTC: Success | Uploaded player/zygmuntszostek/games/2024/10 to GCS bucket: chess-api\n"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "[INFO] 2025-04-26 21:58:39 UTC: Success | Uploaded player/zygmuntszostek/games/2024/11 to GCS bucket: chess-api\n"
         }
       ]
     },
@@ -5064,6 +7859,77 @@
         }
       ],
       "console": []
+    },
+    {
+      "id": "NhaY",
+      "code_hash": "726114ff729d48ba270ed44a84d9d0f7",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "interruption",
+          "evalue": "This cell was interrupted and needs to be re-run",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vPNY",
+      "code_hash": "eefc87f0b59d7a7d2f4595138e92cc7d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "interruption",
+          "evalue": "This cell was interrupted and needs to be re-run",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "hIVW",
+      "code_hash": "d5084baf172199743351dfb5ccc812c8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"tjarkvos\", \"midnightfox\", \"joppie2\", \"nochwitnochzwart\", \"rpragchess\", \"15-big\", \"tulachess999\", \"coachumbrella\", \"chessmn16\", \"liamclery2020\", \"razgovor\", \"spicycaterpillar\", \"nixkram\", \"danielnaroditsky\", \"amelia91\", \"novebg\", \"legendisback1\", \"dtn70\", \"lorem6ic\", \"zombie9999\", \"extoad\", \"littleplotkin\", \"prospicient_pawn\", \"alainlar\", \"philippians46\", \"jim_jams\", \"zheka1980\", \"bjornahlander\", \"anetadolche\", \"niklasschmider\", \"francisbegbie\", \"nobody18072004\", \"urielsidabutar\", \"vjbaker\", \"gurelediz\", \"zygmuntszostek\", \"husseinzamel2\", \"shadowking71\", \"seanwinshand\", \"mcjazza\", \"frank0288\", \"fireheart92\", \"juga1959\", \"tedw7\", \"shadowjolteon\", \"cayse\", \"pawelczarnota\", \"tobias_koelle\", \"vaathi_coming\", \"njal28\", \"stellferd2010\", \"antonsuryana_id\", \"minmj_chess\", \"mysteryshuttler\", \"dr_tyger\", \"lucapaciolichess\", \"liviu78rom\", \"dolphin_2010\", \"nagalon\", \"pawnmarchdestroyer\", \"renzogm\", \"andersnm\", \"einoel\", \"schachspielerr\", \"kesc\", \"cubaq53\", \"matingatack\", \"arconii\", \"wudileige\", \"vampyreslayer\", \"arcdavyd\", \"gmg\", \"penguingm1\", \"deballer\", \"mrturtlekin262772\", \"jaime_tahoe\", \"doktorlech83\", \"hangendepion\", \"leonardocesarini27\", \"riankapriaga\", \"casper_schoppen\", \"vkrasi01\", \"tinniemittin\", \"jcibarra\", \"eurander\", \"huibski\", \"lebron\", \"javameister1\", \"jordacheevon-0001\", \"mizant\", \"thunderbird1d4\", \"var4king\", \"mykola-bortnyk\", \"tartody\", \"aljehin1892\", \"adityajoshi1998\", \"zeitgeist1001\", \"viditchess\", \"vasskas\", \"globaloney\", \"thisonechessstreamer\", \"ioannis1979\", \"aelin_ashryver_galat\", \"pknm\", \"ripol\", \"gena217\", \"alextruskavetsky\", \"dieblauesau\", \"doraemon7\", \"snr1024\", \"beastsdc01\", \"forge13\", \"n00b2345\", \"chopper1905\", \"lustigerspieler\", \"acm-dasari_vijval\", \"baxyq\", \"zyxon\", \"gmsolver\", \"ilanschnaider\", \"anychessy\", \"sina-movahed\", \"el008\", \"shiver84\", \"kumareshp\", \"demchenko_timofey\", \"chesspanda123\", \"mishanick\", \"valentin_chiru\", \"2012vachamp\", \"tradjabov\", \"shnitez\", \"yasminechesss2\", \"qihunanxia0705\", \"jt898989\", \"chickencrossroad\", \"amintabatabaei\", \"maldivas\", \"hoshor\", \"artooon\", \"adam657\", \"lumpy-athlete\", \"timitym3k\", \"magnetus_chess\", \"jorgos81\", \"perilthedragon\", \"jozefuram\", \"pandrlak\", \"manusutha\", \"statham\", \"duckbald\", \"christopheryoo\", \"kingsman132\", \"ridanguil\", \"shimastream\", \"karpof69\", \"underworldmike\", \"karacsonyi_gellert\", \"rezacz\", \"gmbenjaminbok\", \"zamelzamel\", \"billiekimbah\", \"erythrah857\", \"zmuh2001\", \"maximgovorukha\", \"orange_ghost\", \"z_ucan\", \"mostafa_sakha\", \"nochewycandy\", \"seductiveprincess\", \"trident777\", \"chucklemange\", \"ozimov13\", \"lixifan\", \"miwoho\", \"mmichael\", \"quxx123456\", \"davethesecond\", \"matalkaya\", \"danilocuellar\", \"depthfirst\", \"newgost\", \"ipdd\", \"alexjos12\", \"sargsyan_shant\", \"will643\", \"reinaqueenchess\", \"carmenspeed\", \"javokhir_sindarov05\", \"kevin_gibson\", \"arecinos\", \"zorroxeno\", \"guenterb4\", \"navinoisyboy\", \"gogiametutune\", \"tomasjbg\", \"daved13\", \"hahidioto\", \"generalzod\", \"alirezagolzar\", \"kawhi_leonard2\", \"celaenaxsardothien\", \"georgia_carson\", \"mrtattaglia\", \"commando_droid\", \"golferman\", \"stunningframe\", \"kacparov\", \"righty1486\", \"profofchess\", \"hansontwitch\", \"gejimayu\", \"interlocularchess\", \"elvenesian\", \"codywickham\", \"pawnsnotdead\", \"jsinanan\", \"sky-net\", \"ngochoang88\", \"hockbrd\", \"gmharikrishna\", \"yoboiisback12345\", \"walfaper\", \"tankety\", \"larso\", \"santoblue\", \"jackrodgers\", \"boumpatacra\", \"horkko\", \"bornio\", \"12teen\", \"wow_such_player\", \"frederiksvane\", \"lachesisq\", \"sardar_irani_313\", \"bobsfan\", \"not_najdorfs_player\", \"chessisart7\", \"westkonan\", \"ckgchess\", \"drunkenmushy\", \"vsavicevic\", \"raspevana_veverica12\", \"gpsji27\", \"winter_unique\", \"guanchess\", \"federicosellitti\", \"juanpedro_penamartin\", \"man666\", \"nihalsarin\", \"bistarkoboza\", \"frank-morcella\", \"guelphan\", \"rakesh\", \"maxygamer69\", \"oliv9136\", \"runningsmile\", \"torphunter\", \"professordiarrheastein\", \"osamahammoudeh\", \"sarvesh1300\", \"lacs1986\", \"philosopher_of_chess\", \"plutomeister\", \"abykhovsky\", \"blenderle\", \"davidchen100\", \"volsung75\", \"isaisa1\", \"aoitsukibluemoon\", \"dedic8\", \"budisavljevic\", \"toivok3\", \"lastgladiator1\", \"baku_boulevard\", \"pawnosaurus\", \"schoolmeester\", \"arkadiykhromaev\", \"lemur17\", \"vitaliikrylov\", \"skipper_chess\", \"eclipse_whisper\", \"molecularchemist\", \"goldentomato\", \"mahsawitreko\", \"goldcollector\", \"faustinooro\", \"msb2\", \"here4chessonly\", \"calessa\", \"wizardchessmaster\", \"protipwarhorses\", \"andreikka\", \"liemle\", \"lyonbeast\", \"yosephtaher\", \"fabianocaruana\", \"roadto2000elosvn\", \"avvatar\", \"caseyfloridian\", \"jackcoleman\", \"anhtai2503\", \"evanboger\", \"pastaaontwitch\", \"qatb\", \"mywarrior500\", \"worriedegg\", \"gurwichcrossroad\", \"denlaz\", \"sciolaro\", \"hasan120447\", \"akukanmasihpemula\", \"fratz71\", \"chesssavvy\", \"jianda2019\", \"micki-taryan\", \"tepcovua2007\", \"smallpal\", \"liamputnam2008\", \"firouzja2003\", \"portusboy\", \"ghandeevam2003\", \"ashina22\", \"vi_pranav\", \"miterryble\", \"raunaksadhwani2005\", \"roseychess\", \"mfberna\", \"iturrizaga\", \"chefshouse\", \"beatles_22\", \"muxmuk\", \"fingahgm\", \"grootjuf\", \"watch_chuckmoulton_twitch\", \"devanshgandhre\", \"hieuphuc4321\", \"h-hess28\", \"caminator2000\", \"vvg_vvg\", \"donenfrm\", \"anishgiri\", \"abebaabiodun\", \"teo2000\", \"levonaronian\", \"urss-panchy\", \"nanofer314\", \"johnborth1\", \"frejathemaid\", \"zhigalko_sergei\", \"cripep\", \"carlsenvan\", \"heimaat\", \"2problemchild\", \"laurent2003\", \"heroman97\", \"wmyx24\", \"isengard1\", \"fanis129\", \"tafo7566\", \"sharpcube\", \"jockerhahahahahahha\", \"chessbrah\", \"dual_flurry\", \"wonderfultime\", \"jolintsai\", \"hat070\", \"horvi1\", \"sarl123\", \"omer1997\", \"aa175\", \"razzeldazzel\", \"kadunkuimalammikko\", \"guerreroequilibrado\", \"sanchess17\", \"threecheckaddict\", \"yearsofwar\", \"mikhail_bryakin\", \"yurisooiii\", \"redmummy\", \"kingsize76\", \"td9\", \"peshkach\", \"theduck\", \"thorinmunro\", \"kaln11\", \"icy\", \"indianlad\", \"zerovektor\", \"mkirkus\", \"niranjanj7\", \"bigfish1995\", \"mysterychess27\", \"mastercard117\", \"stevedavis\", \"parhamov\", \"azzipapap\", \"mongoose1000\", \"sibelephant\", \"fairchess_on_youtube\", \"rednova1729\", \"zgorl\", \"real_chess_switch\", \"chasing_checkmate\", \"lovevae\", \"jmb27\", \"pifion\", \"drchampionsteinl\", \"salem-ar\", \"ariellevy8\", \"coerced\", \"levcet\", \"hein123\", \"nikotheodorou\", \"cleveeeeeeeeeeeeeeeeeeer\", \"pranavsharma20\", \"arysya\", \"alexander2063\", \"youssef_zerrari\", \"giacomomagic\", \"dalmatinac101\", \"lolzitzme\", \"masafsha\", \"bubabar2010\", \"mrezbakeee\", \"togch4mp\", \"imsosman\", \"mateo880\", \"bezdomny4e\", \"aquarium76\", \"duhless\", \"d-lnk\", \"nograymatter\", \"almasrakhmatullaev\", \"vugarrasulov\", \"igramsamozagambit\", \"polish_fighter3000\", \"dragonb70\", \"iggy82\", \"matein28\", \"krysttall\", \"cl18chc\", \"grischuk\", \"tenismaster\", \"guanxinyi\", \"imuffevinther-schou\", \"gmwso\", \"pjf73\", \"pursuitofhappyness2\", \"gmbmw\", \"bilodeaua\", \"villers-le-sec\", \"thetaker89\", \"wasabae\", \"magnuscarlsen\", \"stukanmartin\", \"azerichess\", \"shalaw55\", \"vizumatv4hoda\", \"rcaf1956\", \"hansen\", \"stgundul\", \"darkpharaon\", \"dumplings\", \"gmam0nax\", \"syrbatman\", \"dino_ballecer\", \"lmaginelosingtoacat\", \"imad_d\", \"voronkovilya\", \"daniksell\", \"itamarchess2006\", \"x_tgr_x\", \"govalya\", \"temus_galaktionov\", \"gugotico\", \"vincentkeymer\", \"hikaru\", \"tedremarkable\", \"hamstergang\", \"kate69696969\", \"igor_kowalski\", \"carocrush96\", \"vladislavkovalev\", \"barbaroskabrel\", \"random1006\", \"runno\", \"vse_po_kaify\", \"konavets\", \"gmjimbudon\", \"pepe\", \"d1d1dylan\", \"l8txxxx\", \"atabayevsaparmyrat\", \"championocean\", \"vira_111\", \"gundultobat\", \"pawnpromotes\", \"ubdip\", \"boldharp\", \"jezchezz\", \"ratatal\", \"pluspion94\", \"al1aks\", \"guywithbadusername\", \"chessmateyesmate\", \"vishwadeep1995\", \"deathincoolingmoonlight\", \"mcqueen444\", \"psvidler\", \"speedoflight0\", \"emanresu100\", \"koncheto\", \"emeraldddd\", \"abdallahalkordi\", \"oleksandr_bortnyk\", \"mhe613\", \"jarlcarlander\", \"nilsberndsen\", \"sgchess01\", \"morphy1984\", \"mrbf\", \"chesswarrior7197\", \"zalezac\", \"kingnight1900\", \"elliotaldersontwitch\", \"trainer2\", \"formerprodigy\", \"carlpremoving\", \"denizozen\", \"soundlord1\", \"jospem\", \"wk_willianhille\", \"magnuscatalan\", \"d1sintegrator\", \"pminear\", \"vibhu11\", \"gabuzyan_chessmood\", \"agadmatorandharish\", \"schubertsshenanigans\", \"gutovandrey\", \"imissedqf5\", \"ilyar1988h\"]"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TjAJ",
+      "code_hash": "2009a625ee68e61649581985e7aabbe6",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "interruption",
+          "evalue": "This cell was interrupted and needs to be re-run",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ygeY",
+      "code_hash": "372c898a17b85a52c8f94929a25cb130",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "2024-10-01 2024-11-01\n"
+        }
+      ]
     }
   ]
 }

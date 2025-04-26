@@ -94,16 +94,24 @@ def generate_games_dataframe(gcs_filename: str, bucket_name: str, logger):
     if "eco" not in df.columns:
         df["eco"] = np.nan
 
+    if "pgn" not in df.columns:
+        df["pgn"] = np.nan
+
     # Transformations for non-zero length
     if len(df) > 0: 
 
         # Apply Transformations
         df["eco"] = df.apply(
-             lambda row: row["eco"] if pd.notna(row["eco"]) else extract_eco_url_from_pgn(row["pgn"], logger),
-             axis=1
-         )
+            lambda row: row["eco"] if pd.notna(row["eco"]) else (
+                extract_eco_url_from_pgn(row["pgn"], logger) if pd.notna(row["pgn"]) else "ECO Not Found"
+            ),
+            axis=1
+        )
 
-        df["opening"] = df["eco"].apply(lambda x: extract_last_url_component(x).replace("-"," "))
+        df["opening"] = df["eco"].apply(
+            lambda x: extract_last_url_component(x).replace("-", " ") if pd.notna(x) else "ECO Not Found"
+        )
+
         df["game_id"] = df["url"].apply(lambda x: extract_last_url_component(x))
         df["game_date"] = pd.to_datetime(df["end_time"], unit="s").dt.strftime('%Y-%m-%d')
         df["game_date"] = pd.to_datetime(df["game_date"]).dt.date

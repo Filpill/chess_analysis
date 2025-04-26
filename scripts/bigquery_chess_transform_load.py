@@ -92,11 +92,13 @@ def _(initialise_cloud_logger, log_printer):
     test_volume  = 15 # For "test" setting Max number of files to be downloaded during testing mode
 
     #---------------------------------------------------------------------#
-    #----------------------Test Case Investigation------------------------#
+    #-------------------Test Edge Case Investigation----------------------#
     #-------------------(Set script_setting to "dev")---------------------#
-    #dev_endpoint_testcase = "player/hoshor/games/2024/12"
-    #dev_endpoint_testcase = "player/laurent2003/games/2024/12"
-    dev_endpoint_testcase = "player/elvenesian/games/2024/12"
+    # dev_endpoint_testcase = "player/hoshor/games/2024/12"
+    # dev_endpoint_testcase = "player/laurent2003/games/2024/12"
+    # dev_endpoint_testcase = "player/elvenesian/games/2024/12"
+    # dev_endpoint_testcase = "player/arysya/games/2024/10"
+    dev_endpoint_testcase = "player/emeraldddd/games/2024/10"
     #--------------------------------------------------------------------#
 
     bucket_name   = "chess-api"

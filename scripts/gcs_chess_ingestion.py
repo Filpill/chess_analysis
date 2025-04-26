@@ -104,6 +104,12 @@ def _(initialise_cloud_logger, json, script_date_selection):
 
 
 @app.cell
+def _(end_date, start_date):
+    print(start_date,end_date)
+    return
+
+
+@app.cell
 def _(
     bucket_name,
     datetime,
