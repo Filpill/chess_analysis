@@ -76,6 +76,16 @@ To create a virtual environment:
 uv venv --python 3.11
 ```
 
+To add packages to pyproject.toml:
+```bash
+uv add <package-name>
+```
+
+To compile package to requirements.txt:
+```bash
+uv pip compile pyproject.toml > requirements.txt
+```
+
 To activate virtual environment locally:
 ```bash
 source .venv/bin/activate
