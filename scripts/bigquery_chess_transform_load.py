@@ -105,7 +105,7 @@ def _(initialise_cloud_logger, log_printer):
     project_id    = "checkmate-453316"
     dataset_name  = "chess_raw"
     location      = "EU"
-    date_endpoint = "2024/10"
+    date_endpoint = "2023/10"
 
     dataset_id = f"{project_id}.{dataset_name}"
     logger = initialise_cloud_logger(project_id)

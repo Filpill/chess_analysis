@@ -1,0 +1,104 @@
+@font-face {
+    font-family: "trebuc";
+    src: url("/assets/fonts/trebuc.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "trebuc";
+    background-color: #edf0f5;
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    height: 150vh;
+    padding: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    display: inline-block;
+    color: white;           /* optional: for contrast */
+    padding: 0.1rem 1rem;   /* optional: for spacing inside the header */
+    border-radius: 7px;     /* optional: slight rounded corners */
+    margin: 0.25rem 0;
+    transition: all 0.3s ease-in-out;  /* smooth transition */
+}
+
+.div-filler-outer {
+    background-color: #3e495c;
+    padding: 1rem;
+    border-radius: 7px;
+    color: white;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/*For dropdowns*/
+.select-value {
+    font-size: 12px;
+}
+
+/*For Date Picker*/
+
+.DateRangePickerInput {
+    font-size: 12px;         
+    padding: 0;               /* Remove unnecessary padding */
+    height: 30px;             /* Slightly more to fit everything nicely */
+    align-items: center;      /* Center children vertically */
+    display: flex;            /* Make sure flex is applied */
+}
+
+.DateInput_input {
+    font-size: 16px;          
+    padding: 4px 6px;         
+    color:  black;
+    height: 28px;             /* Match height nicely with outer */
+    box-sizing: border-box;   /* Make sure padding fits inside height */
+}
+
+.DateRangePickerInput_arrow {
+    width: 16px;              /* Moderate size so it doesn't disappear */
+    height: 16px;
+    margin: 0 6px;            /* Even spacing left and right */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Highlight selected date */
+.DayPicker, {
+    background-color: #45734b;
+    color: white;
+}
+
+/* On hover */
+.CalendarDay:hover {
+    background-color: #609b69;
+    color: white;
+}
+
+.kpi-tile {
+    background-color: #7991b8;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'trebuc';
+    width: 150px;
+    height: 100px;
+    margin: 8px;
+    box-shadow: 0 0 15px rgba(121, 145, 184, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.kpi-tile:hover {
+    box-shadow: 0 0 30px rgba(121, 145, 184, 1);
+    transform: scale(1.05);
+}
+

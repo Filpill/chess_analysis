@@ -36,6 +36,7 @@ WITH cte_jobs_base AS (
         project_id
       , job_created_date
       , user_email
+      , COUNT(*)                                               AS number_of_queries
       , ROUND(SUM(total_query_time_ms) * milli_to_base   , 1)  AS total_query_time_seconds
       , ROUND(SUM(total_slot_ms) * milli_to_base         , 1)  AS total_slot_seconds
       , ROUND(SUM(total_bytes_processed) / base_to_mega  , 1)  AS total_megabytes_processed
@@ -49,6 +50,7 @@ WITH cte_jobs_base AS (
   SELECT
         project_id
       , job_created_month
+      , COUNT(*)                                                AS number_of_queries
       , ROUND(SUM(total_slot_ms) * milli_to_base         , 1)   AS total_slot_seconds
       , ROUND(SUM(total_bytes_billed) / base_to_giga     , 1)   AS total_gigabytes_billed
       , SUM(total_bytes_billed) / base_to_giga / 1000 * 100     AS free_process_consumed_percentage
