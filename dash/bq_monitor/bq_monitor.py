@@ -1,3 +1,4 @@
+import os
 import numbers
 import pandas_gbq
 import pandas as pd
@@ -416,4 +417,6 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     return fig, table_data, table_columns, kpi_tiles
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8080))  # <-- Get port from env var
+    app.run(host="0.0.0.0", port=port)         # <-- Listen on 0.0.0.0!
+    # app.run(debug=True)
