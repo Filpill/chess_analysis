@@ -118,6 +118,8 @@ grpcio==1.71.0
     #   grpcio-status
 grpcio-status==1.71.0
     # via google-api-core
+gunicorn==23.0.0
+    # via chess-analysis (pyproject.toml)
 h11==0.16.0
     # via uvicorn
 httplib2==0.22.0
@@ -190,6 +192,7 @@ packaging==25.0
     # via
     #   db-dtypes
     #   google-cloud-bigquery
+    #   gunicorn
     #   ipykernel
     #   marimo
     #   pandas-gbq
