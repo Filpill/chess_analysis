@@ -77,9 +77,9 @@ resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
   }
 }
 
-#============================================
-# -----Cloud Run Application Services-------
-#============================================
+##============================================
+## -----Cloud Run Application Services-------
+##============================================
 #resource "google_cloud_run_service" "bq_monitor_dash" {
 #  name     = "bq-monitor-dash"
 #  location = "europe-west2"

@@ -259,9 +259,12 @@ html.Div([
                 "whiteSpace": "normal",
                 "height": "auto",
             },
-        )
+        ),
 
-
+        html.Div([                                               
+               html.Button("Download Table", id="download-btn"), 
+               dcc.Download(id="download-component")             
+        ])                                                       
     ], className="div-filler-outer"),
 ],
 )
@@ -415,6 +418,18 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     #------------------------------------------------------------------------------------
 
     return fig, table_data, table_columns, kpi_tiles
+
+
+@callback(
+    Output("download-component", "data"),
+    Input("download-btn", "n_clicks"),
+    State("table-data", "data"),
+    prevent_initial_call=True
+)
+def download_table(n_clicks, table_data):
+    df_download = pd.DataFrame(table_data)
+    return dcc.send_data_frame(df_download.to_csv, filename="bq_resource_usage.csv", index=False)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # <-- Get port from env var
