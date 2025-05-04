@@ -90,6 +90,7 @@ df_jobs["job_created_month"] = pd.to_datetime(df_jobs["job_created_month"])
 df_user["job_created_date"] = pd.to_datetime(df_user["job_created_date"])
 
 app = Dash(__name__)
+server = app.server
 
 app.layout = html.Div([
 
