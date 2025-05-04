@@ -432,6 +432,5 @@ def download_table(n_clicks, table_data):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # <-- Get port from env var
-    app.run(host="0.0.0.0", port=port)         # <-- Listen on 0.0.0.0!
-    # app.run(debug=True)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port, debug=True)

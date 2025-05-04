@@ -21,5 +21,4 @@ RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/mai
 RUN pip install -r /app/requirements.txt --break-system-packages
 
 # Set the entrypoint
-EXPOSE 8080
-CMD exec gunicorn --bind :8080 main:app
+CMD ["gunicorn", "--bind", ":8080", "main:app.server"]
