@@ -1,8 +1,7 @@
 #/bin/bash
 GCP_PROJECT="checkmate-453316"
 IMAGE_NAME="bq_monitor_dash"
-#IMAGE_TAG="1.0.0"
-IMAGE_TAG="test"
+IMAGE_TAG="dashtest"
 CONTAINER_NAME="bq_monitor_container"
 AR_TYPE="europe-west2-docker.pkg.dev"
 AR_REPO="docker-chess-repo"

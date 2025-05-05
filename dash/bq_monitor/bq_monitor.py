@@ -16,9 +16,6 @@ from google.auth import default
 
 from dateutil.relativedelta import relativedelta
 
-credentials, project_id = default()
-compute = discovery.build('compute', 'v1', credentials=credentials)
-
 def sql_cte_return(cte_name):
     sql = f"""
     DECLARE start_date     DATE    DEFAULT  CURRENT_DATE-365;
@@ -81,13 +78,19 @@ def get_current_month_boundaries():
     return current_month_start, current_month_end
 
 
-df_jobs = pd.read_gbq(sql_cte_return("cte_jobs_base"), project_id=project_id, dialect="standard", credentials=credentials)
-df_user = pd.read_gbq(sql_cte_return("cte_user_level_aggregate"), project_id=project_id, dialect="standard", credentials=credentials)
+def load_data(cte_name, date_col_list):                                                        
+    credentials, project_id = default()                                 
+    compute = discovery.build('compute', 'v1', credentials=credentials) 
+    df= pd.read_gbq(sql_cte_return(cte_name), project_id=project_id, dialect="standard", credentials=credentials)
 
-# Fixing Datatypes
-df_jobs["job_created_date"] = pd.to_datetime(df_jobs["job_created_date"])
-df_jobs["job_created_month"] = pd.to_datetime(df_jobs["job_created_month"])
-df_user["job_created_date"] = pd.to_datetime(df_user["job_created_date"])
+    # Fixing Datatypes
+    for col in date_col_list:
+        df[col] = pd.to_datetime(df[col])
+
+    return df
+
+df_jobs = load_data("cte_jobs_base", ["job_created_date", "job_created_month"]) 
+df_user = load_data("cte_user_level_aggregate", ["job_created_date"]) 
 
 app = Dash(__name__)
 server = app.server
@@ -306,7 +309,7 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     # Applying filters
     df_user_current_month_fixed = data_filters(df_user, current_month_start, current_month_end, True, selected_user_email)
     df_user_filtered = data_filters(df_user, start_date, end_date, False, selected_user_email)
-    df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email)
+    df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email).sort_values(by=["creation_time"], ascending=False) 
 
     if selected_metric is None:
         selected_metric = "total_megabytes_billed"
@@ -419,7 +422,6 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     #------------------------------------------------------------------------------------
 
     return fig, table_data, table_columns, kpi_tiles
-
 
 @callback(
     Output("download-component", "data"),

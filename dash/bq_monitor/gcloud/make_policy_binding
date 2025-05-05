@@ -1,0 +1,5 @@
+#!/bin/sh
+gcloud run services add-iam-policy-binding bq-monitor-dash-test \
+  --region=europe-west2 \
+  --member="user:filiplivancic@googlemail.com" \
+  --role="roles/run.invoker"
