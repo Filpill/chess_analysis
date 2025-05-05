@@ -1,5 +1,5 @@
 #!/bin/sh
-gcloud run services proxy bq-monitor-dash-test \
+gcloud run services proxy bq-monitor-dash \
   --region=europe-west2 \
   --project=checkmate-453316 \
   --port=8080
