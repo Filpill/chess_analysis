@@ -1,0 +1,4 @@
+logName="projects/checkmate-453316/logs/cos_system"
+resource.type="gce_instance"
+jsonPayload.MESSAGE:"container die"
+jsonPayload.MESSAGE:"image=europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo"

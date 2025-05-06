@@ -17,10 +17,11 @@ locals {
         { file_path = "functions/gcs_func.py" },
         { file_path = "functions/transform_func.py" },
         { file_path = "functions/shared_func.py" },
+        { file_path = "inputs/gcs_ingestion_settings.json" },
         { file_path = "scripts/bigquery_chess_transform_load.py" },
         { file_path = "scripts/gcs_chess_ingestion.py" },
-        { file_path = var.ingestion_input_config },
-        { file_path = var.cloud_func_vm_start },
+        { file_path = "scripts/cloud_functions/vm_start/code.zip" },
+        { file_path = "scripts/cloud_functions/vm_delete/code.zip" },
     ]
 }
 
@@ -32,7 +33,6 @@ resource "google_storage_bucket_object" "objects" {
     source  = each.value.file_path
     bucket  = google_storage_bucket.static.id
 }
-
 
 #============================================
 # -------VM Initialisation Resources---------
@@ -78,7 +78,7 @@ resource "google_cloud_scheduler_job" "gcs_chess_ingestion_job" {
 }
 
 #============================================
-# -----Cloud Run Application Services-------
+# -----Cloud Run BQ Monitor Service App-----
 #============================================
 resource "google_cloud_run_service" "bq_monitor_dash" {
   name     = "bq-monitor-dash"

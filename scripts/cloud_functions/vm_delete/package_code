@@ -1,0 +1,3 @@
+#!/bin/sh
+rm code.zip
+zip code.zip main.py requirements.txt
