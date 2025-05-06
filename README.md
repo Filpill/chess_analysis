@@ -112,8 +112,8 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 > *Local docker bash scripts are not saved in this project repo*
 
-## Ingestion Architecture
-This is a high-level view of the key components in the pipeline architecture and how the ingestion system operates:
+## Pipeline Architecture
+This is a high-level view of the key components in the pipeline architecture for executing data pipeline resources to both ingest, transform and load our chess data:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/pipeline_architecture.png " alt="drawing" width="800"/>
 </p>
