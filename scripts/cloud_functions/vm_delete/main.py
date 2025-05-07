@@ -6,7 +6,6 @@ import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
 
 PROJECT = "checkmate-453316"
-ZONE = "europe-west1-c"
 
 def initialise_cloud_logger(project_id):
     client = cloud_logging.Client(project=project_id)
@@ -24,7 +23,7 @@ def delete_vm(project, zone, instance_name, logger):
         instance=instance_name
     )
     response = request.execute()
-    logger.log_text(f"Delete request sent for VM: {instance_name}", severity="INFO")
+    logger.log_text(f"Project ID: {project} | Delete request sent for VM: {instance_name} | zone: {zone}", severity="INFO")
     return response
 
 @functions_framework.cloud_event
@@ -33,7 +32,7 @@ def pubsub_handler(cloud_event):
     # Initialise logging object
     logger = initialise_cloud_logger(PROJECT)
 
-    # Decode the incoming Pub/Sub message
+    # Raw the incoming Pub/Sub message
     logger.log_text(f"Printing incoming cloud event: {cloud_event}", severity="INFO")
 
     try:
@@ -45,14 +44,22 @@ def pubsub_handler(cloud_event):
         # Parse the JSON log entry
         log_entry = json.loads(payload)
 
-        # Extract the VM name from the log's jsonPayload._HOSTNAME
-        vm_name = log_entry.get("jsonPayload", {}).get("_HOSTNAME")
+        # Extract the VM name and zone from from the log's jsonPayload._HOSTNAME and resource.labels.zone
+        vm_name = log_entry["jsonPayload"]["_HOSTNAME"]
+        zone    = log_entry["resource"]["labels"]["zone"]
+
+        # If anything missing - return a NULL value and print log
         if not vm_name:
             logger.log_text("No _HOSTNAME found in log entry.", severity="ERROR")
             return
 
-        logger.log_text(f"Deleting VM: {vm_name}", severity="WARNING")
-        delete_vm(PROJECT, ZONE, vm_name, logger)
+        if not zone:
+            logger.log_text("No resource.labels.zone found in log entry.", severity="ERROR")
+            return
+
+        # Delete targeted VM Instance        
+        logger.log_text(f"Deleting VM: {vm_name} | zone: {zone}", severity="WARNING")
+        delete_vm(PROJECT, zone, vm_name, logger)
 
     except Exception as e:
         logger.log_text(f"Error handling CloudEvent: {e}", severity="ERROR")
