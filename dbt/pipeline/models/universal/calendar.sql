@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE `checkmate-453316.universal.calendar` AS (
+{{ config(materialized='table') }}
 
 WITH cte_date_array AS (
     SELECT
@@ -26,12 +26,12 @@ cte_apply_formatting AS (
 
           /*Weekly Formats - Mon to Sun*/
         , "Week " || EXTRACT(ISOWEEK FROM cal_date)                       AS iso_week_number_type1 
-        , EXTRACT(ISOWEEK FROM cal_date)                                  AS iso_week_number_type2  
+        , EXTRACT(ISOWEEK FROM cal_date)                                  AS iso_week_number_type2
         , DATE_TRUNC(cal_date, ISOWEEK)                                   AS iso_week_start
         , DATE_ADD(DATE_TRUNC(cal_date, ISOWEEK), INTERVAL 6 DAY)         AS iso_week_end
 
           /*Weekly Formats - Sun to Sat*/
-        , "Week " || EXTRACT(WEEK(SUNDAY)  FROM cal_date)                 AS week_number_type1 
+        , "Week " || EXTRACT(WEEK(SUNDAY)  FROM cal_date)                 AS week_number_type1
         , EXTRACT(WEEK(SUNDAY)    FROM cal_date)                          AS week_number_type2
         , DATE_TRUNC(cal_date, WEEK(SUNDAY))                              AS week_start
         , DATE_ADD(DATE_TRUNC(cal_date, WEEK(SUNDAY)), INTERVAL 6 DAY)    AS week_end
@@ -41,5 +41,3 @@ cte_apply_formatting AS (
 
 SELECT * FROM cte_apply_formatting
 ORDER BY cal_date DESC
-
-)

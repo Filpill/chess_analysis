@@ -1,0 +1,49 @@
+version: 2
+
+sources:
+  - name: chess_raw
+    project: checkmate-453316
+    tables:
+      - name: games
+
+models:
+  - name: calendar
+    description: "Calendar table with wide-combination of values and formats accounting for days/weeks/months"
+    columns:
+      - name: cal_date
+        description: "The calendar date at day-level"
+      - name: day_digit
+        description: "Day Number"
+      - name: month_digit
+        description: "Month Number"
+      - name: year_digit
+        description: "Year Number"
+      - name: month_name
+        description: "Month Name"
+      - name: cal_month_start
+        description: "Month Start Date"
+      - name: cal_month_end
+        description: "Month End Date"
+      - name: month_year_type1
+        description: "Month Year in the format %b-%y"
+      - name: month_year_type2
+        description: "Month Year in the format %B-%Y"
+      - name: iso_week_number_type1
+        description: "ISO Week Number in the format 'Week' {number}"
+      - name: iso_week_number_type2
+        description: "ISO Week Number in the format {number}"
+      - name: iso_week_start
+        description: "ISO Week Start Date (Starting Monday)"
+      - name: iso_week_end
+        description: "ISO Week End Date (Ending Sunday)"
+      - name: week_number_type1
+        description: "Week Number in the format 'Week' {number}"
+      - name: week_number_type2
+        description: "Week Number in the format {number}"
+      - name: week_start
+        description: "Week End Date (Starting Sunday)"
+      - name: week_end
+        description: "Week End Date (Ending Saturday)"
+
+  - name: test
+    description: "test table"
