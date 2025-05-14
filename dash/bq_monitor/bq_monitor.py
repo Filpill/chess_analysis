@@ -66,6 +66,19 @@ def sql_cte_return(cte_name):
     """
     return sql
 
+def data_filters(df, start_date, end_date, current_month_flag=False, selected_user_email=None): 
+                                                                                                
+    # Applying filters                                                                          
+    df_filtered = df[                                                                           
+            (df['job_created_date'] >= pd.to_datetime(start_date)) &                            
+            (df['job_created_date'] <= pd.to_datetime(end_date))                                
+        ]                                                                                       
+                                                                                                
+    if current_month_flag is False and selected_user_email:                                     
+        df_filtered = df_filtered[df_filtered['user_email'].isin(selected_user_email)]          
+                                                                                                
+    return df_filtered                                                                          
+
 # Prettifying Labels
 def prettify_label(label):
     return label.replace("_", ' ').title()
@@ -272,19 +285,6 @@ html.Div([
     ], className="div-filler-outer"),
 ],
 )
-
-def data_filters(df, start_date, end_date, current_month_flag=False, selected_user_email=None):
-
-    # Applying filters
-    df_filtered = df[
-            (df['job_created_date'] >= pd.to_datetime(start_date)) &
-            (df['job_created_date'] <= pd.to_datetime(end_date))
-        ]
-
-    if current_month_flag is False and selected_user_email:
-        df_filtered = df_filtered[df_filtered['user_email'].isin(selected_user_email)]
-
-    return df_filtered
 
 @callback(
     Output("figure-count", "figure"),
