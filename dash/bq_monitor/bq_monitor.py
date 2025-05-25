@@ -18,15 +18,17 @@ from dateutil.relativedelta import relativedelta
 
 def sql_cte_return(cte_name):
     sql = f"""
-    DECLARE start_date     DATE    DEFAULT  CURRENT_DATE-365;
-    DECLARE end_date       DATE    DEFAULT  CURRENT_DATE;
-    DECLARE milli_to_base  FLOAT64 DEFAULT  0.001;
-    DECLARE base_to_mega   INT64   DEFAULT  1000000;
-    DECLARE base_to_giga   INT64   DEFAULT  1000000000;
+    DECLARE start_date      DATE     DEFAULT  CURRENT_DATE-365;
+    DECLARE end_date        DATE     DEFAULT  CURRENT_DATE;
+    DECLARE milli_to_base   FLOAT64  DEFAULT  0.001;
+    DECLARE base_to_mega    INT64    DEFAULT  1000000;
+    DECLARE base_to_giga    INT64    DEFAULT  1000000000;
+    DECLARE base_to_tera    INT64    DEFAULT  1000000000000;
+    DECLARE dollars_per_TB  FLOAT64  DEFAULT  6.25;
 
     WITH cte_jobs_base AS (
       SELECT
-            creation_time
+            creation_time                                      AS job_creation_dt
           , EXTRACT(DATE FROM creation_time)                   AS job_created_date
           , DATE_TRUNC(EXTRACT(DATE FROM creation_time),MONTH) AS job_created_month
           , project_id
@@ -52,11 +54,12 @@ def sql_cte_return(cte_name):
             project_id
           , job_created_date
           , user_email
-          , COUNT(*)                                               AS number_of_queries
-          , ROUND(SUM(total_query_time_ms) * milli_to_base   , 1)  AS total_query_time_seconds
-          , ROUND(SUM(total_slot_ms) * milli_to_base         , 1)  AS total_slot_seconds
-          , ROUND(SUM(total_bytes_processed) / base_to_mega  , 1)  AS total_megabytes_processed
-          , ROUND(SUM(total_bytes_billed) / base_to_mega     , 1)  AS total_megabytes_billed
+          , COUNT(*)                                                 AS number_of_queries
+          , SUM(total_query_time_ms) * milli_to_base                 AS total_query_time_seconds
+          , SUM(total_slot_ms) * milli_to_base                       AS total_slot_seconds
+          , SUM(total_bytes_processed) / base_to_mega                AS total_megabytes_processed
+          , SUM(total_bytes_billed) / base_to_mega                   AS total_megabytes_billed
+          , SUM(total_bytes_billed) / base_to_tera * dollars_per_TB  AS total_query_dollars
       FROM cte_jobs_base
       GROUP BY ALL
       ORDER BY job_created_date ASC
@@ -90,6 +93,19 @@ def get_current_month_boundaries():
     current_month_end = (current_month_start + pd.offsets.MonthEnd(1))
     return current_month_start, current_month_end
 
+def format_kpi_value(key,value):                                                    
+    # Format display value based on metric type                                     
+    if "current_month" in key.lower():                                              
+        display_value = f"{value:.2f}%"   # 2 decimal places + % symbol             
+    elif "data" in key.lower():                                                     
+        display_value = f"{value:,.1f} MB"                                          
+    elif "dollars" in key.lower():                                                  
+        display_value = f"${value:,.2f}"                                           
+    elif isinstance(value, numbers.Number):                                         
+        display_value = f"{value:,}" if isinstance(value, int) else f"{value:,.2f}" 
+    else:                                                                           
+        display_value = str(value)                                                  
+    return display_value                                                            
 
 def load_data(cte_name, date_col_list):                                                        
     credentials, project_id = default()                                 
@@ -309,7 +325,7 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     # Applying filters
     df_user_current_month_fixed = data_filters(df_user, current_month_start, current_month_end, True, selected_user_email)
     df_user_filtered = data_filters(df_user, start_date, end_date, False, selected_user_email)
-    df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email).sort_values(by=["creation_time"], ascending=False) 
+    df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email).sort_values(by=["job_creation_dt"], ascending=False) 
 
     if selected_metric is None:
         selected_metric = "total_megabytes_billed"
@@ -321,16 +337,18 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     total_number_of_queries   = int(df_user_filtered["number_of_queries"].sum())
     average_data_processed    = round(df_user_filtered["total_megabytes_processed"].sum()/total_number_of_queries, 2)
     average_data_billed       = round(df_user_filtered["total_megabytes_billed"].sum()/total_number_of_queries, 2)
+    average_query_dollars     = round(df_user_filtered["total_query_dollars"].sum()/total_number_of_queries, 2)
 
     # Creating KPI
-    free_tier_limit_mb = 1000000
+    free_tier_limit_mb = 10**6
     percentage_free_tier_used = round(df_user_current_month_fixed["total_megabytes_billed"].sum()/free_tier_limit_mb * 100, 2)
 
     # Putting metrics and KPI's into dict to do packaged return
     metric_dict = {
         "distinct_bigquery_users" : distinct_bigquery_users,
         "total_number_of_queries" : total_number_of_queries,
-        "average_data_processed" : average_data_processed,
+        #"average_data_processed" : average_data_processed,
+        "average_query_dollars" : average_query_dollars,
         "average_data_billed" : average_data_billed,
         "current_month_free_tier_used" : percentage_free_tier_used,
     }
@@ -339,15 +357,7 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     kpi_tiles = []
     for key, value in metric_dict.items():
 
-        # Format display value based on metric type
-        if "current_month" in key.lower():
-            display_value = f"{value:.2f}%"   # 2 decimal places + % symbol
-        elif "data" in key.lower(): 
-            display_value = f"{value:,.1f} MB"
-        elif isinstance(value, numbers.Number):
-            display_value = f"{value:,}" if isinstance(value, int) else f"{value:,.2f}"
-        else:
-            display_value = str(value)
+        display_value = format_kpi_value(key,value)
 
         kpi_tiles.append(
             html.Div([
