@@ -87,11 +87,18 @@ def prettify_label(label):
     return label.replace("_", ' ').title()
 
 # Get current month data boundaries
-def get_current_month_boundaries():
+def get_month_boundaries():
     now = pd.Timestamp.now()
     current_month_start = now.replace(day=1)
-    current_month_end = (current_month_start + pd.offsets.MonthEnd(1))
-    return current_month_start, current_month_end
+
+    date_boundary_dict = {
+        "current_month_start" :  current_month_start,
+        "current_month_end" :    current_month_start + pd.offsets.MonthEnd(1),
+        "previous_month_start" : current_month_start - pd.offsets.MonthBegin(1),
+        "previous_month_end" :   current_month_start - pd.Timedelta(days=1),
+    }
+
+    return date_boundary_dict
 
 def format_kpi_value(key,value):                                                    
     # Format display value based on metric type                                     
@@ -318,12 +325,29 @@ html.Div([
 def refresh_data(start_date, end_date, selected_user_email, selected_metric="total_megabytes_billed"):
 
     #------------------------------------------------------------------------------------
-    # Current Month Setting
-    current_month_start, current_month_end = get_current_month_boundaries()
+    # Get Date Boundaries for current month and previous month
+    date_boundary_dict = get_month_boundaries()
     #------------------------------------------------------------------------------------
 
-    # Applying filters
-    df_user_current_month_fixed = data_filters(df_user, current_month_start, current_month_end, True, selected_user_email)
+    # Current Month Fixed Period
+    df_user_current_month = data_filters(
+        df_user, 
+        date_boundary_dict.get("current_month_start"), 
+        date_boundary_dict.get("current_month_end"), 
+        True, 
+        selected_user_email
+    )
+
+    # Previous Month Fixed Period
+    df_user_previous_month = data_filters(               
+        df_user,                                        
+        date_boundary_dict.get("previous_month_start"),  
+        date_boundary_dict.get("previous_month_end"),    
+        True,                                           
+        selected_user_email                             
+    )                                                   
+
+    # Dataframes filtering according to DatePicker Selection inside Dash Application
     df_user_filtered = data_filters(df_user, start_date, end_date, False, selected_user_email)
     df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email).sort_values(by=["job_creation_dt"], ascending=False) 
 
@@ -341,13 +365,12 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
 
     # Creating KPI
     free_tier_limit_mb = 10**6
-    percentage_free_tier_used = round(df_user_current_month_fixed["total_megabytes_billed"].sum()/free_tier_limit_mb * 100, 2)
+    percentage_free_tier_used = round(df_user_current_month["total_megabytes_billed"].sum()/free_tier_limit_mb * 100, 2)
 
     # Putting metrics and KPI's into dict to do packaged return
     metric_dict = {
         "distinct_bigquery_users" : distinct_bigquery_users,
         "total_number_of_queries" : total_number_of_queries,
-        #"average_data_processed" : average_data_processed,
         "average_query_dollars" : average_query_dollars,
         "average_data_billed" : average_data_billed,
         "current_month_free_tier_used" : percentage_free_tier_used,
