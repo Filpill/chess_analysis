@@ -1,4 +1,5 @@
 import os
+import math
 import numbers
 import pandas_gbq
 import pandas as pd
@@ -58,7 +59,9 @@ def sql_cte_return(cte_name):
           , SUM(total_query_time_ms) * milli_to_base                 AS total_query_time_seconds
           , SUM(total_slot_ms) * milli_to_base                       AS total_slot_seconds
           , SUM(total_bytes_processed) / base_to_mega                AS total_megabytes_processed
+          , SUM(total_bytes_processed) / base_to_giga                AS total_gigabytes_processed
           , SUM(total_bytes_billed) / base_to_mega                   AS total_megabytes_billed
+          , SUM(total_bytes_billed) / base_to_giga                   AS total_gigabytes_billed
           , SUM(total_bytes_billed) / base_to_tera * dollars_per_TB  AS total_query_dollars
       FROM cte_jobs_base
       GROUP BY ALL
@@ -226,28 +229,33 @@ html.Div([
         'flex': 1,
         "color": "grey"
     }),
+
 ], style={'display': 'flex', 'width': '100%'})  # OUTERMOST container is flex
 
-
-
     ], className="div-filler-outer"),
     html.Br(),
 
 
     html.Div([
-        html.Div(id="kpi-tiles", style={"display": "flex", "flexWrap": "wrap", "justifyContent": "center", "gap": "10px", "marginBottom": "20px"}),
+        html.Div(id="kpi-tiles", style={"display": "flex", "flexWrap": "wrap", "justifyContent": "center", "gap": "10px", "marginBottom": "10px"}),
+
+        html.Div([
+            dcc.Graph(id="fixed-figure"),
+        ],  style={"display": "flex", "justifyContent": "center"})
+
     ], className="div-filler-outer"),
 
     html.Br(),
 
     html.Div([
-        dcc.Graph(id="figure-count"),
+
+        dcc.Graph(id="interactive-figure"),
 
         html.Br(),
 
 
         dash_table.DataTable(
-            id='table-data',
+            id='interactive-filter-table',
             columns=[{"name": prettify_label(i), "id": i} for i in df_jobs.columns],
             page_size=10,
             page_action="native",
@@ -310,9 +318,10 @@ html.Div([
 )
 
 @callback(
-    Output("figure-count", "figure"),
-    Output("table-data", "data"),
-    Output("table-data", "columns"),
+    Output("fixed-figure", "figure"),
+    Output("interactive-figure", "figure"),
+    Output("interactive-filter-table", "data"),
+    Output("interactive-filter-table", "columns"),
     Output("kpi-tiles", "children"),
     [
      Input("date-range-picker", "start_date"),
@@ -351,25 +360,23 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
     df_user_filtered = data_filters(df_user, start_date, end_date, False, selected_user_email)
     df_jobs_filtered = data_filters(df_jobs, start_date, end_date, False, selected_user_email).sort_values(by=["job_creation_dt"], ascending=False) 
 
+    # Defaults to Billed Data Volume when Dash Application Opens
     if selected_metric is None:
         selected_metric = "total_megabytes_billed"
 
     #------------------------------------------------------------------------------------
 
-    # Creating Metrics
+    # Creating Metrics/KPI's
+    free_tier_limit_mb = 10**6
     distinct_bigquery_users   = df_user_filtered["user_email"].nunique()
     total_number_of_queries   = int(df_user_filtered["number_of_queries"].sum())
     average_data_processed    = round(df_user_filtered["total_megabytes_processed"].sum()/total_number_of_queries, 2)
     average_data_billed       = round(df_user_filtered["total_megabytes_billed"].sum()/total_number_of_queries, 2)
     average_query_dollars     = round(df_user_filtered["total_query_dollars"].sum()/total_number_of_queries, 2)
-
-    # Creating KPI
-    free_tier_limit_mb = 10**6
     percentage_free_tier_used = round(df_user_current_month["total_megabytes_billed"].sum()/free_tier_limit_mb * 100, 2)
 
     # Putting metrics and KPI's into dict to do packaged return
     metric_dict = {
-        "distinct_bigquery_users" : distinct_bigquery_users,
         "total_number_of_queries" : total_number_of_queries,
         "average_query_dollars" : average_query_dollars,
         "average_data_billed" : average_data_billed,
@@ -391,31 +398,32 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
 
     #------------------------------------------------------------------------------------
 
-    # Creating Chart
-    df_aggregate = df_user_filtered.groupby(["job_created_date"], as_index=False)[selected_metric].sum()
+    # Creating Interactive Chart To Respond to Dropdown Filters
+    df_interactive_aggregate = df_user_filtered.groupby(["job_created_date"], as_index=False)[selected_metric].sum()
 
 
-    x_axis_label = prettify_label("job_created_date")
-    y_axis_label = prettify_label(selected_metric)
-
-    fig = px.bar(
-        df_aggregate,
+    interactive_fig = px.bar(
+        df_interactive_aggregate,
         x="job_created_date",
         y=selected_metric,
         color_discrete_sequence=["#4285f4"]
     )
 
-    layout = {
+    interactive_layout = {
+        "height": 400,
         "plot_bgcolor": "white",
         "paper_bgcolor": "white",
-        "font": {"color": "black"},
+        "font": {
+            "family":"trebuc",           
+            "color": "black"
+        },
         "xaxis": {
-            "title": x_axis_label,  # <-- pretty x-axis title
+            "title": None ,
             "color": "black",
             "gridcolor": "#d9dbdb",
         },
         "yaxis": {
-            "title": y_axis_label,  # <-- pretty y-axis title
+            "title": None,
             "color": "black",
             "gridcolor": "#d9dbdb",
         },
@@ -428,38 +436,120 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric="tot
             "bordercolor": "white"
         },
         "title": {
-            "text": f"{y_axis_label}",  # use prettified label in chart title too!
+            "text": f"{prettify_label(selected_metric)}",  
             "x": 0.075,
             "xanchor": "left",
             "yanchor": "top",
             "y": 0.95,
             "font": {"size": 20, "color": "black"}
-        }
+        },
+        "margin": {
+            "l": 50,
+            "r": 50,
+            "t": 50,
+            "b": 50
+        },
+
     }
 
-    fig.update_layout(
-        font=dict(
-            family="trebuc",           # EXACT same name from the CSS
-            color="black"
-        )
+    interactive_fig.update_layout(transition_duration=1000)
+    interactive_fig.update_layout(**interactive_layout)
+
+    #------------------------------------------------------------------------------------
+
+    # Creating Fixed Chart According to Current Month
+    df_user_current_month["cumulative_gigabytes_billed"] = df_user_current_month["total_gigabytes_billed"].cumsum()
+    df_user_current_month["cumulative_gigabytes_billed_labels"] = df_user_current_month["cumulative_gigabytes_billed"].map(lambda x: f"{x:.2f}GB")
+
+    fixed_fig = px.area(
+        df_user_current_month,
+        x="job_created_date",
+        y="cumulative_gigabytes_billed",
+        text="cumulative_gigabytes_billed_labels",
+        color_discrete_sequence=["#4285f4"],
     )
-    fig.update_layout(transition_duration=1000)
-    fig.update_layout(**layout)
+
+    fixed_layout = {                                                         
+        "height": 100,
+        "width": 900,
+        "plot_bgcolor": "white",                                                   
+        "paper_bgcolor": "white",                                                  
+        "font": {                                                       
+            "family":"trebuc",           
+            "color": "black"                                            
+        },                                                              
+
+        "xaxis": {                                                                 
+            "title": prettify_label("job_created_date"),
+            "color": "black",                                                      
+            "gridcolor": "#d9dbdb",                                                
+            "visible": False
+        },                                                                         
+        "yaxis": {                                                                 
+            "title": None,
+            "showgrid": False,
+            "zeroline": False,
+            "showticklabels": False,
+            "visible": True,
+            "range": [0, math.ceil(max(df_user_current_month["cumulative_gigabytes_billed"]))+10]
+        },                                                                         
+        "margin": {
+            "l": 5,
+            "r": 5,
+            "t": 5,
+            "b": 5
+        },
+        "legend": {                                                                
+            "font": {"color": "white"}                                             
+        },                                                                         
+        "hoverlabel": {                                                            
+            "font": {"color": "white"},                                            
+            "bgcolor": "#55698a",                                                  
+            "bordercolor": "white"                                                 
+        },                                                                         
+        "title": {                                                                 
+            "text": f"Cumalative Billed Data Volume | {date_boundary_dict.get('current_month_start').strftime('%B %Y')}", 
+            "x": 0.5,                                                            
+            "xanchor": "center",                                                     
+            "yanchor": "top",                                                      
+            "y": 0.92,                                                             
+            "font": {"size": 14, "color": "black"}                                 
+        }                                                                          
+    }                                                                              
+
+    fixed_fig.update_layout(**fixed_layout)
+
+    fixed_fig.update_traces(
+        textposition="top center",
+        textfont=dict(size=11)
+    )                            
 
     #------------------------------------------------------------------------------------
 
-    # Creating Table
-    table_data = df_jobs_filtered.to_dict("records")
-    table_columns = [{"name": prettify_label(col), "id": col} for col in df_jobs_filtered.columns]
+    # Creating Filterable Table Containing Detailed Job Data
+    df_jobs_present = df_jobs_filtered[
+            ["job_creation_dt",
+            "project_id",
+            "user_email",
+            "job_id",
+            "job_type",
+            "statement_type",
+            "priority",
+            "cache_hit",
+            "total_slot_ms",
+            "total_bytes_billed",]
+    ]
+    job_table_data = df_jobs_present.to_dict("records")
+    job_table_columns = [{"name": prettify_label(col), "id": col} for col in df_jobs_present.columns]
 
     #------------------------------------------------------------------------------------
 
-    return fig, table_data, table_columns, kpi_tiles
+    return fixed_fig, interactive_fig, job_table_data, job_table_columns, kpi_tiles
 
 @callback(
     Output("download-component", "data"),
     Input("download-btn", "n_clicks"),
-    State("table-data", "data"),
+    State("interactive-filter-table", "data"),
     prevent_initial_call=True
 )
 def download_table(n_clicks, table_data):
