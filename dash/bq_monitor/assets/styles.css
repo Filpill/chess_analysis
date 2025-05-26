@@ -40,6 +40,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 12px;
 }
 
+.filter-outer-div{
+    display: flex;
+    border-radius: 3px;
+    align-items: center;
+    background-color: #606878;
+    color: grey;
+}
+
 /*For Date Picker*/
 
 .DateRangePickerInput {
@@ -102,3 +110,31 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.05);
 }
 
+/* Table wrapper */
+#interactive-filter-table .dash-spreadsheet-container {
+    overflow-x: auto;
+    background-color: #2f2f2f;
+}
+
+/* Header */
+#interactive-filter-table .dash-header {
+    background-color: #212b3b !important;
+    color: white !important;
+    font-weight: bold;
+    font-family: trebuc;
+    padding: 5px;
+    font-size: 11px;
+}
+
+/* Data cells */
+#interactive-filter-table .dash-cell {
+    background-color: #2f3642;
+    color: white;
+    border: 1px solid #444;
+    font-family: trebuc;
+    padding: 7px;
+    font-size: 9.5px;
+    text-align: left;
+    white-space: normal;
+    height: auto;
+}
