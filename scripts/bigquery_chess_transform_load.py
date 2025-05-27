@@ -27,12 +27,15 @@ def _():
     from google.cloud.exceptions import NotFound
     from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
-    # Local Libraries
-    sys.path.append(f"./inputs")
-    sys.path.append(f"./functions")
+    # Importing Local Functions
+    for rel_path in (".", ".."):
+        sys.path.append(f"{rel_path}/functions")
+        sys.path.append(f"{rel_path}/inputs")
+
     from shared_func import log_printer
     from shared_func import initialise_cloud_logger
 
+    from transform_func import script_date_endpoint_selection
     from transform_func import extract_last_url_component
     from transform_func import convert_unix_ts_to_date
     from transform_func import return_missing_data_list
@@ -78,7 +81,9 @@ def _():
         pd,
         pyarrow,
         query_bq_to_dataframe,
+        rel_path,
         return_missing_data_list,
+        script_date_endpoint_selection,
         setup_logging,
         storage,
         sys,
@@ -87,36 +92,41 @@ def _():
 
 
 @app.cell
-def _(initialise_cloud_logger, log_printer):
-    script_setting = "prod" # prod / test / dev
-    test_volume  = 15 # For "test" setting Max number of files to be downloaded during testing mode
+def _(
+    initialise_cloud_logger,
+    json,
+    log_printer,
+    script_date_endpoint_selection,
+):
+    # Reading Script Input Variables
+    try:
+        with open("./inputs/bq_load_settings.json") as f:
+            bq_load_settings = json.load(f)
+    except FileNotFoundError:
+        with open("../inputs/bq_load_settings.json") as f:
+            bq_load_settings = json.load(f)
 
-    #---------------------------------------------------------------------#
-    #-------------------Test Edge Case Investigation----------------------#
-    #-------------------(Set script_setting to "dev")---------------------#
-    # dev_endpoint_testcase = "player/hoshor/games/2024/12"
-    # dev_endpoint_testcase = "player/laurent2003/games/2024/12"
-    # dev_endpoint_testcase = "player/elvenesian/games/2024/12"
-    # dev_endpoint_testcase = "player/arysya/games/2024/10"
-    dev_endpoint_testcase = "player/emeraldddd/games/2024/10"
-    #--------------------------------------------------------------------#
-
-    bucket_name   = "chess-api"
-    project_id    = "checkmate-453316"
-    dataset_name  = "chess_raw"
-    location      = "EU"
-    date_endpoint = "2023/10"
+    date_endpoint   = script_date_endpoint_selection(bq_load_settings) # type: ignore
+    script_setting  = bq_load_settings.get("script_setting")           # prod/test/dev
+    test_volume     = bq_load_settings.get("test_volume")              # For "test" setting Max number of files to be downloaded during testing mode
+    dev_testcase    = bq_load_settings.get("dev_testcase")             # Singular endpoint testing
+    project_id      = bq_load_settings.get("project_id")
+    bucket_name     = bq_load_settings.get("bucket_name")
+    dataset_name    = bq_load_settings.get("dataset_name")
+    location        = bq_load_settings.get("location")
 
     dataset_id = f"{project_id}.{dataset_name}"
     logger = initialise_cloud_logger(project_id)
 
     log_printer(f"Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {project_id} | Bucket: {bucket_name} | Script Setting: {script_setting} | date_endpoint: {date_endpoint}", logger)
     return (
+        bq_load_settings,
         bucket_name,
         dataset_id,
         dataset_name,
         date_endpoint,
-        dev_endpoint_testcase,
+        dev_testcase,
+        f,
         location,
         logger,
         project_id,
@@ -245,7 +255,7 @@ def _(
 @app.cell
 def _(
     bucket_name,
-    dev_endpoint_testcase,
+    dev_testcase,
     endpoints_missing_from_bq,
     generate_games_dataframe,
     log_printer,
@@ -255,7 +265,8 @@ def _(
     test_volume,
 ):
     if script_setting == "dev":
-        df_combined = generate_games_dataframe(dev_endpoint_testcase, bucket_name, logger)
+        df_combined, interaction_dict = generate_games_dataframe(dev_testcase, bucket_name, logger)
+        df_interaction_list = pd.DataFrame([interaction_dict])
         print("Downloaded test case to dataframe")
 
     # Download game data from each endpoint in GCS and store dataframes into list
@@ -288,6 +299,12 @@ def _(
         list_of_game_dfs,
         list_of_interaction_dicts,
     )
+
+
+@app.cell
+def _(df_combined):
+    df_combined
+    return
 
 
 @app.cell
@@ -333,26 +350,20 @@ def _(df_interaction_list):
 
 @app.cell
 def _(
+    append_df_to_bigquery_table,
     bucket_name,
     deletion_interaction_list_handler,
-    df_interaction_list,
-    logger,
-):
-    deletion_interaction_list_handler(df_interaction_list, bucket_name, logger)
-    return
-
-
-@app.cell
-def _(
-    append_df_to_bigquery_table,
     df_deduplicated,
     df_interaction_list,
     logger,
+    script_setting,
     table_id_games,
     table_id_loading_completed,
 ):
-    append_df_to_bigquery_table(df_deduplicated, table_id_games, logger)
-    append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed, logger)
+    if script_setting == "prod":
+        deletion_interaction_list_handler(df_interaction_list, bucket_name, logger)
+        append_df_to_bigquery_table(df_deduplicated, table_id_games, logger)
+        append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed, logger)
     return
 
 

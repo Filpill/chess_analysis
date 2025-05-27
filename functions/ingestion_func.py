@@ -19,8 +19,8 @@ from gcs_func import *
 def script_date_selection(gcs_ingestion_settings):
     script_setting = gcs_ingestion_settings.get("script_setting")
     if script_setting == 'default':
-        start_date = date.today() - relativedelta(months=12)
-        end_date = date.today()
+        start_date = (date.today() - relativedelta(months=1)).replace(day=1)
+        end_date   = (date.today() - relativedelta(months=1)).replace(day=1)
 
     if script_setting == 'manual':
         start_date = datetime.strptime(gcs_ingestion_settings.get("manual_start_date"), "%Y-%m-%d").date() 
