@@ -97,7 +97,7 @@ resource "google_cloud_run_service" "bq_monitor_dash" {
       service_account_name = "bq-monitor@checkmate-453316.iam.gserviceaccount.com"
 
       containers {
-        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:1.0.0"
+        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:1.1.0"
         ports {
           container_port = 8080
         }
