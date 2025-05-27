@@ -88,26 +88,48 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
+.data-usage-kpi-outer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 2px;
+    background-color: #7991b8;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(121, 145, 184, 0.7);
+    transition: all 0.3s ease-in-out;
+}
+
+.kpi-outer-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
 .kpi-tile {
     background-color: #7991b8;
     padding: 5px;
     border-radius: 5px;
     text-align: center;
     font-family: 'trebuc';
-    width: 195px;
+    width: 185px;
     height: 100px;
     margin: 8px;
+    gap: 10px;
     box-shadow: 0 0 15px rgba(121, 145, 184, 0.7);
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-in-out;
 }
-
-.kpi-tile:hover {
+.data-usage-kpi-outer:hover, .kpi-tile:hover {
     box-shadow: 0 0 30px rgba(121, 145, 184, 1);
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 /* Table wrapper */

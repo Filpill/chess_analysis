@@ -6,7 +6,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-
 from datetime import date
 from dash import Dash, html, dcc, callback, dash_table
 from dash.dependencies import Output, Input, State
@@ -83,7 +82,7 @@ def sql_cte_return(PROJECT_ID, REGION, cte_name):
     """
     return sql
 
-def data_filters(df, start_date, end_date, fixed_range_flag=False, selected_user_email=None): 
+def data_filters(df, start_date, end_date, fixed_date_range_flag=False, selected_user_email=None): 
                                                                                                 
     # Applying filters                                                                          
     df_filtered = df[                                                                           
@@ -91,7 +90,7 @@ def data_filters(df, start_date, end_date, fixed_range_flag=False, selected_user
             (df['job_created_date'] <= pd.to_datetime(end_date))                                
         ]                                                                                       
                                                                                                 
-    if fixed_range_flag is False and selected_user_email:                                     
+    if fixed_date_range_flag is False and selected_user_email:                                     
         df_filtered = df_filtered[df_filtered['user_email'].isin(selected_user_email)]          
                                                                                                 
     return df_filtered                                                                          
@@ -117,7 +116,9 @@ def get_month_boundaries():
 def format_kpi_value(key,value):                                                    
     # Format display value based on metric type                                     
     if "current_month" in key.lower():                                              
-        display_value = f"{value:.2f}%"   # 2 decimal places + % symbol             
+        display_value = f"{value:.2f}%"   
+    elif "consumed" in key.lower():                                                     
+        display_value = f"{value:.1f}GB"   
     elif "data" in key.lower():                                                     
         display_value = f"{value:,.3f} GB"                                          
     elif "usd" in key.lower():                                                  
@@ -131,7 +132,57 @@ def format_kpi_value(key,value):
 def generate_dropdown_options(option_list):
     return [{'label': prettify_label(item), 'value': item} for item in sorted(option_list)]
 
-def create_kpi_tiles(df_user_filtered, df_user_current_month):                                                     
+
+def create_data_usage_kpi(df_user_current_month, df_user_previous_month):
+    current_month_gb_consumed = df_user_current_month["total_gigabytes_billed"].sum()
+    previous_month_gb_consumed = df_user_previous_month["total_gigabytes_billed"].sum()
+    
+    percentage_difference = (
+        (current_month_gb_consumed - previous_month_gb_consumed) / previous_month_gb_consumed * 100
+        if previous_month_gb_consumed != 0 else 0
+    )
+
+    metric_dict = {
+        "current_month_gb_consumed": current_month_gb_consumed,
+        "previous_month_gb_consumed": previous_month_gb_consumed,
+        "percentage_difference": percentage_difference
+    }
+
+    # Choose arrow image based on percentage difference
+    if percentage_difference >= 0:
+        arrow_img = "/assets/img/green_up_arrow.png"
+    else:
+        arrow_img = "/assets/img/red_down_arrow.png"
+
+    data_usage_kpi = [
+        html.Div([
+            html.Div([
+                html.H3("Total Data Consumption", style={'color': 'white'}),
+                html.Div([
+                    html.Div(f"{current_month_gb_consumed:.1f} GB", style={'fontSize': '26px', 'fontWeight': 'bold', 'color': 'white'}),
+                    html.Div("Current Month", style={'color': 'white'})
+                ], style={'textAlign': 'center', 'flex': 1}),
+
+                html.Div([
+                    html.Div(f"{previous_month_gb_consumed:.1f} GB", style={'fontSize': '26px', 'fontWeight': 'bold', 'color': 'white'}), 
+                    html.Div("Previous Month", style={'color': 'white'}) 
+                ], style={'textAlign': 'center', 'flex': 1}),
+
+                html.Div([
+                    html.Div([
+                        html.Span(f"{percentage_difference:.1f}%", style={'fontSize': '26px', 'fontWeight': 'bold', 'color': 'white', 'marginRight': '8px'}),
+                        html.Img(src=arrow_img, style={"backgroundColor": "white", "width": "24px", "height": "auto", "borderRadius": "7px"})
+                    ], style={'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+                    html.Div("Percentage Change", style={'color': 'white', 'textAlign': 'center'}),
+                ], style={'textAlign': 'center', 'flex': 1}),
+
+            ], className="data-usage-kpi-outer", style={})
+        ], style={'width': '89%'})
+    ]
+    return data_usage_kpi
+
+
+def create_general_kpi_tiles(df_user_filtered, df_user_current_month):                                                     
     free_tier_limit_gb = 10**3                                                                                     
     distinct_bigquery_users       = df_user_filtered["user_email"].nunique()                                       
     total_number_of_queries       = int(df_user_filtered["number_of_queries"].sum())                               
@@ -262,14 +313,9 @@ html.Div([
 
 
     html.Div([
-        html.Div(id="kpi-tiles", 
-        style={
-            "display": "flex", 
-            "flexWrap": "wrap", 
-            "justifyContent": "center", 
-            "gap": "10px", 
-            "marginBottom": "10px"}
-        ),
+        html.Div(id="general-kpi-tiles", className="kpi-outer-div"),
+
+        html.Div(id="data-usage-kpi-tile", className="kpi-outer-div"),                                
 
         dcc.Graph(id="interactive-figure"),
     ], className="div-filler-outer"),
@@ -326,7 +372,8 @@ html.Div([
     Output("interactive-figure", "figure"),
     Output("interactive-filter-table", "data"),
     Output("interactive-filter-table", "columns"),
-    Output("kpi-tiles", "children"),
+    Output("general-kpi-tiles", "children"),
+    Output("data-usage-kpi-tile", "children"),
     Output("output-box-data-processed", "children"),
     [
      Input("date-range-picker", "start_date"),
@@ -375,7 +422,8 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric, dat
         selected_metric = "total_gigabytes_billed"
 
     # Updating KPI Tiles
-    kpi_tiles = create_kpi_tiles(df_user_filtered, df_user_current_month)
+    general_kpi_tiles = create_general_kpi_tiles(df_user_filtered, df_user_current_month)
+    data_usage_kpi_tile = create_data_usage_kpi(df_user_current_month, df_user_previous_month)
 
     #------------------------------------------------------------------------------------
 
@@ -455,7 +503,7 @@ def refresh_data(start_date, end_date, selected_user_email, selected_metric, dat
 
     #------------------------------------------------------------------------------------
 
-    return interactive_fig, job_table_data, job_table_columns, kpi_tiles, data_input_filter
+    return interactive_fig, job_table_data, job_table_columns, general_kpi_tiles, data_usage_kpi_tile, data_input_filter
 
 @callback(
     Output("download-component", "data"),
