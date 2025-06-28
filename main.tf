@@ -41,27 +41,24 @@ resource "google_pubsub_topic" "start-vm-topic" {
   name = "start-vm-topic"
 }
 
-#resource "google_cloud_run_v2_job" "vm-initialiser" {
-#  name     = "vm-initialiser"
-#  location = "europe-west1"
-#  deletion_protection =  false
-#
-#  template {
-#    template {
-#      containers {
-#        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/vm_initialiser:latest"
-#        env {
-#          name  = "LOG_EXECUTION_ID"
-#          value = "true"
-#          }
-#        }
-#        timeout = "60s"
-#        service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
-#      }
-#    }
-#}
+resource "google_cloud_run_v2_service" "vm_initialiser" {
+  name     = "vm-initialiser"
+  location = "europe-west1"
 
-# Create a Cloud Scheduler Job
+  template {
+    containers {
+      image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/vm_initialiser:latest"
+      env {
+        name  = "LOG_EXECUTION_ID"
+        value = "true"
+      }
+    }
+    timeout        = "60s"
+    service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+  }
+}
+
+# Create Cloud Scheduler Jobs for Ingestion And Loading
 resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
     paused        = false
     name          = "chess_gcs_ingestion"
@@ -79,35 +76,26 @@ resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
         origin = "scheduler"
       }
     }
-
-    #  oauth_token {
-    #    service_account_email = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"                                                                                                                              
-    #}
   }
 
+resource "google_cloud_scheduler_job" "chess_bigquery_load" {
+    paused        = false
+    name          = "chess_bigquery_load"
+    region        = "europe-west1"
+    description   = "Chess API Data Ingestion Job to GCS"
+    schedule      = "0 11 4 * *"
+    time_zone     = "Europe/London"
 
-#resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
-#    paused        = false
-#    name          = "chess_gcs_ingestion"
-#    region        = "europe-west1"
-#    description   = "Chess API Data Ingestion Job to GCS"
-#    schedule      = "0 11 3 * *"
-#    time_zone     = "Europe/London"
-#
-#    
-#    http_target {
-#      http_method = "POST"
-#      uri         = "https://${google_cloud_run_v2_job.vm-initialiser.location}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/checkmate-453316/jobs/${google_cloud_run_v2_job.vm-initialiser.name}:run"
-#
-#      body        = base64encode(jsonencode({
-#          jobName = "chess_gcs_ingestion"
-#      }))
-#      
-#      oauth_token {
-#        service_account_email = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
-#    }
-#  }
-#}
+    pubsub_target {
+      topic_name = google_pubsub_topic.start-vm-topic.id
+      data        = base64encode(jsonencode({
+          jobName = "chess_bigquery_load"
+      }))
+      attributes = {
+        origin = "scheduler"
+      }
+    }
+  }
 
 #============================================
 # -----Cloud Run BQ Monitor Service App-----
