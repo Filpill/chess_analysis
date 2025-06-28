@@ -21,8 +21,6 @@ locals {
         { file_path = "inputs/bq_load_settings.json" },
         { file_path = "scripts/bigquery_chess_transform_load.py" },
         { file_path = "scripts/gcs_chess_ingestion.py" },
-        { file_path = "scripts/cloud_functions/vm_initialiser/code.zip" },
-        { file_path = "scripts/cloud_functions/vm_deleter/code.zip" },
     ]
 }
 

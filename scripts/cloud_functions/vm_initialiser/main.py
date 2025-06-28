@@ -1,6 +1,7 @@
 import re
 import json
 import base64
+import subprocess
 import functions_framework
 import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
@@ -15,102 +16,42 @@ def initialise_cloud_logger(project_id):
     return logger
 
 def create_instance_with_container(
-    instance_name,
-    project_id,
-    zone,
-    container_image,
-    subnet,
-    service_account,
-    machine_type="e2-medium",
-    boot_disk_size_gb=10,
-    boot_disk_type="pd-balanced",
-    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    INSTANCE_NAME,
+    PROJECT_ID,
+    ZONE,
+    CONTAINER_IMAGE,
+    SUB_NET,
+    SERVICE_ACCOUNT,
+    MACHINE_TYPE,
+    BOOT_DISK_SIZE_GB,
+    BOOT_DISK_TYPE,
+    SCOPES
 ):
-    credentials, _ = default()
-    compute = discovery.build("compute", "v1", credentials=credentials)
+    vm_initialiser_script = f"""
+        gcloud compute instances create-with-container {INSTANCE_NAME} \
+          --project={PROJECT_ID} \
+          --zone={ZONE} \
+          --machine-type={MACHINE_TYPE} \
+          --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet={SUB_NET} \
+          --maintenance-policy=MIGRATE \
+          --provisioning-model=STANDARD \
+          --service-account={SERVICE_ACCOUNT} \
+          --scopes={SCOPES} \
+          --image=projects/cos-cloud/global/images/cos-stable-117-18613-164-98 \
+          --boot-disk-size={BOOT_DISK_SIZE_GB} \
+          --boot-disk-type={BOOT_DISK_TYPE} \
+          --boot-disk-device-name=instance-20250403-171730 \
+          --container-image={CONTAINER_IMAGE} \
+          --container-restart-policy=never \
+          --container-privileged \
+          --no-shielded-secure-boot \
+          --shielded-vtpm \
+          --shielded-integrity-monitoring \
+          --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-117-18613-164-98
+      """
 
-    # Sanitize instance name
-    instance_name = instance_name.replace("_", "-")
-    region = "-".join(zone.split("-")[:-1])  # e.g., europe-west1-c → europe-west1
-
-    # ✅ Correctly formatted, unindented YAML string
-    container_declaration = f"""spec:
-  containers:
-    - name: {instance_name}
-      image: {container_image}
-      command: ["python3", "/app/main.py"]
-      stdin: false
-      tty: false
-  restartPolicy: Never"""
-
-    config = {
-        "name": instance_name,
-        "machineType": f"zones/{zone}/machineTypes/{machine_type}",
-        "disks": [
-            {
-                "boot": True,
-                "autoDelete": True,
-                "initializeParams": {
-                    "sourceImage": "projects/cos-cloud/global/images/cos-stable-117-18613-164-98",
-                    "diskSizeGb": boot_disk_size_gb,
-                    "diskType": f"zones/{zone}/diskTypes/{boot_disk_type}"
-                },
-                "deviceName": instance_name
-            }
-        ],
-        "networkInterfaces": [
-            {
-                "subnetwork": f"regions/{region}/subnetworks/{subnet}",
-                "stackType": "IPV4_ONLY",
-                "networkTier": "PREMIUM"
-            }
-        ],
-        "serviceAccounts": [
-            {
-                "email": service_account,
-                "scopes": scopes
-            }
-        ],
-        "scheduling": {
-            "onHostMaintenance": "MIGRATE",
-            "provisioningModel": "STANDARD"
-        },
-        "labels": {
-            "goog-ec-src": "vm_add-gcloud",
-            "container-vm": "cos-stable-117-18613-164-98"
-        },
-        "shieldedInstanceConfig": {
-            "enableSecureBoot": False,
-            "enableVtpm": True,
-            "enableIntegrityMonitoring": True
-        },
-        "advancedMachineFeatures": {
-            "enableNestedVirtualization": False
-        },
-        "metadata": {
-            "items": [
-                {
-                    "key": "gce-container-declaration",
-                    "value": container_declaration
-                },
-                {
-                    "key": "serial-port-logging-enable",
-                    "value": "true"
-                }
-            ]
-        }
-    }
-
-    print("Sending container declaration:\n", container_declaration)  # 🧪 Optional debug
-
-    request = compute.instances().insert(
-        project=project_id,
-        zone=zone,
-        body=config
-    )
-
-    response = request.execute()
-    return response
+    runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
+    return runner
 
 @functions_framework.cloud_event 
 def pubsub_handler(cloud_event): 
@@ -148,7 +89,8 @@ def pubsub_handler(cloud_event):
             return
 
         # Name for VM and Container Image to pull down
-        INSTANCE_NAME=job_name
+        JOB_NAME=job_name
+        INSTANCE_NAME=job_name.replace("_", "-")
         CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{INSTANCE_NAME}:latest"
 
         # Run function for initialising VM with workload
@@ -167,7 +109,7 @@ def pubsub_handler(cloud_event):
             SCOPES
         )
 
-        print("Script complete!")
+        print("VM Creation Complete!")
 
     except Exception as e:
         logger.log_text(f"Error handling CloudEvent: {e}", severity="ERROR")
