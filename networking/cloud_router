@@ -1,0 +1,4 @@
+#!/bin/sh
+gcloud compute routers create router-1 \
+  --network=filip-vpc \
+  --region=europe-west1

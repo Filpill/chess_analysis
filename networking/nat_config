@@ -1,0 +1,6 @@
+#!/bin/sh
+gcloud compute routers nats create nat-config \
+  --router=router-1 \
+  --region=europe-west1 \
+  --auto-allocate-nat-external-ips \
+  --nat-all-subnet-ip-ranges
