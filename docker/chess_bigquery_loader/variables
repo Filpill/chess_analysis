@@ -1,8 +1,8 @@
 #/bin/bash
 GCP_PROJECT="checkmate-453316"
-IMAGE_NAME="chess_ingestion_processor"
-IMAGE_TAG="1.0.0"
-CONTAINER_NAME="chess_ingestion_container"
+IMAGE_NAME="chess_bigquery_load"
+IMAGE_TAG="latest"
+CONTAINER_NAME="chess_bigquery_load_container"
 AR_TYPE="europe-west2-docker.pkg.dev"
 AR_REPO="docker-chess-repo"
 EXTERNAL_PORT="5432"
