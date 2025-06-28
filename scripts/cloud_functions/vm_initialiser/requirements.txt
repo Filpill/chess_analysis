@@ -103,3 +103,5 @@ wrapt==1.17.2
     # via deprecated
 zipp==3.21.0
     # via importlib-metadata
+Flask==2.3.3
+    # Manually added

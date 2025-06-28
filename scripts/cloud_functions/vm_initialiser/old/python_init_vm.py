@@ -95,3 +95,41 @@ def python_create_instance_with_container(
 
     response = request.execute()
     return response
+
+def create_instance_with_container(
+    INSTANCE_NAME,
+    PROJECT_ID,
+    ZONE,
+    CONTAINER_IMAGE,
+    SUB_NET,
+    SERVICE_ACCOUNT,
+    MACHINE_TYPE,
+    BOOT_DISK_SIZE_GB,
+    BOOT_DISK_TYPE,
+    SCOPES
+):
+    vm_initialiser_script = f"""
+        gcloud compute instances create-with-container {INSTANCE_NAME} \
+          --project={PROJECT_ID} \
+          --zone={ZONE} \
+          --machine-type={MACHINE_TYPE} \
+          --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet={SUB_NET} \
+          --maintenance-policy=MIGRATE \
+          --provisioning-model=STANDARD \
+          --service-account={SERVICE_ACCOUNT} \
+          --scopes={SCOPES} \
+          --image=projects/cos-cloud/global/images/cos-stable-117-18613-164-98 \
+          --boot-disk-size={BOOT_DISK_SIZE_GB} \
+          --boot-disk-type={BOOT_DISK_TYPE} \
+          --boot-disk-device-name=instance-20250403-171730 \
+          --container-image={CONTAINER_IMAGE} \
+          --container-restart-policy=never \
+          --container-privileged \
+          --no-shielded-secure-boot \
+          --shielded-vtpm \
+          --shielded-integrity-monitoring \
+          --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-117-18613-164-98
+      """
+
+    runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
+    return runner

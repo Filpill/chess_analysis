@@ -2,10 +2,12 @@ import re
 import json
 import base64
 import subprocess
-import functions_framework
 import google.cloud.logging as cloud_logging
+from flask import Flask, request
 from googleapiclient import discovery
 from google.auth import default
+
+app = Flask(__name__)
 
 def initialise_cloud_logger(project_id):
     client = cloud_logging.Client(project=project_id)
@@ -53,8 +55,8 @@ def create_instance_with_container(
     runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
     return runner
 
-@functions_framework.cloud_event 
-def pubsub_handler(cloud_event): 
+@app.route("/", methods=["POST"])
+def pubsub_handler(): 
 
     PROJECT_ID="checkmate-453316"
     ZONE="europe-west1-c"
@@ -72,29 +74,38 @@ def pubsub_handler(cloud_event):
     logger.log_text(f"Printing incoming cloud event for VM Initialiser: {cloud_event}", severity="INFO")
 
     try:
-        # Get base64-encoded data from Pub/Sub message via CloudEvent
-        message_data = cloud_event.data["message"]["data"]
+        # Get base64-encoded data from Pub/Sub message
+        envelope = request.get_json()
+        if not envelope:
+            logger.log_text("Invalid Pub/Sub message format", severity="ERROR")
+            return "Bad Request", 400
+
+        message_data = envelope["message"]["data"]
+        if not message_data:
+            logger.log_text("No data in Pub/Sub message", severity="ERROR")
+            return "No data", 400
+
         payload = base64.b64decode(message_data).decode("utf-8")
         logger.log_text(f"Decoded Pub/Sub message payload: {payload}", severity="INFO")
 
         # Parse the JSON log entry
-        cloud_scheduler_message = json.loads(payload)
+        cloud_scheduler_dict = json.loads(payload)
 
         # Extract the jobName from the message delivered by the cloud scheduler
-        job_name = cloud_scheduler_message["jobName"]
+        job_name = cloud_scheduler_dict["jobName"]
 
         # If anything missing - return a NULL value and print log
         if not job_name:
             logger.log_text("No jobName found in message sent by cloud scheduler", severity="ERROR")
-            return
+            return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
         JOB_NAME=job_name
         INSTANCE_NAME=job_name.replace("_", "-")
-        CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{INSTANCE_NAME}:latest"
+        CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{JOB_NAME}:latest"
 
         # Run function for initialising VM with workload
-        logger.log_text(f"Running VM initialiser script for cloud scheduler job: {INSTANCE_NAME}...", severity="INFO")
+        logger.log_text(f"Running VM initialiser script for cloud scheduler job: {JOB_NAME}...", severity="INFO")
 
         vm_creator = create_instance_with_container(
             INSTANCE_NAME,
@@ -109,8 +120,14 @@ def pubsub_handler(cloud_event):
             SCOPES
         )
 
+        logger.log_text(f"VM creation stdout: {vm_creator.stdout}", severity="INFO")
+        logger.log_text(f"VM creation stderr: {vm_creator.stderr}", severity="INFO")
         print("VM Creation Complete!")
+
+        return "OK", 200
 
     except Exception as e:
         logger.log_text(f"Error handling CloudEvent: {e}", severity="ERROR")
 
+if __name__  == "__main__":
+    app.run(host="0.0.0.0", port=8080)
