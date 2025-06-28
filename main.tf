@@ -82,7 +82,7 @@ resource "google_cloud_scheduler_job" "chess_bigquery_load" {
     paused        = false
     name          = "chess_bigquery_load"
     region        = "europe-west1"
-    description   = "Chess API Data Ingestion Job to GCS"
+    description   = "Loading Raw Chess Data from GCS to BigQuery"
     schedule      = "0 11 4 * *"
     time_zone     = "Europe/London"
 
