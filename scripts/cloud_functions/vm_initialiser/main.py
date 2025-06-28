@@ -70,12 +70,10 @@ def pubsub_handler():
     # Initialise logging object
     logger = initialise_cloud_logger(PROJECT_ID)
 
-    # Raw the incoming Pub/Sub message
-    logger.log_text(f"Printing incoming cloud event for VM Initialiser: {cloud_event}", severity="INFO")
-
     try:
         # Get base64-encoded data from Pub/Sub message
         envelope = request.get_json()
+        logger.log_text(f"Printing incoming cloud event for VM Initialiser: {envelope}", severity="INFO")
         if not envelope:
             logger.log_text("Invalid Pub/Sub message format", severity="ERROR")
             return "Bad Request", 400
