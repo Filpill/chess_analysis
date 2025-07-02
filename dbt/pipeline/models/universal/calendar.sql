@@ -1,4 +1,5 @@
 {{ config(materialized='table') }}
+{% set is_dev = target.name == 'dev' %}
 
 WITH cte_date_array AS (
     SELECT
