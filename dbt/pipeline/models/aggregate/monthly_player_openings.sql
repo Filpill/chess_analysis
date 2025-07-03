@@ -43,12 +43,10 @@ cte_percentage AS (
       , white_win_count
       , white_loss_count
       , white_draw_count
-      , ROUND(SAFE_DIVIDE(white_win_count, white_games)*100, 1) AS white_win_percentage
       , black_games
       , black_win_count
       , black_loss_count
       , black_draw_count
-      , ROUND(SAFE_DIVIDE(black_win_count, black_games)*100, 1) AS black_win_percentage
   FROM cte_aggregate
   ORDER BY 
     game_month DESC
