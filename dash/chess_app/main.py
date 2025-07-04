@@ -63,11 +63,15 @@ def dimension_filter(df, selected_time_class, selected_opening):
         df = df[df['time_class'].isin(selected_time_class)]
     return df
 
-def aggregate_opening_data(df):
+def aggregate_opening_data(df, selected_min_games):
     # Aggregate data
     df_opening_agg = df.groupby("opening_archetype", as_index=False)[
         ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
     ].sum()
+
+    # Min Game Exclusionary Filter After Aggregation
+    if selected_min_games is not None:
+        df_opening_agg = df_opening_agg[df_opening_agg['total_games'] > selected_min_games]
 
     # Calculate win percentages
     df_opening_agg["white_win_pct"] = (df_opening_agg["white_win_count"] / df_opening_agg["white_games"]) * 100
@@ -182,7 +186,7 @@ def create_kpi_tiles(df):
                 ])
             ], color="dark", inverse=True), width=3),  # Black card
         ], className="g-3", justify="evenly")
-    ])
+    ],style={"marginTop": "10px"})
 
     return kpi_display
 
@@ -236,7 +240,8 @@ app.layout = dbc.Container([
     html.Div([
         html.H1("Chess Analysis Application", style={
             "margin": 0,
-            "flex": 1  # let it take up remaining space
+            "flex": 1,
+            "fontWeight": "bold"
         }),
         html.Img(
             src="/assets/img/chess_logo.png",
@@ -249,41 +254,71 @@ app.layout = dbc.Container([
         "margin-bottom": "20px"
     }),
 
-    html.Div([
-        html.Span("Date Filter:", style={'margin-right': '15px', 'font-weight': 'bold'}),
-        dcc.DatePickerRange(
-            id='date-range-picker',
-            start_date=start_date,
-            end_date=end_date,
-            display_format='YYYY-MM-DD',
-            style={"marginLeft": "0px"}
+    dbc.Col(
+        dbc.Card(
+            dbc.CardBody([
+                # Date Filter row
+                html.Div([
+                    html.Span("Date Filter:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                    dcc.DatePickerRange(
+                        id='date-range-picker',
+                        start_date=start_date,
+                        end_date=end_date,
+                        display_format='YYYY-MM-DD',
+                        style={"marginLeft": "0px", "backgroundColor": "white"}
+                    ),
+                    dbc.Button(
+                        "Fetch Data",
+                        id="fetch-button",
+                        n_clicks=0,
+                        style={
+                            "height": "49px",
+                            "padding": "0px 15px",
+                            "marginLeft": "10px"
+                        }
+                    ),
+                ], style={'display': 'flex', 'alignItems': 'center', 'marginBottom': '20px'}),
+
+                # Time Classification row
+                html.Div([
+                    html.Div("Time Classification:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                    dcc.RadioItems(
+                        id='time-class-dropdown',
+                        labelStyle={'display': 'inline-block', 'margin-right': '25px'}
+                    )
+                ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '20px'}),
+
+                # Opening Archetypes row
+                html.Div([
+                    html.Div("Opening Archetypes:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                    dcc.Dropdown(
+                        id='opening-dropdown',
+                        multi=True,
+                        placeholder="Select Opening Archetypes",
+                        style={"color": "black", 'flexGrow': 1}
+                    )
+                ], style={'display': 'flex', 'align-items': 'center'}),
+
+                html.Div([
+                    html.Div("Exclude openings with fewer than:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                    dcc.Input(
+                        id='min-games-threshold',
+                        type='number',
+                        min=0,
+                        placeholder='e.g. 25',
+                        style={'width': '120px', 'marginRight': '10px'}
+                    ),
+                    html.Span("games", style={'color': 'white'})
+                ], style={'display': 'flex', 'align-items': 'center', 'margin-top': '20px'}),
+            ]),
+            style={
+                "color": "dark",  # dark background
+                "border": "3px solid #7d7c79",
+                "padding": "20px"
+            }
         ),
-        dbc.Button("Fetch Data", id="fetch-button", n_clicks=0),
-    ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '10px'}),
-
-    html.Div([
-
-        # Time Classification row
-        html.Div([
-            html.Div("Time Classification:", style={'margin-right': '15px', 'font-weight': 'bold'}),
-            dcc.RadioItems(
-                id='time-class-dropdown',
-                labelStyle={'display': 'inline-block', 'margin-right': '25px'}
-            )
-        ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '15px'}),
-
-        # Opening Archetypes row
-        html.Div([
-            html.Div("Opening Archetypes:", style={'margin-right': '15px', 'font-weight': 'bold'}),
-            dcc.Dropdown(
-                id='opening-dropdown',
-                multi=True,
-                placeholder="Select Opening Archetypes",
-                style={"color": "black", 'flexGrow': 1,}
-            )
-        ], style={'flexGrow': 1, 'align-items': 'center', 'margin-bottom': '15px'}),
-
-    ], style={'display': 'flex', 'flexDirection': 'column', 'marginTop': '20px'}),
+        width=12
+    ),
 
     html.Div(
         id="open-kpi-data"
@@ -294,13 +329,16 @@ app.layout = dbc.Container([
         type="circle",
         fullscreen=False,
         children=[
-            dcc.Graph(id="bar-chart-fig")
+            dcc.Graph(
+                id="bar-chart-fig",
+                style={"marginTop": "10px"}
+            )
         ]
     ),
 
     html.Div(id="open-leader-table")
 ]),
-style={"maxWidth": "1000px"},
+style={},
 fluid=True
 
 @callback(
@@ -325,9 +363,10 @@ def update_dimension_dropdowns(dim_store):
     Input("df-store", "data"),
     Input("time-class-dropdown", "value"),
     Input("opening-dropdown", "value"),
+    Input("min-games-threshold", "value"),
     prevent_initial_call=True
 )
-def update_chart_from_filters(dict_data, selected_time_class, selected_opening):
+def update_chart_from_filters(dict_data, selected_time_class, selected_opening, selected_min_games):
     if not dict_data:
         return go.Figure()  # Empty graph if no data
 
@@ -337,7 +376,7 @@ def update_chart_from_filters(dict_data, selected_time_class, selected_opening):
 
     # Update Visualations
     bar_chart_fig = create_bar_chart(df, "week_start", "total_games")
-    df_agg = aggregate_opening_data(df)
+    df_agg = aggregate_opening_data(df, selected_min_games)
     top_opening_table = create_opening_table(df_agg)
     kpi_display = create_kpi_tiles(df_agg)
 
@@ -354,10 +393,11 @@ def update_chart_from_filters(dict_data, selected_time_class, selected_opening):
     State("date-range-picker", "end_date"),
     State("time-class-dropdown", "value"),
     State("opening-dropdown", "value"),
+    State("min-games-threshold", "value"),
     State("dim-store", "data"),
     prevent_initial_call=True
 )
-def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class, selected_opening, dim_store_current):
+def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class, selected_opening, selected_min_games, dim_store_current):
 
     # Query BigQuery and apply dimensional filters
     dim_store = dim_load_first_fetch(dim_store_current)
@@ -367,7 +407,7 @@ def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class
 
     # Create initial visualations
     bar_chart_fig = create_bar_chart(df, "week_start", "total_games")
-    df_agg = aggregate_opening_data(df)
+    df_agg = aggregate_opening_data(df, selected_min_games)
     top_opening_table = create_opening_table(df_agg)
     kpi_display = create_kpi_tiles(df_agg)
 
