@@ -2,11 +2,13 @@ import os
 import math
 import numbers
 import pandas_gbq
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import dash_bootstrap_components as dbc
 
+from scipy.stats import norm
 from datetime import date
 from dash import Dash, html, dcc, callback, dash_table
 from dash.dependencies import Output, Input, State
@@ -63,6 +65,17 @@ def dimension_filter(df, selected_time_class, selected_opening):
         df = df[df['time_class'].isin(selected_time_class)]
     return df
 
+def calculate_percentages(df):
+    # Calculate win percentages
+    df["white_win_pct"] = (df["white_win_count"] / df["white_games"]) * 100
+    df["black_win_pct"] = (df["black_win_count"] / df["black_games"]) * 100
+
+    # Format for table
+    df["white_win_pct_str"] = df["white_win_pct"].apply(lambda x: f"{x:.1f}%")
+    df["black_win_pct_str"] = df["black_win_pct"].apply(lambda x: f"{x:.1f}%")
+
+    return df
+
 def weekly_opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
     df = df.groupby(["week_start","opening_archetype"], as_index=False)[
@@ -75,6 +88,19 @@ def weekly_opening_grain_aggregate(df, selected_min_games):
 
     return  df
 
+def timeclass_opening_grain_aggregate(df, selected_min_games):
+    # Aggregate data
+    df = df.groupby(["time_class","opening_archetype"], as_index=False)[
+        ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
+    ].sum()
+
+    # Min Game Exclusionary Filter After Aggregation
+    if selected_min_games is not None:
+        df= df[df['total_games'] > selected_min_games]
+
+    df = calculate_percentages(df)
+    return  df
+
 def opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
     df= df.groupby("opening_archetype", as_index=False)[
@@ -85,13 +111,7 @@ def opening_grain_aggregate(df, selected_min_games):
     if selected_min_games is not None:
         df= df[df['total_games'] > selected_min_games]
 
-    # Calculate win percentages
-    df["white_win_pct"] = (df["white_win_count"] / df["white_games"]) * 100
-    df["black_win_pct"] = (df["black_win_count"] / df["black_games"]) * 100
-
-    # Format for table
-    df["white_win_pct_str"] = df["white_win_pct"].apply(lambda x: f"{x:.1f}%")
-    df["black_win_pct_str"] = df["black_win_pct"].apply(lambda x: f"{x:.1f}%")
+    df = calculate_percentages(df)
     return df
 
 def create_opening_table(df):
@@ -221,7 +241,7 @@ def create_bar_chart(df, x_axis, y_axis, selected_time_class=None):
         df_chart,
         x=x_axis,
         y=y_axis,
-        color_discrete_sequence=["#518c5a"],
+        color_discrete_sequence=["#5d8640"],
         template="plotly_dark",
         title=create_chart_title(selected_time_class)
     )
@@ -232,6 +252,40 @@ def create_bar_chart(df, x_axis, y_axis, selected_time_class=None):
     )
 
     return bar_chart_fig
+
+def create_histogram(df, color="white"):
+    col = "white_win_pct" if color == "white" else "black_win_pct"
+    data = df[col].dropna()
+
+    # Histogram
+    hist = go.Histogram(
+        x=data,
+        nbinsx=30,
+        name="Win % Distribution",
+        histnorm='probability density',
+        opacity=0.7
+    )
+
+    # Normal distribution fit
+    mu, std = data.mean(), data.std()
+    x_vals = np.linspace(data.min(), data.max(), 200)
+    y_vals = norm.pdf(x_vals, mu, std)
+    curve = go.Scatter(
+        x=x_vals, y=y_vals,
+        mode='lines',
+        name='Normal Fit',
+        line=dict(color='red')
+    )
+
+    fig = go.Figure(data=[hist, curve])
+    fig.update_layout(
+        title=f"{color.capitalize()} Win % Distribution Across Openings",
+        xaxis_title=f"{color.capitalize()} Win %",
+        yaxis_title="Density",
+        template="plotly_dark"
+    )
+
+    return fig
 
 def create_sunburst(df, selected_metric):
     # DQ issues -- mapping to be fixed 
@@ -249,6 +303,25 @@ def create_sunburst(df, selected_metric):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
+    return fig
+
+def create_heatmap(df):
+    pivot = df.pivot(index="opening_archetype", columns="time_class", values="white_win_pct")
+
+    fig = px.imshow(
+        pivot,
+        color_continuous_scale="Viridis",
+        labels=dict(x="Time Class", y="Opening", color="White Win %"),
+        aspect="auto"
+    )
+
+    fig.update_layout(
+        title="White Win % by Opening and Time Class",
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis_side='top'
+    )
+
     return fig
 
 def prettify_label(label):
@@ -387,6 +460,10 @@ app.layout = dbc.Container([
         )
     ], className="mb-4"),
 
+    dcc.Graph(id="heatmap-fig"),
+
+    dcc.Graph(id="histogram-fig"),
+
     html.Div(id="open-leader-table", style={"marginTop": "15px"})
 ]),
 style={},
@@ -410,6 +487,8 @@ def update_dimension_dropdowns(dim_store):
 @callback(
     Output("bar-chart-fig", "figure", allow_duplicate=True),
     Output("sunburst-fig", "figure", allow_duplicate=True),
+    Output("heatmap-fig", "figure", allow_duplicate=True),
+    Output("histogram-fig", "figure", allow_duplicate=True),
     Output("open-leader-table", "children", allow_duplicate=True),
     Output("open-kpi-data", "children", allow_duplicate=True),
     Input("df-store", "data"),
@@ -427,20 +506,25 @@ def update_chart_from_filters(dict_data, selected_time_class, selected_opening, 
     # Aggregate to repesctive granularity
     df_opening_agg = opening_grain_aggregate(df, selected_min_games)
     df_weekly_opening_agg = weekly_opening_grain_aggregate(df, selected_min_games)
+    df_timeclass_opening_agg = timeclass_opening_grain_aggregate(df, selected_min_games) 
 
     # Create initial visualations
     bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
     sunburst_fig = create_sunburst(df_opening_agg, "total_games")
+    heatmap_fig = create_heatmap(df_timeclass_opening_agg)
+    histogram_fig = create_histogram(df_opening_agg)
     top_opening_table = create_opening_table(df_opening_agg)
     kpi_display = create_kpi_tiles(df_opening_agg)
 
-    return bar_chart_fig, sunburst_fig, top_opening_table, kpi_display
+    return bar_chart_fig, sunburst_fig, heatmap_fig, histogram_fig, top_opening_table, kpi_display
 
 @callback(
     Output("df-store", "data"),
     Output("dim-store", "data"),
     Output("bar-chart-fig", "figure"),
     Output("sunburst-fig", "figure"),
+    Output("heatmap-fig", "figure"),
+    Output("histogram-fig", "figure"),
     Output("open-leader-table", "children"),
     Output("open-kpi-data", "children"),
     Input("fetch-button", "n_clicks"),
@@ -463,14 +547,17 @@ def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class
     # Aggregate to repesctive granularity
     df_opening_agg = opening_grain_aggregate(df, selected_min_games)
     df_weekly_opening_agg = weekly_opening_grain_aggregate(df, selected_min_games) 
+    df_timeclass_opening_agg = timeclass_opening_grain_aggregate(df, selected_min_games) 
 
     # Create initial visualations
     bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
     sunburst_fig = create_sunburst(df_opening_agg, "total_games")
+    heatmap_fig = create_heatmap(df_timeclass_opening_agg)
+    histogram_fig = create_histogram(df_opening_agg)
     top_opening_table = create_opening_table(df_opening_agg)
     kpi_display = create_kpi_tiles(df_opening_agg)
 
-    return dict_data, dim_store, bar_chart_fig, sunburst_fig, top_opening_table, kpi_display
+    return dict_data, dim_store, bar_chart_fig, sunburst_fig, heatmap_fig, histogram_fig, top_opening_table, kpi_display
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
