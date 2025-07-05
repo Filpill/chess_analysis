@@ -63,24 +63,36 @@ def dimension_filter(df, selected_time_class, selected_opening):
         df = df[df['time_class'].isin(selected_time_class)]
     return df
 
-def aggregate_opening_data(df, selected_min_games):
+def weekly_opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
-    df_opening_agg = df.groupby("opening_archetype", as_index=False)[
+    df = df.groupby(["week_start","opening_archetype"], as_index=False)[
         ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
     ].sum()
 
     # Min Game Exclusionary Filter After Aggregation
     if selected_min_games is not None:
-        df_opening_agg = df_opening_agg[df_opening_agg['total_games'] > selected_min_games]
+        df= df[df['total_games'] > selected_min_games]
+
+    return  df
+
+def opening_grain_aggregate(df, selected_min_games):
+    # Aggregate data
+    df= df.groupby("opening_archetype", as_index=False)[
+        ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
+    ].sum()
+
+    # Min Game Exclusionary Filter After Aggregation
+    if selected_min_games is not None:
+        df= df[df['total_games'] > selected_min_games]
 
     # Calculate win percentages
-    df_opening_agg["white_win_pct"] = (df_opening_agg["white_win_count"] / df_opening_agg["white_games"]) * 100
-    df_opening_agg["black_win_pct"] = (df_opening_agg["black_win_count"] / df_opening_agg["black_games"]) * 100
+    df["white_win_pct"] = (df["white_win_count"] / df["white_games"]) * 100
+    df["black_win_pct"] = (df["black_win_count"] / df["black_games"]) * 100
 
     # Format for table
-    df_opening_agg["white_win_pct_str"] = df_opening_agg["white_win_pct"].apply(lambda x: f"{x:.1f}%")
-    df_opening_agg["black_win_pct_str"] = df_opening_agg["black_win_pct"].apply(lambda x: f"{x:.1f}%")
-    return df_opening_agg
+    df["white_win_pct_str"] = df["white_win_pct"].apply(lambda x: f"{x:.1f}%")
+    df["black_win_pct_str"] = df["black_win_pct"].apply(lambda x: f"{x:.1f}%")
+    return df
 
 def create_opening_table(df):
     # Top 10 by total games
@@ -186,20 +198,58 @@ def create_kpi_tiles(df):
                 ])
             ], color="dark", inverse=True), width=3),  # Black card
         ], className="g-3", justify="evenly")
-    ],style={"marginTop": "10px"})
+    ],style={"marginTop": "20px"})
 
     return kpi_display
 
-def create_bar_chart(df, x_axis, y_axis):
+def create_chart_title(selected_time_class):
+    # Build dynamic title
+    if not selected_time_class or selected_time_class == "all" or (isinstance(selected_time_class, list) and "all" in selected_time_class):
+        title_prefix = "All"
+    elif isinstance(selected_time_class, list):
+        title_prefix = ", ".join(tc.capitalize() for tc in selected_time_class)
+    else:
+        title_prefix = str(selected_time_class).capitalize()
+
+    title = f"{title_prefix} - Total Games Played"
+    return title
+
+def create_bar_chart(df, x_axis, y_axis, selected_time_class=None):
+
     df_chart = df.groupby([x_axis], as_index=False)[y_axis].sum()
     bar_chart_fig = px.bar(
         df_chart,
         x=x_axis,
         y=y_axis,
         color_discrete_sequence=["#518c5a"],
-        template="plotly_dark"
+        template="plotly_dark",
+        title=create_chart_title(selected_time_class)
     )
+
+    bar_chart_fig.update_layout(
+        xaxis_title='',
+        yaxis_title=''
+    )
+
     return bar_chart_fig
+
+def create_sunburst(df, selected_metric):
+    # DQ issues -- mapping to be fixed 
+    df['opening_archetype'] = df['opening_archetype'].fillna("Undefined") 
+
+    fig = px.sunburst(
+        df,
+        path=[px.Constant("All"), 'opening_archetype'],
+        values=selected_metric,
+        color='opening_archetype',  # optional: color by group
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=0, b=0),  # no layout margins
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    return fig
 
 def prettify_label(label):
     return label.replace("_", ' ').title()
@@ -254,89 +304,90 @@ app.layout = dbc.Container([
         "margin-bottom": "20px"
     }),
 
-    dbc.Col(
-        dbc.Card(
-            dbc.CardBody([
-                # Date Filter row
-                html.Div([
-                    html.Span("Date Filter:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
-                    dcc.DatePickerRange(
-                        id='date-range-picker',
-                        start_date=start_date,
-                        end_date=end_date,
-                        display_format='YYYY-MM-DD',
-                        style={"marginLeft": "0px", "backgroundColor": "white"}
-                    ),
-                    dbc.Button(
-                        "Fetch Data",
-                        id="fetch-button",
-                        n_clicks=0,
-                        style={
-                            "height": "49px",
-                            "padding": "0px 15px",
-                            "marginLeft": "10px"
-                        }
-                    ),
-                ], style={'display': 'flex', 'alignItems': 'center', 'marginBottom': '20px'}),
+    dbc.Row([
+        dbc.Col(
+            dbc.Card(
+                dbc.CardBody([
+                    # Date Filter row
+                    html.Div([
+                        html.Span("Date Filter:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                        dcc.DatePickerRange(
+                            id='date-range-picker',
+                            start_date=start_date,
+                            end_date=end_date,
+                            display_format='YYYY-MM-DD',
+                            style={"marginLeft": "0px", "backgroundColor": "white"}
+                        ),
+                        dbc.Button(
+                            "Fetch Data",
+                            id="fetch-button",
+                            n_clicks=0,
+                            style={
+                                "height": "49px",
+                                "padding": "0px 15px",
+                                "marginLeft": "10px"
+                            }
+                        ),
+                    ], style={'display': 'flex', 'alignItems': 'center', 'marginBottom': '20px'}),
 
-                # Time Classification row
-                html.Div([
-                    html.Div("Time Classification:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
-                    dcc.RadioItems(
-                        id='time-class-dropdown',
-                        labelStyle={'display': 'inline-block', 'margin-right': '25px'}
-                    )
-                ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '20px'}),
+                    # Time Classification row
+                    html.Div([
+                        html.Div("Time Classification:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                        dcc.RadioItems(
+                            id='time-class-dropdown',
+                            labelStyle={'display': 'inline-block', 'margin-right': '25px'}
+                        )
+                    ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '20px'}),
 
-                # Opening Archetypes row
-                html.Div([
-                    html.Div("Opening Archetypes:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
-                    dcc.Dropdown(
-                        id='opening-dropdown',
-                        multi=True,
-                        placeholder="Select Opening Archetypes",
-                        style={"color": "black", 'flexGrow': 1}
-                    )
-                ], style={'display': 'flex', 'align-items': 'center'}),
+                    # Opening Archetypes row
+                    html.Div([
+                        html.Div("Opening Archetypes:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                        dcc.Dropdown(
+                            id='opening-dropdown',
+                            multi=True,
+                            placeholder="Select Opening Archetypes",
+                            style={"color": "black", 'flexGrow': 1}
+                        )
+                    ], style={'display': 'flex', 'align-items': 'center'}),
 
-                html.Div([
-                    html.Div("Exclude openings with fewer than:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
-                    dcc.Input(
-                        id='min-games-threshold',
-                        type='number',
-                        min=0,
-                        placeholder='e.g. 25',
-                        style={'width': '120px', 'marginRight': '10px'}
-                    ),
-                    html.Span("games", style={'color': 'white'})
-                ], style={'display': 'flex', 'align-items': 'center', 'margin-top': '20px'}),
-            ]),
-            style={
-                "color": "dark",  # dark background
-                "border": "3px solid #7d7c79",
-                "padding": "20px"
-            }
+                    html.Div([
+                        html.Div("Exclude openings with fewer than:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+                        dcc.Input(
+                            id='min-games-threshold',
+                            type='number',
+                            min=0,
+                            placeholder='e.g. 25',
+                            style={'width': '120px', 'marginRight': '10px'}
+                        ),
+                        html.Span("games", style={'color': 'white'})
+                    ], style={'display': 'flex', 'align-items': 'center', 'margin-top': '20px'}),
+                ]),
+                style={
+                    "color": "dark",  # dark background
+                    "border": "3px solid #7d7c79",
+                    "padding": "10px"
+                }
+            ),
+            width=12
         ),
-        width=12
-    ),
+    ], className="mb-4"),
 
     html.Div(
         id="open-kpi-data"
     ),
 
-    dcc.Loading(
-        id="loading-spinner",
-        type="circle",
-        fullscreen=False,
-        children=[
-            dcc.Graph(
-                id="bar-chart-fig",
-                style={"marginTop": "10px"}
-            )
-        ]
-    ),
+    dbc.Row([
+        dbc.Col(
+            dcc.Graph(id="bar-chart-fig", style={"height": "500px"}),
+            width=8
+        ),
+        dbc.Col(
+            dcc.Graph(id="sunburst-fig", style={"height": "500px"}),
+            width=4
+        )
+    ], className="mb-4"),
 
-    html.Div(id="open-leader-table")
+    html.Div(id="open-leader-table", style={"marginTop": "15px"})
 ]),
 style={},
 fluid=True
@@ -358,6 +409,7 @@ def update_dimension_dropdowns(dim_store):
 
 @callback(
     Output("bar-chart-fig", "figure", allow_duplicate=True),
+    Output("sunburst-fig", "figure", allow_duplicate=True),
     Output("open-leader-table", "children", allow_duplicate=True),
     Output("open-kpi-data", "children", allow_duplicate=True),
     Input("df-store", "data"),
@@ -367,25 +419,28 @@ def update_dimension_dropdowns(dim_store):
     prevent_initial_call=True
 )
 def update_chart_from_filters(dict_data, selected_time_class, selected_opening, selected_min_games):
-    if not dict_data:
-        return go.Figure()  # Empty graph if no data
 
     # Pull in cached dataFrame and apply filters
     df = pd.DataFrame(dict_data)
     df = dimension_filter(df, selected_time_class, selected_opening)
 
-    # Update Visualations
-    bar_chart_fig = create_bar_chart(df, "week_start", "total_games")
-    df_agg = aggregate_opening_data(df, selected_min_games)
-    top_opening_table = create_opening_table(df_agg)
-    kpi_display = create_kpi_tiles(df_agg)
+    # Aggregate to repesctive granularity
+    df_opening_agg = opening_grain_aggregate(df, selected_min_games)
+    df_weekly_opening_agg = weekly_opening_grain_aggregate(df, selected_min_games)
 
-    return bar_chart_fig, top_opening_table, kpi_display
+    # Create initial visualations
+    bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
+    sunburst_fig = create_sunburst(df_opening_agg, "total_games")
+    top_opening_table = create_opening_table(df_opening_agg)
+    kpi_display = create_kpi_tiles(df_opening_agg)
+
+    return bar_chart_fig, sunburst_fig, top_opening_table, kpi_display
 
 @callback(
     Output("df-store", "data"),
     Output("dim-store", "data"),
     Output("bar-chart-fig", "figure"),
+    Output("sunburst-fig", "figure"),
     Output("open-leader-table", "children"),
     Output("open-kpi-data", "children"),
     Input("fetch-button", "n_clicks"),
@@ -405,13 +460,17 @@ def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class
     df = dimension_filter(df, selected_time_class, selected_opening)
     dict_data = df.to_dict("records") # For sending to the update callback query
 
-    # Create initial visualations
-    bar_chart_fig = create_bar_chart(df, "week_start", "total_games")
-    df_agg = aggregate_opening_data(df, selected_min_games)
-    top_opening_table = create_opening_table(df_agg)
-    kpi_display = create_kpi_tiles(df_agg)
+    # Aggregate to repesctive granularity
+    df_opening_agg = opening_grain_aggregate(df, selected_min_games)
+    df_weekly_opening_agg = weekly_opening_grain_aggregate(df, selected_min_games) 
 
-    return dict_data, dim_store, bar_chart_fig, top_opening_table, kpi_display
+    # Create initial visualations
+    bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
+    sunburst_fig = create_sunburst(df_opening_agg, "total_games")
+    top_opening_table = create_opening_table(df_opening_agg)
+    kpi_display = create_kpi_tiles(df_opening_agg)
+
+    return dict_data, dim_store, bar_chart_fig, sunburst_fig, top_opening_table, kpi_display
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
