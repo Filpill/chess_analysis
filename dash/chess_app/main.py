@@ -186,7 +186,7 @@ def create_kpi_tiles(df):
                     html.Div(f"{kpis['most_played_opening']['opening']}", style={'font-size': '1rem'}),
                     html.Div(f"{kpis['most_played_opening']['value']:,} games", style={'font-size': '1.25rem', 'font-weight': 'bold'})
                 ])
-            ], color="primary", inverse=True), width=3),
+            ], color="primary", inverse=True, style={"height": "100%"}), width=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -194,35 +194,35 @@ def create_kpi_tiles(df):
                     html.Div(f"{kpis['least_played_opening']['opening']}", style={'font-size': '1rem'}),
                     html.Div(f"{kpis['least_played_opening']['value']:,} games", style={'font-size': '1.25rem', 'font-weight': 'bold'})
                 ])
-            ], color="info", inverse=True), width=3),
+            ], color="info", inverse=True, style={"height": "100%"}), width=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.Div("Best Winrate as White", className="card-title", style={'font-weight': 'bold'}),
                     html.Div([
-                        html.Img(src="/assets/img/wk.png", style={'height': '30px', 'margin-right': '10px'}),
+                        html.Img(src="/assets/img/wk.png", style={'height': '35px', 'margin-right': '10px'}),
                         html.Span(f"{kpis['highest_win_pct_as_white']['opening']}", style={'font-size': '1rem'})
                     ], style={'display': 'flex', 'align-items': 'center'}),
                     html.Div(f"{kpis['highest_win_pct_as_white']['value']}", style={'font-size': '1.25rem', 'font-weight': 'bold'})
                 ])
-            ], color="light", inverse=False), width=3),  # White card
+            ], color="light", inverse=True, style={"height": "100%"}), width=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.Div("Best Winrate as Black", className="card-title", style={'font-weight': 'bold'}),
                     html.Div([
-                        html.Img(src="/assets/img/bk.png", style={'height': '30px', 'margin-right': '10px'}),
+                        html.Img(src="/assets/img/bk.png", style={'height': '35px', 'margin-right': '10px'}),
                         html.Span(f"{kpis['highest_win_pct_as_black']['opening']}", style={'font-size': '1rem'})
                     ], style={'display': 'flex', 'align-items': 'center'}),
                     html.Div(f"{kpis['highest_win_pct_as_black']['value']}", style={'font-size': '1.25rem', 'font-weight': 'bold'})
                 ])
-            ], color="dark", inverse=True), width=3),  # Black card
+            ], color="dark", inverse=True, style={"height": "100%"}), width=3),
         ], className="g-3", justify="evenly")
-    ],style={"marginTop": "20px"})
+    ],style={"marginTop": "20px", "marginBottom": "20px"})
 
     return kpi_display
 
-def create_chart_title(selected_time_class):
+def create_chart_title(title_suffix, selected_time_class):
     # Build dynamic title
     if not selected_time_class or selected_time_class == "all" or (isinstance(selected_time_class, list) and "all" in selected_time_class):
         title_prefix = "All"
@@ -231,7 +231,7 @@ def create_chart_title(selected_time_class):
     else:
         title_prefix = str(selected_time_class).capitalize()
 
-    title = f"{title_prefix} - Total Games Played"
+    title = f"{title_prefix} | {title_suffix}"
     return title
 
 def create_bar_chart(df, x_axis, y_axis, selected_time_class=None):
@@ -243,12 +243,17 @@ def create_bar_chart(df, x_axis, y_axis, selected_time_class=None):
         y=y_axis,
         color_discrete_sequence=["#5d8640"],
         template="plotly_dark",
-        title=create_chart_title(selected_time_class)
     )
 
     bar_chart_fig.update_layout(
         xaxis_title='',
-        yaxis_title=''
+        yaxis_title='',
+        paper_bgcolor='#2c2c2c',
+        plot_bgcolor='#2c2c2c',
+        title={
+            "text": create_chart_title("Total Games Played", selected_time_class),
+            "font": {"size": 18},
+        }
     )
 
     return bar_chart_fig
@@ -260,7 +265,7 @@ def create_histogram(df, color="white"):
     # Histogram
     hist = go.Histogram(
         x=data,
-        nbinsx=30,
+        nbinsx=10,
         name="Win % Distribution",
         histnorm='probability density',
         opacity=0.7
@@ -320,6 +325,41 @@ def create_heatmap(df):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis_side='top'
+    )
+
+    return fig
+
+def create_winrate_vs_opening_scatter(df, selected_time_class, selected_color):
+
+    x_axis = "total_games"
+
+    if selected_color == "white" or selected_color is None:
+        y_axis = "white_win_pct"
+    if selected_color == "black":
+        y_axis = "black_win_pct"
+
+    fig = px.scatter(
+        df,
+        x=x_axis,
+        y=y_axis,
+        text="opening_archetype",
+        labels={
+            x_axis: f"{selected_color.capitalize()} Games Played",
+            y_axis: f"{selected_color.capitalize()} Win %"
+        },
+        template="plotly_dark"
+    )
+
+    fig.update_traces(marker=dict(size=10, opacity=0.7), textposition='top center')
+    fig.update_layout(
+        xaxis_type='log',
+        hovermode="closest",
+        paper_bgcolor='#2c2c2c',
+        plot_bgcolor='#2c2c2c',
+        title={
+            "text": create_chart_title(f"{selected_color.capitalize()} Win Rate vs. Games Played per Opening", selected_time_class),
+            "font": {"size": 18},
+        }
     )
 
     return fig
@@ -460,11 +500,22 @@ app.layout = dbc.Container([
         )
     ], className="mb-4"),
 
-    dcc.Graph(id="heatmap-fig"),
+    html.Div([
+        html.Div("Piece Color:", style={'margin-right': '15px', 'font-weight': 'bold', 'color': 'white'}),
+        dcc.RadioItems(
+            id='piece-color',
+            options=[
+                {"label": "White", "value": "white" },
+                {"label": "Black", "value": "black" },
+            ],
+            value="white",
+            labelStyle={'display': 'inline-block', 'margin-right': '25px'}
+        )
+    ], style={'display': 'flex', 'align-items': 'center', 'margin-bottom': '20px'}),
 
-    dcc.Graph(id="histogram-fig"),
+    dcc.Graph(id="scatter-fig"),
 
-    html.Div(id="open-leader-table", style={"marginTop": "15px"})
+    html.Div(id="open-leader-table", style={"marginTop": "20px"})
 ]),
 style={},
 fluid=True
@@ -487,17 +538,17 @@ def update_dimension_dropdowns(dim_store):
 @callback(
     Output("bar-chart-fig", "figure", allow_duplicate=True),
     Output("sunburst-fig", "figure", allow_duplicate=True),
-    Output("heatmap-fig", "figure", allow_duplicate=True),
-    Output("histogram-fig", "figure", allow_duplicate=True),
+    Output("scatter-fig", "figure", allow_duplicate=True),
     Output("open-leader-table", "children", allow_duplicate=True),
     Output("open-kpi-data", "children", allow_duplicate=True),
     Input("df-store", "data"),
     Input("time-class-dropdown", "value"),
     Input("opening-dropdown", "value"),
     Input("min-games-threshold", "value"),
+    Input("piece-color", "value"),
     prevent_initial_call=True
 )
-def update_chart_from_filters(dict_data, selected_time_class, selected_opening, selected_min_games):
+def update_chart_from_filters(dict_data, selected_time_class, selected_opening, selected_min_games, selected_color):
 
     # Pull in cached dataFrame and apply filters
     df = pd.DataFrame(dict_data)
@@ -511,20 +562,18 @@ def update_chart_from_filters(dict_data, selected_time_class, selected_opening, 
     # Create initial visualations
     bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
     sunburst_fig = create_sunburst(df_opening_agg, "total_games")
-    heatmap_fig = create_heatmap(df_timeclass_opening_agg)
-    histogram_fig = create_histogram(df_opening_agg)
+    scatter_fig = create_winrate_vs_opening_scatter(df_opening_agg, selected_time_class, selected_color)
     top_opening_table = create_opening_table(df_opening_agg)
     kpi_display = create_kpi_tiles(df_opening_agg)
 
-    return bar_chart_fig, sunburst_fig, heatmap_fig, histogram_fig, top_opening_table, kpi_display
+    return bar_chart_fig, sunburst_fig, scatter_fig, top_opening_table, kpi_display
 
 @callback(
     Output("df-store", "data"),
     Output("dim-store", "data"),
     Output("bar-chart-fig", "figure"),
     Output("sunburst-fig", "figure"),
-    Output("heatmap-fig", "figure"),
-    Output("histogram-fig", "figure"),
+    Output("scatter-fig", "figure"),
     Output("open-leader-table", "children"),
     Output("open-kpi-data", "children"),
     Input("fetch-button", "n_clicks"),
@@ -533,10 +582,11 @@ def update_chart_from_filters(dict_data, selected_time_class, selected_opening, 
     State("time-class-dropdown", "value"),
     State("opening-dropdown", "value"),
     State("min-games-threshold", "value"),
+    State("piece-color", "value"),
     State("dim-store", "data"),
     prevent_initial_call=True
 )
-def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class, selected_opening, selected_min_games, dim_store_current):
+def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class, selected_opening, selected_min_games, selected_color, dim_store_current):
 
     # Query BigQuery and apply dimensional filters
     dim_store = dim_load_first_fetch(dim_store_current)
@@ -552,12 +602,11 @@ def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class
     # Create initial visualations
     bar_chart_fig = create_bar_chart(df_weekly_opening_agg, "week_start", "total_games", selected_time_class)
     sunburst_fig = create_sunburst(df_opening_agg, "total_games")
-    heatmap_fig = create_heatmap(df_timeclass_opening_agg)
-    histogram_fig = create_histogram(df_opening_agg)
+    scatter_fig = create_winrate_vs_opening_scatter(df_opening_agg, selected_time_class, selected_color)
     top_opening_table = create_opening_table(df_opening_agg)
     kpi_display = create_kpi_tiles(df_opening_agg)
 
-    return dict_data, dim_store, bar_chart_fig, sunburst_fig, heatmap_fig, histogram_fig, top_opening_table, kpi_display
+    return dict_data, dim_store, bar_chart_fig, sunburst_fig, scatter_fig, top_opening_table, kpi_display
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
