@@ -21,7 +21,7 @@ WITH cte_aggregate AS (
 
     FROM {{ ref("stg__monthly_player_games")}} games
     JOIN UNNEST(openings) o
-    LEFT JOIN `checkmate-453316.universal.opening_map` map
+    LEFT JOIN {{ ref("opening_mapping")}} map
         ON map.opening = o.opening
     WHERE 1=1
         AND rules = "chess"
