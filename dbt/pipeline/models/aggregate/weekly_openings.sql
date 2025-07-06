@@ -7,14 +7,12 @@ WITH cte_aggregate AS (
       , games.week_number
       , games.time_class
       , map.opening_archetype
-      , SUM(o.total)                                                              AS total_games
+      , SUM(CASE WHEN games.piece_color = "white" THEN o.total      ELSE 0 END)   AS total_games /*Black and White Data Unioned -- only counting one piece color*/
 
-      , SUM(CASE WHEN games.piece_color = "white" THEN o.total      ELSE 0 END)   AS white_games
       , SUM(CASE WHEN games.piece_color = "white" THEN o.win_count  ELSE 0 END)   AS white_win_count
       , SUM(CASE WHEN games.piece_color = "white" THEN o.loss_count ELSE 0 END)   AS white_loss_count
       , SUM(CASE WHEN games.piece_color = "white" THEN o.draw_count ELSE 0 END)   AS white_draw_count
 
-      , SUM(CASE WHEN games.piece_color = "black" THEN o.total      ELSE 0 END)   AS black_games
       , SUM(CASE WHEN games.piece_color = "black" THEN o.win_count  ELSE 0 END)   AS black_win_count
       , SUM(CASE WHEN games.piece_color = "black" THEN o.loss_count ELSE 0 END)   AS black_loss_count
       , SUM(CASE WHEN games.piece_color = "black" THEN o.draw_count ELSE 0 END)   AS black_draw_count
@@ -37,11 +35,9 @@ cte_percentage AS (
       , time_class
       , opening_archetype
       , total_games
-      , white_games
       , white_win_count
       , white_loss_count
       , white_draw_count
-      , black_games
       , black_win_count
       , black_loss_count
       , black_draw_count

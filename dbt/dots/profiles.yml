@@ -23,13 +23,13 @@ pipeline:
       threads: 4
       type: bigquery
 
-    prod:                                 
+    prod:
       dataset: prod
-      job_execution_timeout_seconds: 300 
-      job_retries: 1                     
-      location: EU                       
-      method: oauth                      
-      priority: interactive              
-      project: checkmate-453316          
-      threads: 4                         
-      type: bigquery                     
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      location: EU
+      method: oauth
+      priority: interactive
+      project: checkmate-453316
+      threads: 4
+      type: bigquery

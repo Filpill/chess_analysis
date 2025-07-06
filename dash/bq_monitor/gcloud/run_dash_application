@@ -2,6 +2,6 @@
 gcloud run services proxy bq-monitor-dash \
   --region=europe-west2 \
   --project=checkmate-453316 \
-  --port=8080
+  --port=7979
 
 #firefox http://127.0.0.1:8080/

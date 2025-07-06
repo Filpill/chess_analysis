@@ -19,12 +19,12 @@ from google.auth import default
 
 from dateutil.relativedelta import relativedelta
 
-def sql_get_distinct_dimensions(credentials):
+def sql_get_distinct_dimensions(env, credentials):
     sql = f"""
                 SELECT DISTINCT
                     time_class,
                     opening_archetype
-                FROM `checkmate-453316.dev_aggregate.weekly_openings`
+                FROM `checkmate-453316.{env}_aggregate.weekly_openings`
         """
     df = pd.read_gbq(sql, project_id=project_id, dialect="standard", credentials=credentials)
 
@@ -35,10 +35,10 @@ def sql_get_distinct_dimensions(credentials):
 
     return dim_store
 
-def sql_get_base_data(credentials, start_date, end_date):
+def sql_get_base_data(env, credentials, start_date, end_date):
     sql = f"""
                 SELECT * 
-                FROM `checkmate-453316.dev_aggregate.weekly_openings`
+                FROM `checkmate-453316.{env}_aggregate.weekly_openings`
                 WHERE
                     week_start BETWEEN "{start_date}" AND "{end_date}"
         """
@@ -50,7 +50,7 @@ def dim_load_first_fetch(dim_store_current):
     # Only load dimensional data for list filters on the first data fetch
     if not dim_store_current:
         print("Updating dimensional filtering data")
-        dim_store = sql_get_distinct_dimensions(credentials)
+        dim_store = sql_get_distinct_dimensions(env, credentials)
     else:
         dim_store = dim_store_current # Query data according to dates supplied
     return dim_store
@@ -67,8 +67,8 @@ def dimension_filter(df, selected_time_class, selected_opening):
 
 def calculate_percentages(df):
     # Calculate win percentages
-    df["white_win_pct"] = (df["white_win_count"] / df["white_games"]) * 100
-    df["black_win_pct"] = (df["black_win_count"] / df["black_games"]) * 100
+    df["white_win_pct"] = (df["white_win_count"] / df["total_games"]) * 100
+    df["black_win_pct"] = (df["black_win_count"] / df["total_games"]) * 100
 
     # Format for table
     df["white_win_pct_str"] = df["white_win_pct"].apply(lambda x: f"{x:.1f}%")
@@ -79,7 +79,7 @@ def calculate_percentages(df):
 def weekly_opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
     df = df.groupby(["week_start","opening_archetype"], as_index=False)[
-        ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
+        ["total_games", "white_win_count", "black_win_count"]
     ].sum()
 
     # Min Game Exclusionary Filter After Aggregation
@@ -91,7 +91,7 @@ def weekly_opening_grain_aggregate(df, selected_min_games):
 def timeclass_opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
     df = df.groupby(["time_class","opening_archetype"], as_index=False)[
-        ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
+        ["total_games", "white_win_count", "black_win_count"]
     ].sum()
 
     # Min Game Exclusionary Filter After Aggregation
@@ -104,7 +104,7 @@ def timeclass_opening_grain_aggregate(df, selected_min_games):
 def opening_grain_aggregate(df, selected_min_games):
     # Aggregate data
     df= df.groupby("opening_archetype", as_index=False)[
-        ["total_games", "white_games", "black_games", "white_win_count", "black_win_count"]
+        ["total_games", "white_win_count", "black_win_count"]
     ].sum()
 
     # Min Game Exclusionary Filter After Aggregation
@@ -387,8 +387,9 @@ def get_month_boundaries():
 credentials, project_id = default()
 
 # Default dates setting prepared on application interface
-start_date = "2025-05-01"
-end_date = "2025-05-31"
+env = "prod"
+start_date = (pd.Timestamp.now().replace(day=1) - pd.offsets.MonthBegin(1)).strftime("%Y-%m-%d")
+end_date   = (pd.Timestamp.now().replace(day=1) - pd.offsets.MonthEnd(1)).strftime("%Y-%m-%d")
 
 app = Dash(
     __name__, external_stylesheets=[dbc.themes.DARKLY]
@@ -590,7 +591,7 @@ def query_data_from_bigquery(n_clicks, start_date, end_date, selected_time_class
 
     # Query BigQuery and apply dimensional filters
     dim_store = dim_load_first_fetch(dim_store_current)
-    df = sql_get_base_data(credentials, start_date, end_date)
+    df = sql_get_base_data(env, credentials, start_date, end_date)
     df = dimension_filter(df, selected_time_class, selected_opening)
     dict_data = df.to_dict("records") # For sending to the update callback query
 

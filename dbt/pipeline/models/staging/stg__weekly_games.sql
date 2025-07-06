@@ -2,7 +2,7 @@
 {% set is_dev = target.name == 'dev' %}
 
 WITH cte_base_aggregate AS (
-      SELECT  
+      SELECT
               cal.week_start
             , cal.week_number_type1                                     AS week_number
             , t.username
@@ -25,7 +25,7 @@ WITH cte_base_aggregate AS (
 ),
 
 cte_struct_agg AS (
-      SELECT              
+      SELECT
               week_start
             , week_number
             , username
@@ -48,7 +48,7 @@ cte_struct_agg AS (
                         )
                         ORDER BY total DESC
             )                                                           AS openings
-      FROM cte_base_aggregate    
+      FROM cte_base_aggregate
       GROUP BY ALL
 )
 
