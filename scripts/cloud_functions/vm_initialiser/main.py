@@ -40,7 +40,7 @@ def create_instance_with_container(
           --provisioning-model=STANDARD \
           --service-account={SERVICE_ACCOUNT} \
           --scopes={SCOPES} \
-          --image=projects/cos-cloud/global/images/cos-stable-117-18613-164-98 \
+          --image=projects/cos-cloud/global/images/cos-stable-121-18867-0-94\
           --boot-disk-size={BOOT_DISK_SIZE_GB} \
           --boot-disk-type={BOOT_DISK_TYPE} \
           --boot-disk-device-name=instance-20250403-171730 \
