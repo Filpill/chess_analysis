@@ -12,12 +12,13 @@ app = Flask(__name__)
 def initialise_cloud_logger(project_id):
     client = cloud_logging.Client(project=project_id)
     client.setup_logging()
-  
+ 
     logger = client.logger(__name__)
     logger.propagate = False
     return logger
 
 def create_instance_with_container(
+    logger,
     INSTANCE_NAME,
     PROJECT_ID,
     PUB_SUB_MESSAGE,
@@ -124,6 +125,7 @@ def pubsub_handler():
         logger.log_text(f"Running VM initialiser script for cloud scheduler job: {JOB_NAME}...", severity="INFO")
 
         vm_creator = create_instance_with_container(
+            logger,
             INSTANCE_NAME,
             PROJECT_ID,
             PUB_SUB_MESSAGE,
