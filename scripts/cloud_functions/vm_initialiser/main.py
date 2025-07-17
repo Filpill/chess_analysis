@@ -36,7 +36,10 @@ def create_instance_with_container(
         "europe-west1-c",
     ]
 
+
     for ZONE in zone_list:
+        logger.log_text(f"Attempting to create VM in {ZONE}")
+
         vm_initialiser_script = f"""
             gcloud compute instances create-with-container {INSTANCE_NAME} \
               --project={PROJECT_ID} \
@@ -68,6 +71,7 @@ def create_instance_with_container(
         if "ZONE_RESOURCE_POOL_EXHAUSTED" not in result.stderr:
             return runner  # Success or some other error — break and return
 
+    logger.log_text("All zone attempts failed due to resource exhaustion.", severity="ERROR")
     return runner
 
 @app.route("/", methods=["POST"])
