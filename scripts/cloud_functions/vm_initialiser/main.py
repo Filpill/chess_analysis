@@ -1,5 +1,6 @@
 import re
 import json
+import shlex
 import base64
 import subprocess
 import google.cloud.logging as cloud_logging
@@ -21,7 +22,7 @@ def create_instance_with_container(
     logger,
     INSTANCE_NAME,
     PROJECT_ID,
-    PUB_SUB_MESSAGE,
+    PAYLOAD,
     CONTAINER_IMAGE,
     SUB_NET,
     SERVICE_ACCOUNT,
@@ -32,11 +33,13 @@ def create_instance_with_container(
 ):
 
     zone_list = [
-        "europe-west1-a"
+        "europe-west1-a",
         "europe-west1-b",
         "europe-west1-c",
     ]
 
+    # Contains input parameters to pass into scripts within docker containers
+    PUB_SUB_MESSAGE = shlex.quote(PAYLOAD)
 
     for ZONE in zone_list:
         logger.log_text(f"Attempting to create VM in {ZONE}")
@@ -56,7 +59,7 @@ def create_instance_with_container(
               --boot-disk-type={BOOT_DISK_TYPE} \
               --boot-disk-device-name=instance-20250403-171730 \
               --container-image={CONTAINER_IMAGE} \
-              --container-env=MESSAGE='{PUB_SUB_MESSAGE}'
+              --container-env=MESSAGE={PUB_SUB_MESSAGE} \
               --container-restart-policy=never \
               --container-privileged \
               --no-shielded-secure-boot \
@@ -102,14 +105,14 @@ def pubsub_handler():
             logger.log_text("No data in Pub/Sub message", severity="ERROR")
             return "No data", 400
 
-        payload = base64.b64decode(message_data).decode("utf-8")
-        logger.log_text(f"Decoded Pub/Sub message payload: {payload}", severity="INFO")
+        PAYLOAD = base64.b64decode(message_data).decode("utf-8")
+        logger.log_text(f"Decoded Pub/Sub message payload: {PAYLOAD}", severity="INFO")
 
         # Parse the JSON log entry
-        PUB_SUB_MESSAGE = json.loads(payload)
+        cloud_scheduler_dict = json.loads(PAYLOAD)
 
         # Extract the jobName from the message delivered by the cloud scheduler
-        job_name = PUB_SUB_MESSAGE["jobName"]
+        job_name = cloud_scheduler_dict["jobName"]
 
         # If anything missing - return a NULL value and print log
         if not job_name:
@@ -128,7 +131,7 @@ def pubsub_handler():
             logger,
             INSTANCE_NAME,
             PROJECT_ID,
-            PUB_SUB_MESSAGE,
+            PAYLOAD,
             CONTAINER_IMAGE,
             SUB_NET,
             SERVICE_ACCOUNT,
