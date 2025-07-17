@@ -40,6 +40,7 @@ def create_instance_with_container(
 
     # Contains input parameters to pass into scripts within docker containers
     PUB_SUB_MESSAGE = shlex.quote(PAYLOAD)
+    logger.log_text(f"SHELL ESCAPED MESSAGE {PUB_SUB_MESSAGE}")
 
     for ZONE in zone_list:
         logger.log_text(f"Attempting to create VM in {ZONE}")
@@ -67,6 +68,8 @@ def create_instance_with_container(
               --shielded-integrity-monitoring \
               --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-121-18867-0-94
           """
+
+        logger.log_text(f"VM Init Script: {vm_initialiser_script}")
 
         runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
         logger.log_text(f"VM creation stdout: {runner.stdout}", severity="INFO")
