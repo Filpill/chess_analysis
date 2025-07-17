@@ -69,7 +69,7 @@ def create_instance_with_container(
         logger.log_text(f"VM creation stdout: {runner.stdout}", severity="INFO")
         logger.log_text(f"VM creation stderr: {runner.stderr}", severity="WARNING")
 
-        if "ZONE_RESOURCE_POOL_EXHAUSTED" not in result.stderr:
+        if "ZONE_RESOURCE_POOL_EXHAUSTED" not in runner.stderr:
             return runner  # Success or some other error — break and return
 
     logger.log_text("All zone attempts failed due to resource exhaustion.", severity="ERROR")
