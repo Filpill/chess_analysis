@@ -51,7 +51,7 @@ def create_instance_with_container(
           --no-shielded-secure-boot \
           --shielded-vtpm \
           --shielded-integrity-monitoring \
-          --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-117-18613-164-98
+          --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-121-18867-0-94
       """
 
     runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
