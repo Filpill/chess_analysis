@@ -21,6 +21,7 @@ def create_instance_with_container(
     INSTANCE_NAME,
     PROJECT_ID,
     ZONE,
+    PUB_SUB_MESSAGE,
     CONTAINER_IMAGE,
     SUB_NET,
     SERVICE_ACCOUNT,
@@ -44,6 +45,7 @@ def create_instance_with_container(
           --boot-disk-type={BOOT_DISK_TYPE} \
           --boot-disk-device-name=instance-20250403-171730 \
           --container-image={CONTAINER_IMAGE} \
+          --container-env=MESSAGE='{PUB_SUB_MESSAGE}'
           --container-restart-policy=never \
           --container-privileged \
           --no-shielded-secure-boot \
@@ -87,10 +89,10 @@ def pubsub_handler():
         logger.log_text(f"Decoded Pub/Sub message payload: {payload}", severity="INFO")
 
         # Parse the JSON log entry
-        cloud_scheduler_dict = json.loads(payload)
+        PUB_SUB_MESSAGE = json.loads(payload)
 
         # Extract the jobName from the message delivered by the cloud scheduler
-        job_name = cloud_scheduler_dict["jobName"]
+        job_name = PUB_SUB_MESSAGE["jobName"]
 
         # If anything missing - return a NULL value and print log
         if not job_name:
@@ -109,6 +111,7 @@ def pubsub_handler():
             INSTANCE_NAME,
             PROJECT_ID,
             ZONE,
+            PUB_SUB_MESSAGE,
             CONTAINER_IMAGE,
             SUB_NET,
             SERVICE_ACCOUNT,
