@@ -20,7 +20,6 @@ def initialise_cloud_logger(project_id):
 def create_instance_with_container(
     INSTANCE_NAME,
     PROJECT_ID,
-    ZONE,
     PUB_SUB_MESSAGE,
     CONTAINER_IMAGE,
     SUB_NET,
@@ -30,38 +29,51 @@ def create_instance_with_container(
     BOOT_DISK_TYPE,
     SCOPES
 ):
-    vm_initialiser_script = f"""
-        gcloud compute instances create-with-container {INSTANCE_NAME} \
-          --project={PROJECT_ID} \
-          --zone={ZONE} \
-          --machine-type={MACHINE_TYPE} \
-          --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet={SUB_NET} \
-          --maintenance-policy=MIGRATE \
-          --provisioning-model=STANDARD \
-          --service-account={SERVICE_ACCOUNT} \
-          --scopes={SCOPES} \
-          --image=projects/cos-cloud/global/images/cos-stable-121-18867-0-94\
-          --boot-disk-size={BOOT_DISK_SIZE_GB} \
-          --boot-disk-type={BOOT_DISK_TYPE} \
-          --boot-disk-device-name=instance-20250403-171730 \
-          --container-image={CONTAINER_IMAGE} \
-          --container-env=MESSAGE='{PUB_SUB_MESSAGE}'
-          --container-restart-policy=never \
-          --container-privileged \
-          --no-shielded-secure-boot \
-          --shielded-vtpm \
-          --shielded-integrity-monitoring \
-          --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-121-18867-0-94
-      """
 
-    runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
+    zone_list = [
+        "europe-west1-a"
+        "europe-west1-b",
+        "europe-west1-c",
+    ]
+
+    for ZONE in zone_list:
+        vm_initialiser_script = f"""
+            gcloud compute instances create-with-container {INSTANCE_NAME} \
+              --project={PROJECT_ID} \
+              --zone={ZONE} \
+              --machine-type={MACHINE_TYPE} \
+              --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet={SUB_NET} \
+              --maintenance-policy=MIGRATE \
+              --provisioning-model=STANDARD \
+              --service-account={SERVICE_ACCOUNT} \
+              --scopes={SCOPES} \
+              --image=projects/cos-cloud/global/images/cos-stable-121-18867-0-94\
+              --boot-disk-size={BOOT_DISK_SIZE_GB} \
+              --boot-disk-type={BOOT_DISK_TYPE} \
+              --boot-disk-device-name=instance-20250403-171730 \
+              --container-image={CONTAINER_IMAGE} \
+              --container-env=MESSAGE='{PUB_SUB_MESSAGE}'
+              --container-restart-policy=never \
+              --container-privileged \
+              --no-shielded-secure-boot \
+              --shielded-vtpm \
+              --shielded-integrity-monitoring \
+              --labels=goog-ec-src=vm_add-gcloud,container-vm=cos-stable-121-18867-0-94
+          """
+
+        runner = subprocess.run(["bash", "-c", vm_initialiser_script], capture_output=True, text=True)
+        logger.log_text(f"VM creation stdout: {runner.stdout}", severity="INFO")
+        logger.log_text(f"VM creation stderr: {runner.stderr}", severity="WARNING")
+
+        if "ZONE_RESOURCE_POOL_EXHAUSTED" not in result.stderr:
+            return runner  # Success or some other error — break and return
+
     return runner
 
 @app.route("/", methods=["POST"])
 def pubsub_handler(): 
 
     PROJECT_ID="checkmate-453316"
-    ZONE="europe-west1-c"
     SUB_NET="filip-vpc"
     MACHINE_TYPE="e2-medium"
     BOOT_DISK_SIZE_GB=10
@@ -110,7 +122,6 @@ def pubsub_handler():
         vm_creator = create_instance_with_container(
             INSTANCE_NAME,
             PROJECT_ID,
-            ZONE,
             PUB_SUB_MESSAGE,
             CONTAINER_IMAGE,
             SUB_NET,
@@ -121,8 +132,7 @@ def pubsub_handler():
             SCOPES
         )
 
-        logger.log_text(f"VM creation stdout: {vm_creator.stdout}", severity="INFO")
-        logger.log_text(f"VM creation stderr: {vm_creator.stderr}", severity="INFO")
+
         print("VM Creation Complete!")
 
         return "OK", 200
