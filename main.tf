@@ -58,6 +58,30 @@ resource "google_cloud_run_v2_service" "vm_initialiser" {
   }
 }
 
+
+# Create Cloud Scheduler Jobs for Ingestion And Loading
+resource "google_cloud_scheduler_job" "test_pub_sub_message" {
+    paused        = false
+    name          = "test_pub_sub_message"
+    region        = "europe-west1"
+    description   = "Testing Pub Sub Message into VM Workload"
+    schedule      = "0 9 3 * *"
+    time_zone     = "Europe/London"
+
+    pubsub_target {
+      topic_name = google_pubsub_topic.start-vm-topic.id
+      data        = base64encode(jsonencode({
+          jobName = "test_pub_sub_message",
+          script_setting = "test",
+          start_date = "2024-04-01",
+          end_date = "2025-03-31",
+      }))
+      attributes = {
+        origin = "scheduler"
+      }
+    }
+  }
+
 # Create Cloud Scheduler Jobs for Ingestion And Loading
 resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
     paused        = false
@@ -117,7 +141,7 @@ resource "google_cloud_run_service" "bq_monitor_dash" {
       service_account_name = "bq-monitor@checkmate-453316.iam.gserviceaccount.com"
 
       containers {
-        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:1.1.0"
+        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:latest"
         ports {
           container_port = 8080
         }
