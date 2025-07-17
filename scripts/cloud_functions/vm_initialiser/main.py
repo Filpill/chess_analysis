@@ -115,7 +115,7 @@ def pubsub_handler():
         cloud_scheduler_dict = json.loads(PAYLOAD)
 
         # Extract the jobName from the message delivered by the cloud scheduler
-        job_name = cloud_scheduler_dict["jobName"]
+        job_name = cloud_scheduler_dict["job_name"]
 
         # If anything missing - return a NULL value and print log
         if not job_name:
