@@ -39,7 +39,7 @@ def create_instance_with_container(
     ]
 
     # Contains input parameters to pass into scripts within docker containers
-    PUB_SUB_MESSAGE = shlex.quote(PAYLOAD)
+    PUB_SUB_MESSAGE = json.dumps(json.loads(PAYLOAD)).replace('"', '\\"')  # escape quotes    
     logger.log_text(f"SHELL ESCAPED MESSAGE {PUB_SUB_MESSAGE}")
 
     for ZONE in zone_list:
@@ -60,7 +60,7 @@ def create_instance_with_container(
               --boot-disk-type={BOOT_DISK_TYPE} \
               --boot-disk-device-name=instance-20250403-171730 \
               --container-image={CONTAINER_IMAGE} \
-              --container-env=MESSAGE={PUB_SUB_MESSAGE} \
+              --container-env=MESSAGE="{PUB_SUB_MESSAGE}" \
               --container-restart-policy=never \
               --container-privileged \
               --no-shielded-secure-boot \
