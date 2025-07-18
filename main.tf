@@ -34,11 +34,15 @@ resource "google_storage_bucket_object" "objects" {
 }
 
 #============================================
-# -------VM Initialisation Resources---------
+# -------VM Init and Deleter Resources-------
 #============================================
 
 resource "google_pubsub_topic" "start-vm-topic" {
   name = "start-vm-topic"
+}
+
+resource "google_pubsub_topic" "delete_vm_topic" {
+  name = "delete-vm-topic"
 }
 
 resource "google_cloud_run_v2_service" "vm_initialiser" {
@@ -58,6 +62,61 @@ resource "google_cloud_run_v2_service" "vm_initialiser" {
   }
 }
 
+resource "google_cloud_run_v2_service" "vm_deleter" {
+  name     = "vm-deleter"
+  location = "europe-west2"
+
+  deletion_protection = false 
+
+  template {
+    containers {
+      image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/vm_deleter:latest"
+      env {
+        name  = "LOG_EXECUTION_ID"
+        value = "true"
+      }
+    }
+    timeout        = "60s"
+    service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+  }
+}
+
+
+resource "google_eventarc_trigger" "vm_deletion_trigger" {
+  name     = "trigger-vm-deletion"
+  location = "europe-west2"
+  project  = "checkmate-453316"
+
+  matching_criteria {
+    attribute = "type"
+    value     = "google.cloud.pubsub.topic.v1.messagePublished"
+  }
+
+  transport {
+    pubsub {
+      topic = google_pubsub_topic.delete_vm_topic.id
+    }
+  }
+
+  destination {
+    cloud_run_service {
+      service = google_cloud_run_v2_service.vm_deleter.name
+      region  = google_cloud_run_v2_service.vm_deleter.location
+      path    = "/"
+    }
+  }
+
+  service_account = "vm-deleter-sa@checkmate-453316.iam.gserviceaccount.com"
+
+  depends_on = [
+    google_cloud_run_v2_service.vm_deleter,
+    google_pubsub_topic.delete_vm_topic
+  ]
+}
+
+#============================================ 
+# ---------- Cloud Scheduler Jobs ----------- 
+#============================================ 
 
 # Create Cloud Scheduler Jobs for Ingestion And Loading
 resource "google_cloud_scheduler_job" "test_pub_sub_message" {
