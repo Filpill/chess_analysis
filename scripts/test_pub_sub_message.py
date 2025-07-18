@@ -19,16 +19,20 @@ logger = initialise_cloud_logger(project_name)
 try:
     logger.log_text(f"---TEST START--- Initialising Test Script For Passing In PUB/SUB MESSAGE into ENV variable")
 
+    # Test example input
+    #message = "eyJlbmRfZGF0ZSI6IjIwMjUtMDMtMzEiLCJqb2JfbmFtZSI6InRlc3RfcHViX3N1Yl9tZXNzYWdlIiwic2NyaXB0X3NldHRpbmciOiJ0ZXN0Iiwic2V0dGluZzEiOiJBIiwic2V0dGluZzIiOiJCIiwic2V0dGluZzMiOiJDIiwic3RhcnRfZGF0ZSI6IjIwMjQtMDQtMDEifQ=="
+
     # Retrieving MESSAGE environement variable which came from pub/sub
     message = os.getenv("MESSAGE")
-    #message = "{job_name : test_pub_sub_message}"
-    #decoded_message = base64.b64decode(message).decode("utf-8")
+    decoded_message = base64.b64decode(message).decode("utf-8")
+    input_dict = json.loads(decoded_message)
 
     for i in range(5):
         time.sleep(1)
         if message:
-            logger.log_text(f"{i}-----TESTING------ Recieved Pub/Sub Message: {message}" )
-            logger.log_text(f"{i}-----TESTING------ Recieved Pub/Sub Message Type: {type(message)}" )
+            logger.log_text(f"| {i} | -----TESTING------ Raw Pub/Sub Message: {message} Recieved DataType: {type(message)}" )
+            logger.log_text(f"| {i} | -----TESTING------ Decoded Pub/Sub Message: {decoded_message}" )
+            logger.log_text(f"| {i} | -----TESTING------ Converted into python dictionary for script settings: {input_dict}" )
         else:
             logger.log_text(f"{i}------TESTING------- No Message Inside Environment Variable", severity="ERROR")
 
