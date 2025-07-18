@@ -22,10 +22,7 @@ def log_printer(msg, logger, severity="INFO", console_print=True):
 
 def initialise_cloud_logger(project_id: str):
     client = cloud_logging.Client(project=project_id)
-    client.setup_logging()
-  
     logger = client.logger(__name__)
-    logger.propagate = False
     return logger
 
 

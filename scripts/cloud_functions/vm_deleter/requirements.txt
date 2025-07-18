@@ -105,3 +105,5 @@ zipp==3.21.0
     # via importlib-metadata
 functions-framework==3.*
     # manually added
+Flask==2.3.3
+    # Manually added
