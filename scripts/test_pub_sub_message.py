@@ -1,5 +1,6 @@
 import os
 import json
+import base64
 import google.cloud.logging as cloud_logging
 from google.cloud import storage
 from shared_func import initialise_cloud_logger
