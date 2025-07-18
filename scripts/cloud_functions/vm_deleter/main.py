@@ -8,7 +8,6 @@ from googleapiclient import discovery
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-PROJECT = "checkmate-453316"
 
 def initialise_cloud_logger(project_id):
     client = cloud_logging.Client(project=project_id)
@@ -35,6 +34,7 @@ def delete_vm(project, zone, instance_name, logger):
 def pubsub_handler():
 
     # Initialise logging object
+    PROJECT = "checkmate-453316"
     logger = initialise_cloud_logger(PROJECT)
 
     # Raw the incoming Pub/Sub message
@@ -42,7 +42,9 @@ def pubsub_handler():
 
     try:
         # Get base64-encoded data from Pub/Sub message via CloudEvent
-        message_data = cloud_event.data["message"]["data"]
+        envelope = request.get_json()
+        message_data = envelope["message"]["data"]
+
         payload = base64.b64decode(message_data).decode("utf-8")
         logger.log_text(f"Decoded Pub/Sub message payload: {payload}", severity="INFO")
 
