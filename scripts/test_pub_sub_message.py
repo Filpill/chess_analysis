@@ -9,17 +9,18 @@ sys.path.append(f"./functions")
 sys.path.append(f"../functions")
 from shared_func import initialise_cloud_logger
 
+# Initialise Logger
+project_name = "checkmate-453316"
+logger = initialise_cloud_logger(project_name)
+
 try:
-    # Initialise Logger
-    project_name = "checkmate-453316"
-    logger = initialise_cloud_logger(project_name)
     logger.log_text(f"Initialising Test Script For Passing In PUB/SUB MESSAGE into ENV variable")
 
     # Retrieving MESSAGE environement variable which came from pub/sub
     message = os.getenv("MESSAGE")
-    #decoded_message = base64.b64decode(encoded_message).decode("utf-8")
+    #decoded_message = base64.b64decode(message).decode("utf-8")
 
-    if encoded_message:
+    if message:
         statement = f"-----TESTING------ Recieved Pub/Sub Message: {message}"
         print(statement)
         logger.log_text(statement)
