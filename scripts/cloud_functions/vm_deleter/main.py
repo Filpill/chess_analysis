@@ -1,7 +1,7 @@
+import os
 import re
 import json
 import base64
-#import functions_framework
 
 import google.cloud.logging as cloud_logging
 from googleapiclient import discovery
@@ -28,8 +28,6 @@ def delete_vm(project, zone, instance_name, logger):
     logger.log_text(f"Project ID: {project} | Delete request sent for VM: {instance_name} | zone: {zone}", severity="INFO")
     return response
 
-#@functions_framework.cloud_event
-#def pubsub_handler(cloud_event):
 @app.route("/", methods=["POST"])
 def pubsub_handler():
 
@@ -69,5 +67,5 @@ def pubsub_handler():
     except Exception as e:
         logger.log_text(f"Error handling CloudEvent: {e}", severity="ERROR")
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+if __name__  == "__main__":
+    app.run(host="0.0.0.0", port=8080)
