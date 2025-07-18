@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import base64
+import traceback
 import google.cloud.logging as cloud_logging
 from google.cloud import storage
 
@@ -17,18 +18,15 @@ try:
     logger.log_text(f"Initialising Test Script For Passing In PUB/SUB MESSAGE into ENV variable")
 
     # Retrieving MESSAGE environement variable which came from pub/sub
+    #message = "{job_name : test_pub_sub_message}"
     message = os.getenv("MESSAGE")
-    #decoded_message = base64.b64decode(message).decode("utf-8")
+    decoded_message = base64.b64decode(message).decode("utf-8")
 
     if message:
-        statement = f"-----TESTING------ Recieved Pub/Sub Message: {message}"
-        print(statement)
-        logger.log_text(statement)
-
+        logger.log_text(f"-----TESTING------ Recieved Pub/Sub Message: {message}" )
+        logger.log_text(f"-----TESTING------ Recieved Pub/Sub Message Type: {type(message)}" )
     else:
-        statement = f"------TESTING------- No Message Inside Environment Variable"
-        print(statement)
-        logger.log_text(statement)
+        logger.log_text(f"------TESTING------- No Message Inside Environment Variable" )
 
 except Exception as e:
     error_message = f"Exception occurred: {str(e)}\n{traceback.format_exc()}"
