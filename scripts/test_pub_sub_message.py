@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import json
 import base64
 import traceback
@@ -20,7 +21,7 @@ try:
     # Retrieving MESSAGE environement variable which came from pub/sub
     #message = "{job_name : test_pub_sub_message}"
     message = os.getenv("MESSAGE")
-    decoded_message = base64.b64decode(message).decode("utf-8")
+    #decoded_message = base64.b64decode(message).decode("utf-8")
 
     if message:
         logger.log_text(f"-----TESTING------ Recieved Pub/Sub Message: {message}" )
@@ -29,9 +30,11 @@ try:
         logger.log_text(f"------TESTING------- No Message Inside Environment Variable" )
 
 except Exception as e:
-    error_message = f"Exception occurred: {str(e)}\n{traceback.format_exc()}"
-    print(error_message)
+    error_message = f"-----------TESTING EXCEPTION------- Exception occurred: {str(e)}\n{traceback.format_exc()}"
     try:
         logger.log_text(error_message, severity="ERROR")
     except:
         pass  # If logger fails, don't crash again
+
+logging.shutdown()
+time.sleep(2)
