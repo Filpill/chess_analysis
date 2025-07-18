@@ -30,8 +30,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   pipeline:
     +persist_docs:
-      relation: true 
-      columns: true 
+      relation: true
+      columns: true
     +materialized: table
 
     staging:
