@@ -45,6 +45,24 @@ resource "google_pubsub_topic" "delete_vm_topic" {
   name = "delete-vm-topic"
 }
 
+resource "google_logging_project_sink" "docker_exit_sink" {
+  name        = "docker-exit-sink"
+  description = "Sink for extracting the docker container exit logs"
+  project     = "checkmate-453316"
+
+  destination = "pubsub.googleapis.com/projects/checkmate-453316/topics/delete-vm-topic"
+
+  filter = <<EOT
+    logName="projects/checkmate-453316/logs/cos_system"
+    resource.type="gce_instance"
+    jsonPayload.MESSAGE:"container die"
+    jsonPayload.MESSAGE:"image=europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo"
+EOT
+
+  unique_writer_identity = true
+}
+
+
 resource "google_cloud_run_v2_service" "vm_initialiser" {
   name     = "vm-initialiser"
   location = "europe-west1"
@@ -80,7 +98,6 @@ resource "google_cloud_run_v2_service" "vm_deleter" {
     service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
   }
 }
-
 
 resource "google_eventarc_trigger" "vm_deletion_trigger" {
   name     = "trigger-vm-deletion"
