@@ -103,6 +103,7 @@ def pubsub_handler():
             return "Bad Request", 400
 
         MESSAGE_DATA = ENVELOPE["message"]["data"]
+        logger.log_text(f"MESSAGE_DATA before decoding: {MESSAGE_DATA}", severity="INFO")
         if not MESSAGE_DATA:
             logger.log_text("No data in Pub/Sub message", severity="ERROR")
             return "No data", 400
@@ -132,7 +133,7 @@ def pubsub_handler():
             logger,
             INSTANCE_NAME,
             PROJECT_ID,
-            PAYLOAD,
+            MESSAGE_DATA,
             CONTAINER_IMAGE,
             SUB_NET,
             SERVICE_ACCOUNT,
