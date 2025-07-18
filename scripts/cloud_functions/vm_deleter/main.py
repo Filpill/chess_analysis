@@ -37,8 +37,6 @@ def pubsub_handler():
     PROJECT = "checkmate-453316"
     logger = initialise_cloud_logger(PROJECT)
 
-    # Raw the incoming Pub/Sub message
-    logger.log_text(f"Printing incoming cloud event: {cloud_event}", severity="INFO")
 
     try:
         # Get base64-encoded data from Pub/Sub message via CloudEvent
