@@ -71,10 +71,13 @@ resource "google_cloud_scheduler_job" "test_pub_sub_message" {
     pubsub_target {
       topic_name = google_pubsub_topic.start-vm-topic.id
       data        = base64encode(jsonencode({
-          jobName = "test_pub_sub_message",
+          job_name = "test_pub_sub_message",
           script_setting = "test",
           start_date = "2024-04-01",
           end_date = "2025-03-31",
+          setting1 = "A",
+          setting2 = "B",
+          setting3 = "C",
       }))
       attributes = {
         origin = "scheduler"
@@ -94,7 +97,7 @@ resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
     pubsub_target {
       topic_name = google_pubsub_topic.start-vm-topic.id
       data        = base64encode(jsonencode({
-          jobName = "chess_gcs_ingestion"
+          job_name = "chess_gcs_ingestion"
       }))
       attributes = {
         origin = "scheduler"
@@ -113,7 +116,7 @@ resource "google_cloud_scheduler_job" "chess_bigquery_load" {
     pubsub_target {
       topic_name = google_pubsub_topic.start-vm-topic.id
       data        = base64encode(jsonencode({
-          jobName = "chess_bigquery_load"
+          job_name = "chess_bigquery_load"
       }))
       attributes = {
         origin = "scheduler"
