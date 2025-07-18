@@ -22,7 +22,7 @@ def create_instance_with_container(
     logger,
     INSTANCE_NAME,
     PROJECT_ID,
-    PAYLOAD,
+    MESSAGE_DATA,
     CONTAINER_IMAGE,
     SUB_NET,
     SERVICE_ACCOUNT,
@@ -37,10 +37,6 @@ def create_instance_with_container(
         "europe-west1-b",
         "europe-west1-c",
     ]
-
-    # Contains input parameters to pass into scripts within docker containers
-    PUB_SUB_MESSAGE = json.dumps(json.loads(PAYLOAD)).replace('"', '\\"')  # escape quotes    
-    logger.log_text(f"SHELL ESCAPED MESSAGE {PUB_SUB_MESSAGE}")
 
     for ZONE in zone_list:
         logger.log_text(f"Attempting to create VM in {ZONE}")
@@ -60,7 +56,7 @@ def create_instance_with_container(
               --boot-disk-type={BOOT_DISK_TYPE} \
               --boot-disk-device-name=instance-20250403-171730 \
               --container-image={CONTAINER_IMAGE} \
-              --container-env=MESSAGE="{PUB_SUB_MESSAGE}" \
+              --container-env=MESSAGE={MESSAGE_DATA} \
               --container-restart-policy=never \
               --container-privileged \
               --no-shielded-secure-boot \
@@ -97,34 +93,33 @@ def pubsub_handler():
 
     try:
         # Get base64-encoded data from Pub/Sub message
-        envelope = request.get_json()
-        logger.log_text(f"Printing incoming cloud event for VM Initialiser: {envelope}", severity="INFO")
-        if not envelope:
+        ENVELOPE = request.get_json()
+        logger.log_text(f"Printing incoming cloud event for VM Initialiser: {ENVELOPE}", severity="INFO")
+        if not ENVELOPE:
             logger.log_text("Invalid Pub/Sub message format", severity="ERROR")
             return "Bad Request", 400
 
-        message_data = envelope["message"]["data"]
-        if not message_data:
+        MESSAGE_DATA = ENVELOPE["message"]["data"]
+        if not MESSAGE_DATA:
             logger.log_text("No data in Pub/Sub message", severity="ERROR")
             return "No data", 400
 
-        PAYLOAD = base64.b64decode(message_data).decode("utf-8")
+        PAYLOAD = base64.b64decode(MESSAGE_DATA).decode("utf-8")
         logger.log_text(f"Decoded Pub/Sub message payload: {PAYLOAD}", severity="INFO")
 
         # Parse the JSON log entry
-        cloud_scheduler_dict = json.loads(PAYLOAD)
+        CLOUD_SCHEDULER_DICT = json.loads(PAYLOAD)
 
         # Extract the jobName from the message delivered by the cloud scheduler
-        job_name = cloud_scheduler_dict["job_name"]
+        JOB_NAME = CLOUD_SCHEDULER_DICT["job_name"]
 
         # If anything missing - return a NULL value and print log
-        if not job_name:
+        if not JOB_NAME:
             logger.log_text("No jobName found in message sent by cloud scheduler", severity="ERROR")
             return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
-        JOB_NAME=job_name
-        INSTANCE_NAME=job_name.replace("_", "-")
+        INSTANCE_NAME=JOB_NAME.replace("_", "-")
         CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{JOB_NAME}:latest"
 
         # Run function for initialising VM with workload
@@ -143,7 +138,6 @@ def pubsub_handler():
             BOOT_DISK_TYPE,
             SCOPES
         )
-
 
         print("VM Creation Complete!")
 
