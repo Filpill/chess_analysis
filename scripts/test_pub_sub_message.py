@@ -13,14 +13,15 @@ logger.log_text(f"Initialising Test Script For Passing In PUB/SUB MESSAGE into E
 sys.path.append(f"./functions")
 
 # Retrieving MESSAGE environement variable which came from pub/sub
-pub_sub_message = os,getenv("MESSAGE")
-if raw:
-    message = json.loads(raw)
-    statement = f"Recieved Pub/Sub Message: {message}"
+encoded_message = os.getenv("MESSAGE")
+decoded_message = base64.b64decode(encoded_message).decode("utf-8")
+
+if encoded_message:
+    statement = f"-----TESTING------ Recieved Pub/Sub Message: {encoded_message}"
     print(statement)
     logger.log_text(statement)
 
 else:
-    statement = f"No Message Inside Environment Variable"
+    statement = f"------TESTING------- No Message Inside Environment Variable"
     print(statement)
     logger.log_text(statement)
