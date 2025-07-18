@@ -5,6 +5,7 @@ import base64
 import google.cloud.logging as cloud_logging
 from google.cloud import storage
 
+sys.path.append(f"./functions")
 sys.path.append(f"../functions")
 from shared_func import initialise_cloud_logger
 
