@@ -33,9 +33,12 @@ def create_instance_with_container(
 ):
 
     zone_list = [
-        "europe-west1-a",
         "europe-west1-b",
         "europe-west1-c",
+        "europe-west1-d",
+        "europe-west2-a",
+        "europe-west2-b",
+        "europe-west2-c",
     ]
 
     for ZONE in zone_list:
