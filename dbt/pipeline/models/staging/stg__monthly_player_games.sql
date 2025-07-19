@@ -1,4 +1,15 @@
-{{ config(materialized='table') }}
+{{
+ config(
+   materialized = 'incremental',
+   incremental_strategy = 'insert_overwrite',
+   partition_by = {
+     'field': 'game_month',
+     'data_type': 'date',
+     'granularity': 'month'
+   }
+ )
+}}
+
 {% set is_dev = target.name == 'dev' %}
 
 WITH cte_base_aggregate AS (
@@ -18,12 +29,12 @@ WITH cte_base_aggregate AS (
             , COUNT(*)                                                  AS total
       FROM {{  ref("stg__player_games") }} t
       WHERE 1=1
-        {{ dev_date_filter("game_date") }}
+        {{ last_n_days_filter("t.game_month") }}
       GROUP BY ALL
 ),
 
 cte_struct_agg AS (
-      SELECT              
+      SELECT
               game_month
             , game_month_str
             , username
@@ -46,7 +57,7 @@ cte_struct_agg AS (
                         )
                         ORDER BY total DESC
             )                                                           AS openings
-      FROM cte_base_aggregate    
+      FROM cte_base_aggregate
       GROUP BY ALL
 )
 

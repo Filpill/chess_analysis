@@ -1,4 +1,16 @@
-{{ config(materialized='table') }}
+{{
+ config(
+   materialized = 'incremental',
+   incremental_strategy = 'insert_overwrite',
+   partition_by = {
+     'field': 'game_date',
+     'data_type': 'date',
+     'granularity': 'day'
+   }
+ )
+}}
+
+
 {% set is_dev = target.name == 'dev' %}
 
 WITH cte_white_black_union AS (
@@ -42,7 +54,7 @@ cte_base AS (
     SELECT 
         t.game_id
       , t.game_date
-      , cal.cal_month_start                                    AS game_month
+      , cal.month_start_date                                   AS game_month
       , cal.month_year_type1                                   AS game_month_str
       , t.username
       , t.rating
@@ -65,7 +77,7 @@ cte_base AS (
             WHEN t.result = "insufficient"        THEN "draw"
             WHEN t.result = "agreed"              THEN "draw"
             WHEN t.result = "50move"              THEN "draw"
-        END                                                   AS win_loss_draw   
+        END                                                   AS win_loss_draw
       , t.opening_line                                        AS opening_line
       , TRIM(
             REGEXP_REPLACE(REGEXP_REPLACE(t.opening_line , r'\d.*$', ''), r'\.{3,}\s*$', '')
@@ -77,7 +89,7 @@ cte_base AS (
 
     WHERE 1=1 
       AND rated = TRUE
-      {{ dev_date_filter("t.game_date") }}
+      {{ last_n_days_filter("t.game_date") }}
 
 )
 

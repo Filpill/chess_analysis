@@ -1,9 +1,21 @@
-{{ config(materialized='table') }}
+{{
+ config(
+   materialized = 'incremental',
+   incremental_strategy = 'insert_overwrite',
+   partition_by = {
+     'field': 'week_start_date',
+     'data_type': 'date',
+     'granularity': 'day'
+   },
+   cluster_by = ['week_start_date','opening_archetype','time_class']
+ )
+}}
+
 {% set is_dev = target.name == 'dev' %}
 
 WITH cte_aggregate AS (
     SELECT 
-        games.week_start
+        games.week_start_date
       , games.week_number
       , games.time_class
       , map.opening_archetype
@@ -24,13 +36,13 @@ WITH cte_aggregate AS (
         ON map.opening = o.opening
     WHERE 1=1
         AND rules = "chess"
-        {{ dev_date_filter("games.week_start") }}
+        {{ last_n_days_filter("games.week_start") }}
     GROUP BY ALL
 ),
 
 cte_percentage AS (
   SELECT
-        week_start
+        week_start_date
       , week_number
       , time_class
       , opening_archetype
@@ -42,9 +54,9 @@ cte_percentage AS (
       , black_loss_count
       , black_draw_count
   FROM cte_aggregate
-  ORDER BY 
-    week_start DESC
-  , total_games DESC
+  ORDER BY
+    week_start_date DESC
+  , total_games     DESC
 
 )
 

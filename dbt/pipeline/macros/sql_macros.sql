@@ -1,5 +1,5 @@
-{% macro dev_date_filter(column='date_column') %}
-  {% if target.name == 'dev' %}
-    AND {{ column }} BETWEEN CURRENT_DATE()-60 AND CURRENT_DATE()
+{% macro last_n_days_filter(column, days=35) %}
+  {% if is_incremental() %}
+    AND {{ column }} BETWEEN CURRENT_DATE() - {{ days }} AND CURRENT_DATE()
   {% endif %}
 {% endmacro %}
