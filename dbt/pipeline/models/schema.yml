@@ -20,9 +20,9 @@ models:
         description: "Year Number"
       - name: month_name
         description: "Month Name"
-      - name: cal_month_start
+      - name: month_start_date
         description: "Month Start Date"
-      - name: cal_month_end
+      - name: month_end_date
         description: "Month End Date"
       - name: month_year_type1
         description: "Month Year in the format %b-%y"
@@ -40,10 +40,29 @@ models:
         description: "Week Number in the format 'Week' {number}"
       - name: week_number_type2
         description: "Week Number in the format {number}"
-      - name: week_start
+      - name: week_start_date
         description: "Week End Date (Starting Sunday)"
-      - name: week_end
+      - name: week_end_date
         description: "Week End Date (Ending Saturday)"
-
-  - name: test
-    description: "test table"
+      - name: flag_current_month
+        description: "Flag days in the current month"
+      - name: flag_1st_previous_month
+        description: "Flag days in the previous month"
+      - name: flag_2nd_previous_month
+        description: "Flag days in the month before the previous month"
+      - name: flag_current_month_last_year
+        description: "Flag days in the current month from last year"
+      - name: flag_1st_previous_month_last_year
+        description: "Flag days in the previous month from last year"
+      - name: flag_2nd_previous_month_last_year
+        description: "Flag days in the month before the previous month from last year"
+      - name: flag_current_year
+        description: "Flag days in the current year"
+      - name: flag_1st_previous_year
+        description: "Flag days in the previous year"
+      - name: flag_2nd_previous_year
+        description: "Flag days in the year before the previous year"
+      - name: flag_current_last_12_months
+        description: "Flag days in the last 12 months from today"
+      - name: flag_previous_last_12_months
+        description: "Flag days in the last 12 months from todays date last year" 

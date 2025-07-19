@@ -10,13 +10,15 @@ WITH cte_date_array AS (
 
 cte_apply_formatting AS (
     SELECT
+
+          /* Extracting Basic Attibutes */
           cal_date
         , EXTRACT(DAY FROM cal_date)                                      AS day_digit
         , EXTRACT(MONTH FROM cal_date)                                    AS month_digit
         , EXTRACT(YEAR FROM cal_date)                                     AS year_digit
         , FORMAT_DATE('%B', cal_date)                                     AS month_name
 
-        /*Monthly Formats*/
+        /* Monthly Formats */
         , DATE_TRUNC(cal_date, MONTH)                                     AS month_start_date
         , DATE_SUB(
               DATE_TRUNC(DATE_ADD(cal_date, INTERVAL 1 MONTH), MONTH),
@@ -25,19 +27,38 @@ cte_apply_formatting AS (
         , FORMAT_DATE('%b-%y', DATE_TRUNC(cal_date, MONTH))               AS month_year_type1
         , FORMAT_DATE('%B %Y', DATE_TRUNC(cal_date, MONTH))               AS month_year_type2
 
-          /*Weekly Formats - Mon to Sun*/
+          /* Weekly Formats - Mon to Sun */
         , "Week " || EXTRACT(ISOWEEK FROM cal_date)                       AS iso_week_number_type1
         , EXTRACT(ISOWEEK FROM cal_date)                                  AS iso_week_number_type2
         , DATE_TRUNC(cal_date, ISOWEEK)                                   AS iso_week_start
         , DATE_ADD(DATE_TRUNC(cal_date, ISOWEEK), INTERVAL 6 DAY)         AS iso_week_end
 
-          /*Weekly Formats - Sun to Sat*/
+          /* Weekly Formats - Sun to Sat */
         , "Week " || EXTRACT(WEEK(SUNDAY)  FROM cal_date)                 AS week_number_type1
         , EXTRACT(WEEK(SUNDAY)    FROM cal_date)                          AS week_number_type2
         , DATE_TRUNC(cal_date, WEEK(SUNDAY))                              AS week_start_date
         , DATE_ADD(DATE_TRUNC(cal_date, WEEK(SUNDAY)), INTERVAL 6 DAY)    AS week_end_date
-    FROM cte_date_array
 
+        /* Boolean Date Flags */
+        , cal_date BETWEEN DATE_TRUNC(CURRENT_DATE(), MONTH) AND DATE_SUB(DATE_TRUNC(DATE_ADD(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH), INTERVAL 1 DAY) AS flag_current_month
+        , cal_date BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY) AS flag_1st_previous_month
+        , cal_date BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH), MONTH) AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY) AS flag_2nd_previous_month
+        , cal_date BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), MONTH)
+                        AND DATE_SUB(DATE_TRUNC(DATE_ADD(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), INTERVAL 1 MONTH), MONTH), INTERVAL 1 DAY)
+                      AND EXTRACT(MONTH FROM cal_date) = EXTRACT(MONTH FROM CURRENT_DATE()) AS flag_current_month_last_year
+        , cal_date BETWEEN DATE_TRUNC(DATE_SUB(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), INTERVAL 1 MONTH), MONTH)
+                        AND DATE_SUB(DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), MONTH), INTERVAL 1 DAY)
+                      AND EXTRACT(MONTH FROM cal_date) = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS flag_1st_previous_month_last_year
+        , cal_date BETWEEN DATE_TRUNC(DATE_SUB(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), INTERVAL 2 MONTH), MONTH)
+                        AND DATE_SUB(DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), MONTH), INTERVAL 1 DAY)
+                      AND EXTRACT(MONTH FROM cal_date) = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS flag_2nd_previous_month_last_year
+        , EXTRACT(YEAR FROM cal_date) = EXTRACT(YEAR FROM CURRENT_DATE()) AS flag_current_year
+        , EXTRACT(YEAR FROM cal_date) = EXTRACT(YEAR FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)) AS flag_1st_previous_year
+        , EXTRACT(YEAR FROM cal_date) = EXTRACT(YEAR FROM DATE_SUB(CURRENT_DATE(), INTERVAL 2 YEAR)) AS flag_2nd_previous_year
+        , cal_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AND CURRENT_DATE() AS flag_current_last_12_months
+        , cal_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 24 MONTH) AND DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) AS flag_previous_last_12_months
+
+    FROM cte_date_array
 )
 
 SELECT * FROM cte_apply_formatting

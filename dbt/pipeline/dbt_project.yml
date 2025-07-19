@@ -36,8 +36,8 @@ models:
 
     staging:
       +dataset: staging
-    aggregate:
-      +dataset: aggregate
+    marts:
+      +dataset: marts
     universal:
       +dataset: universal
 
