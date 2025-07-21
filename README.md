@@ -104,6 +104,8 @@ uv sync
 ## Docker Image Deployment
 Docker images are the primary method of packaging together the necessary tooling for running workloads on Virtual Machines.
 
+Takes a configuration style approach in building images, but supplying input parameters for determining the image name and Artifact Registry Repo.
+
 Images are stored in the GCP Artifact Registry.
 
 <div align = center>
