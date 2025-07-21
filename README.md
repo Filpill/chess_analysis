@@ -1,22 +1,23 @@
 # Chess.com API - Data Engineering Pipeline
-I've designed an end-to-end ETL pipeline for ingesting large volumes of data from the chess.com API to GCP for analytical purposes.
+I've designed an end-to-end ETL pipeline for ingesting large volumes of data from the chess.com API into GCP to improve data engineering skills.
 
-> *This pipeline is purely educational in terms of its design in order to learn how to bring together multiple cloud resources into executing a reliable and cohesive data pipeline.*
+**Latest revision of chess data application deployed to Cloud Run:** 
+> https://chess-app-dash-810099024571.europe-west1.run.app/ 
 
 ## Data Ingestion Into GCS
 
-In the chess.com API design, all the historically archived game data is segmented by the **player** endpoint. Before being able to being able to retrieve **game** data, we need a way to harvest a list of usernames.
-This is accomplished by making a request to the **leaderboards** endpoint of the chess.com API to get a list of all the top players.
+All the historically archived game data in the API is segmented by the **player** endpoint. 
+The approach is to harvest a list of usernames by making a request to the **leaderboards** endpoint of the chess.com API to get the top players.
 
-For each **player** in the games archive, we make a list of requests for each **monthly date period**. 
+For each **player** in the games archive, we request for each **monthly date period**. 
 
-Data landing into the bucket, closely mirrors the pathing of the API endpoints for clarity and consistency.
+Data landing into the bucket, mirrors the API endpoints paths for clarity, consistency and idempotency.
 
-Before making our requests, we check to see if the data is already exists inside our GCS bucket which yields the following benefits: 
+On each pipeline run, a check is performed to see if the data already exists inside our GCS bucket which yields the following benefits: 
 - **Efficiency:** | Not wasting our time re-requesting data we've already ingested.
 - **Restartability** | We can easily restart our ingestion scripts if the pipeline fails.
 
-After the GCS ingestion is completed, the data transformation script will follow up to land the data into BigQuery. *< work-in-progress >*
+After the GCS ingestion is completed, a loading script will follow up to land the data from GCS into BigQuery.
 
 ## CI/CD Process
 This is a guideline of the CI/CD process that gets executed when the **main** branch is updated.
@@ -163,4 +164,5 @@ Here are a couple of sample matplotlib charts which are analysing some player da
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
 </p>
 
-**Latest revision of chess data application deployed to Cloud Run:** https://chess-app-dash-810099024571.europe-west1.run.app/
+
+
