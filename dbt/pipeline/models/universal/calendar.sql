@@ -87,7 +87,7 @@ cte_apply_formatting AS (
                       AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)                                                               AS flag_1st_previous_month
 
         , cal_date BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH), MONTH) 
-                      AND DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 1 DAY)                                                               AS flag_2nd_previous_month
+                      AND LAST_DAY(DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH))                                                                      AS flag_2nd_previous_month
 
         , cal_date BETWEEN DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), MONTH)
                         AND DATE_SUB(DATE_TRUNC(DATE_ADD(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), INTERVAL 1 MONTH), MONTH), INTERVAL 1 DAY)
@@ -99,7 +99,7 @@ cte_apply_formatting AS (
 
         , cal_date BETWEEN DATE_TRUNC(DATE_SUB(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), INTERVAL 2 MONTH), MONTH)
                         AND DATE_SUB(DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR), MONTH), INTERVAL 1 DAY)
-                      AND EXTRACT(MONTH FROM cal_date) = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))                             AS flag_2nd_previous_month_last_year
+                      AND EXTRACT(MONTH FROM cal_date) = EXTRACT(MONTH FROM DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH))                             AS flag_2nd_previous_month_last_year
 
         /* Weekly (Starting Sunday) Boolean Date Flags */
         , cal_date BETWEEN DATE_TRUNC(CURRENT_DATE(), WEEK)
