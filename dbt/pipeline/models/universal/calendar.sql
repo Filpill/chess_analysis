@@ -13,35 +13,40 @@ cte_apply_formatting AS (
 
           /* Extracting Basic Attibutes */
           cal_date
-        , EXTRACT(DAY          FROM cal_date)                             AS day
-        , EXTRACT(WEEK(SUNDAY) FROM cal_date)                             AS week
-        , EXTRACT(ISOWEEK      FROM cal_date)                             AS iso_week
-        , EXTRACT(MONTH        FROM cal_date)                             AS month
-        , EXTRACT(QUARTER      FROM cal_date)                             AS quarter
-        , EXTRACT(YEAR         FROM cal_date)                             AS year
-        , FORMAT_DATE('%B', cal_date)                                     AS month_name
+        , EXTRACT(DAY          FROM cal_date)                                                   AS day
+        , EXTRACT(WEEK(SUNDAY) FROM cal_date)                                                   AS week
+        , EXTRACT(ISOWEEK      FROM cal_date)                                                   AS iso_week
+        , EXTRACT(MONTH        FROM cal_date)                                                   AS month
+        , EXTRACT(QUARTER      FROM cal_date)                                                   AS quarter
+        , EXTRACT(YEAR         FROM cal_date)                                                   AS year
+        , FORMAT_DATE('%B', cal_date)                                                           AS month_name
 
         /*Quarterly Format*/
-        , FORMAT_DATE('%Y-Q%Q', cal_date)                                 AS year_quarter
+        , FORMAT_DATE('%Y-Q%Q', cal_date)                                                       AS year_quarter
+        , DATE_TRUNC(cal_date, QUARTER)                                                         AS quarter_start_date
+        , DATE_SUB(
+              DATE_TRUNC(DATE_ADD(cal_date, INTERVAL 1 QUARTER), QUARTER),
+              INTERVAL 1 DAY
+          )                                                                                     AS quarter_end_date
 
         /* Monthly Formats */
-        , DATE_TRUNC(cal_date, MONTH)                                     AS month_start_date
+        , DATE_TRUNC(cal_date, MONTH)                                                           AS month_start_date
         , DATE_SUB(
               DATE_TRUNC(DATE_ADD(cal_date, INTERVAL 1 MONTH), MONTH),
               INTERVAL 1 DAY
-          )                                                               AS month_end_date
-        , FORMAT_DATE('%b-%y', DATE_TRUNC(cal_date, MONTH))               AS month_year_short
-        , FORMAT_DATE('%B %Y', DATE_TRUNC(cal_date, MONTH))               AS month_year_full
+          )                                                                                     AS month_end_date
+        , FORMAT_DATE('%b-%y', DATE_TRUNC(cal_date, MONTH))                                     AS month_year_short
+        , FORMAT_DATE('%B %Y', DATE_TRUNC(cal_date, MONTH))                                     AS month_year_full
 
           /* Weekly Formats (ISO) - Mon to Sun */
-        , "Week " || EXTRACT(ISOWEEK FROM cal_date)                       AS iso_week_desc
-        , DATE_TRUNC(cal_date, ISOWEEK)                                   AS iso_week_start_date
-        , DATE_ADD(DATE_TRUNC(cal_date, ISOWEEK), INTERVAL 6 DAY)         AS iso_week_end_date
+        , "Week " || EXTRACT(ISOWEEK FROM cal_date)                                             AS iso_week_desc
+        , DATE_TRUNC(cal_date, ISOWEEK)                                                         AS iso_week_start_date
+        , DATE_ADD(DATE_TRUNC(cal_date, ISOWEEK), INTERVAL 6 DAY)                               AS iso_week_end_date
 
           /* Weekly Formats (Default) - Sun to Sat */
-        , "Week " || EXTRACT(WEEK(SUNDAY)  FROM cal_date)                 AS week_number_desc
-        , DATE_TRUNC(cal_date, WEEK(SUNDAY))                              AS week_start_date
-        , DATE_ADD(DATE_TRUNC(cal_date, WEEK(SUNDAY)), INTERVAL 6 DAY)    AS week_end_date
+        , "Week " || EXTRACT(WEEK(SUNDAY)  FROM cal_date)                                       AS week_number_desc
+        , DATE_TRUNC(cal_date, WEEK(SUNDAY))                                                    AS week_start_date
+        , DATE_ADD(DATE_TRUNC(cal_date, WEEK(SUNDAY)), INTERVAL 6 DAY)                          AS week_end_date
 
 
         /* Yearly Boolean Date Flags */

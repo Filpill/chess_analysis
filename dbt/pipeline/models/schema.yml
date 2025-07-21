@@ -26,9 +26,13 @@ models:
         description: "Year Number"
       - name: month_name
         description: "Name of Month"
+
       - name: year_quarter
         description: "Year and Quarter based on cal_date"
-
+      - name: quarter_start_date
+        description: "Quarter Start Date"
+      - name: quarter_end_date
+        description: "Quarter End Date"
       - name: month_start_date
         description: "Month Start Date"
       - name: month_end_date
