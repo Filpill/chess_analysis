@@ -19,12 +19,15 @@ Before making our requests, we check to see if the data is already exists inside
 After the GCS ingestion is completed, the data transformation script will follow up to land the data into BigQuery. *< work-in-progress >*
 
 ## CI/CD Process
-This is rough guideline of the CI/CD process that gets executed when the **main** branch is updated.
+This is a guideline of the CI/CD process that gets executed when the **main** branch is updated.
+
+> *This does not include updates made to docker images, all image deployments into artifact registry are conducted manually via the CLI*
+
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/cicd.png " alt="drawing" width="800"/>
 </p>
 
-#### Project Directories
+## Project Directories
 The project is segmented into the following directories which contain the following:
 
 <div align = center>
@@ -35,6 +38,7 @@ The project is segmented into the following directories which contain the follow
 | **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
 | **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
 | **dash/**   | Contains files for developing "Dash" python applications  |
+| **dbt/**   | Contains dbt pipeline for modelling chess data  |
 | **bigquery/**   | Contains files runnining SQL scripts on BQ  |
 | **functions/** | Functions which are imported into the core data processing scripts  |
 | **inputs/** | Input parameter files for passing into core data processing scripts |
@@ -42,7 +46,7 @@ The project is segmented into the following directories which contain the follow
   
 </div>
 
-#### Terraform Configuration
+## Terraform Configuration
 The following is an overview of the terraform configuration:
 
 <div align = center>
@@ -58,8 +62,8 @@ The following is an overview of the terraform configuration:
   
 </div>
 
-#### Python Environment
-Python environment is created using the **uv** package manager and the following files specify dependancies:
+## Python Environment
+Python environment is created using the **uv** package manager and the following files specify dependencies:
 
 <div align = center>
 
@@ -96,10 +100,10 @@ To install python library requirements:
 uv sync
 ```
 
-#### Docker Image
-A docker image has been created to package together the necessary gcloud and python tooling so it can be readily pulled by the Virtual Machine.
+## Docker Image Deployment
+Docker images are the primary method of packaging together the necessary tooling for running workloads on Virtual Machines.
 
-> *Does not house any script files; docker image will not automatically update on each pipeline revision.*
+Images are stored in the GCP Artifact Registry.
 
 <div align = center>
 
@@ -110,7 +114,23 @@ A docker image has been created to package together the necessary gcloud and pyt
 
 </div>
 
-> *Local docker bash scripts are not saved in this project repo*
+**Docker Scripts For Building and Pushing Images to Artifact Registry**
+```bash
+#!/bin/bash
+BASE_DIRECTORY="$(pwd)"
+source $BASE_DIRECTORY/variables
+
+read -p "Do you want to enable caching? (y/n): " CACHE_CHOICE
+
+if [[ "$CACHE_CHOICE" == "y" || "$CACHE_CHOICE" == "Y" ]]; then
+  docker build -t $AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:$IMAGE_TAG .
+else
+  docker build --no-cache -t $AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:$IMAGE_TAG .
+fi
+
+docker push $AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:$IMAGE_TAG
+```
+
 
 ## Pipeline Architecture
 This is a high-level view of the key components in the pipeline architecture for executing data pipeline resources to both ingest, transform and load our chess data:
@@ -132,10 +152,9 @@ The following flow chart illustrates how data is processed when transforming and
 
 ## BigQuery SQL Transformation and Data Modelling
 This illustration contains the high-level data model for the BigQuery SQL transformations:
-<p align = center>                                                                                                                                   
+<p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/sql_tables.png " alt="drawing" width="800"/> 
-</p>                                                                                                                                                 
-
+</p>
 
 ## Chess Analysis
 Here are a couple of sample matplotlib charts which are analysing some player data:
@@ -143,3 +162,5 @@ Here are a couple of sample matplotlib charts which are analysing some player da
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/top_openings.png" alt="drawing" width="800"/>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
 </p>
+
+**Latest revision of chess data application deployed to Cloud Run:** https://chess-app-dash-810099024571.europe-west1.run.app/
