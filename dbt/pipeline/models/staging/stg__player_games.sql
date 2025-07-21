@@ -50,8 +50,6 @@ WITH cte_white_black_union AS (
 SELECT
     t.game_id,
     t.game_date,
-    cal.month_start_date                                   AS game_month,
-    cal.month_year_type1                                   AS game_month_str,
     t.username,
     t.rating,
     t.piece_color,
@@ -81,8 +79,6 @@ SELECT
     )                                                     AS opening,
     t.accuracy,
 FROM cte_white_black_union t
-LEFT JOIN {{ ref("calendar") }} cal
-    ON t.game_date = cal.cal_date
 
 WHERE 1=1 
   {{ last_n_days_filter("t.game_date") }}
