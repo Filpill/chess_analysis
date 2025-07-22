@@ -41,6 +41,9 @@ models:
     universal:
       +dataset: universal
 
+vars:
+  test_start_date: '2025-05-01'
+
 seeds:
   pipeline:
     +dataset: universal

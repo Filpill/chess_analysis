@@ -1,0 +1,113 @@
+version: 2
+
+models:
+  - name: calendar
+    description: "Calendar table with wide-combination of values and formats accounting for days/weeks/months/quarters/years"
+    columns:
+      - name: cal_date
+        description: "The calendar date represented at the daily granularity"
+      - name: day
+        description: "Day Number"
+      - name: week
+        description: "Week Number (Starting Sunday)"
+      - name: iso_week
+        description: "Week Number (Starting Monday)"
+      - name: month
+        description: "Month Number"
+      - name: quarter
+        description: "Quarter Number"
+      - name: year
+        description: "Year Number"
+      - name: month_name
+        description: "Name of Month"
+
+      - name: year_quarter
+        description: "Year and Quarter based on cal_date"
+      - name: quarter_start_date
+        description: "Quarter Start Date"
+      - name: quarter_end_date
+        description: "Quarter End Date"
+      - name: month_start_date
+        description: "Month Start Date"
+      - name: month_end_date
+        description: "Month End Date"
+      - name: month_year_short
+        description: "Month Year in the format %b-%y"
+      - name: month_year_full
+        description: "Month Year in the format %B-%Y"
+      - name: iso_week_desc
+        description: "ISO Week Number in the format 'Week' {number}"
+      - name: iso_week_start_date
+        description: "ISO Week Start Date (Starting Monday)"
+      - name: iso_week_end_date
+        description: "ISO Week End Date (Ending Sunday)"
+      - name: week_number_desc
+        description: "Week Number in the format 'Week' {number}"
+      - name: week_start_date
+        description: "Week End Date (Starting Sunday)"
+      - name: week_end_date
+        description: "Week End Date (Ending Saturday)"
+
+      - name: flag_current_month
+        description: "Flag days in the current month"
+      - name: flag_1st_previous_month
+        description: "Flag days in the previous month"
+      - name: flag_2nd_previous_month
+        description: "Flag days in the month before the previous month"
+      - name: flag_current_month_last_year
+        description: "Flag days in the current month from last year"
+      - name: flag_1st_previous_month_last_year
+        description: "Flag days in the previous month from last year"
+      - name: flag_2nd_previous_month_last_year
+        description: "Flag days in the month before the previous month from last year"
+
+      - name: flag_current_quarter
+        description: "Flag days in the current calendar quarter"
+      - name: flag_1st_previous_quarter
+        description: "Flag days in the previous calendar quarter"
+      - name: flag_2nd_previous_quarter
+        description: "Flag days in the calendar quarter before the previous one"
+      - name: flag_current_quarter_last_year
+        description: "Flag days in the current calendar quarter from last year"
+      - name: flag_1st_previous_quarter_last_year
+        description: "Flag days in the previous calendar quarter from last year"
+      - name: flag_2nd_previous_quarter_last_year
+        description: "Flag days in the calendar quarter before the previous one from last year"
+
+      - name: flag_current_week
+        description: "Flag days in the current calendar week (starting Sunday)"
+      - name: flag_1st_previous_week
+        description: "Flag days in the previous calendar week (starting Sunday)"
+      - name: flag_2nd_previous_week
+        description: "Flag days in the calendar week before the previous one (starting Sunday)"
+      - name: flag_current_week_last_year
+        description: "Flag days in the current calendar week from last year (starting Sunday)"
+      - name: flag_1st_previous_week_last_year
+        description: "Flag days in the previous calendar week from last year (starting Sunday)"
+      - name: flag_2nd_previous_week_last_year
+        description: "Flag days in the calendar week before the previous one from last year (starting Sunday)"
+
+      - name: flag_current_iso_week
+        description: "Flag days in the current ISO week (starting Monday)"
+      - name: flag_1st_previous_iso_week
+        description: "Flag days in the previous ISO week (starting Monday)"
+      - name: flag_2nd_previous_iso_week
+        description: "Flag days in the ISO week before the previous one (starting Monday)"
+      - name: flag_current_iso_week_last_year
+        description: "Flag days in the current ISO week from last year (starting Monday)"
+      - name: flag_1st_previous_iso_week_last_year
+        description: "Flag days in the previous ISO week from last year (starting Monday)"
+      - name: flag_2nd_previous_iso_week_last_year
+        description: "Flag days in the ISO week before the previous one from last year (starting Monday)"
+
+      - name: flag_current_year
+        description: "Flag days in the current year"
+      - name: flag_1st_previous_year
+        description: "Flag days in the previous year"
+      - name: flag_2nd_previous_year
+        description: "Flag days in the year before the previous year"
+
+      - name: flag_current_last_12_months
+        description: "Flag days in the last 12 months from today"
+      - name: flag_previous_last_12_months
+        description: "Flag days in the last 12 months from today's date last year"

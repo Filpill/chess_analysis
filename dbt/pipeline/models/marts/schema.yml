@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: quarterly_chess_player_metrics
+    description: >
+      Aggregates player game statistics by quarter, time class, and opening archetype.
+      This model provides breakdowns of game outcomes (win/loss/draw) and average accuracy
+      by piece color (white/black) for rated standard chess games. It uses calendar and
+      opening mapping tables to enrich the game data, and filters to only include recent
+      games based on configurable date logic.
+    columns:
+      - name: quarter_start_date
+        description: The first calendar date of the quarter during which the games were played.
+      - name: year_quarter
+        description: The year and quarter in the format YYYYQn (e.g., 2024Q1).
+      - name: username
+        description: Chess.com username of the player.
+      - name: time_class
+        description: Time control classification of the game (e.g., blitz, rapid, bullet).
+      - name: opening_archetype
+        description: High-level categorization of the opening played. Defaults to "Mapping Failed" if unmapped.
+      - name: total_games
+        description: Total number of rated standard chess games played by the user in the quarter under the given opening archetype and time class.
+      - name: white_win_count
+        description: Number of games won while playing as white.
+      - name: white_loss_count
+        description: Number of games lost while playing as white.
+      - name: white_draw_count
+        description: Number of games drawn while playing as white.
+      - name: white_accuracy
+        description: Average accuracy in games played as white.
+      - name: black_win_count
+        description: Number of games won while playing as black.
+      - name: black_loss_count
+        description: Number of games lost while playing as black.
+      - name: black_draw_count
+        description: Number of games drawn while playing as black.
+      - name: black_accuracy
+        description: Average accuracy in games played as black.
+
+  - name: weekly_chess_player_metrics
+    description: >
+      Weekly aggregate statistics of rated standard chess games by player, piece color, and time class.
+      This model calculates performance metrics such as win/loss/draw counts, accuracy, and rating,
+      separated by white and black games. It uses the calendar table to align games to ISO week start dates
+      and is designed for incremental refresh with weekly partitioning and clustering.
+    columns:
+      - name: week_start_date
+        description: The ISO calendar start date (Monday) for the week in which the games were played.
+      - name: week_number
+        description: The ISO week label in the format YYYY-WW (e.g., 2024-W05).
+      - name: username
+        description: Chess.com username of the player.
+      - name: time_class
+        description: Time control classification of the game (e.g., blitz, rapid, bullet).
+      - name: avg_rating
+        description: Average rating of the player across all games played in the week.
+      - name: total_games
+        description: Total number of rated standard chess games played in the week by the user for the given time class.
+      - name: white_win_count
+        description: Number of games won while playing as white.
+      - name: white_loss_count
+        description: Number of games lost while playing as white.
+      - name: white_draw_count
+        description: Number of games drawn while playing as white.
+      - name: white_accuracy
+        description: Average move accuracy in games played as white.
+      - name: black_win_count
+        description: Number of games won while playing as black.
+      - name: black_loss_count
+        description: Number of games lost while playing as black.
+      - name: black_draw_count
+        description: Number of games drawn while playing as black.
+      - name: black_accuracy
+        description: Average move accuracy in games played as black.

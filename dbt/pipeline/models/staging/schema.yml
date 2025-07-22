@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: chess_raw
+    project: checkmate-453316
+    tables:
+      - name: games
+
+models:
+  - name: stg__player_games
+    description: >
+      Stage model that transforms raw chess game data into a player-level view, 
+      with one row per player per game (both white and black perspectives). 
+      Includes standardizations for result classification (win/loss/draw), 
+      basic game metadata, and parsed opening names. This model supports 
+      incremental loads by game date for efficient backfills.
+    columns:
+      - name: game_id
+        description: Unique identifier of the chess game.
+      - name: game_date
+        description: The date the game was played, used for partitioning.
+      - name: username
+        description: Username of the player (either white or black).
+      - name: rating
+        description: Player's rating at the time the game was played.
+      - name: piece_color
+        description: Color the player was playing in the game (`white` or `black`).
+      - name: time_class
+        description: Time control category of the game (e.g., blitz, rapid, bullet).
+      - name: rules
+        description: Game variant or ruleset (typically `chess` for standard games).
+      - name: raw_result
+        description: Raw result string as recorded in the source data (e.g., win, resigned, stalemate).
+      - name: rated
+        description: Boolean flag indicating whether the game was rated.
+      - name: win_loss_draw
+        description: Normalized result classification with values `win`, `loss`, or `draw` based on `raw_result`.
+      - name: opening_line
+        description: Full ECO-style opening line (e.g., "1.e4 e5 2.Nf3 Nc6").
+      - name: opening
+        description: Cleaned opening name with move numbers and continuation symbols removed, for grouping purposes.
