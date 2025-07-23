@@ -5,6 +5,10 @@ sources:
     project: checkmate-453316
     tables:
       - name: games
+        columns:
+          - name: game_id
+            tests:
+              - unique
 
 models:
   - name: stg__player_games
