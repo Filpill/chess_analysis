@@ -45,10 +45,10 @@ The project is segmented into the following directories which contain the follow
 | **scripts/**   | Core python scripts/notebooks to process chess data  |
 | **scripts/cloud_run_services/**   | Cloud Run Services for controlling GCP resources  |
 | **scripts/functions/** | Functions which are imported into the core data processing scripts  |
+| **scripts/inputs/** | Input parameter files for passing into core data processing scripts |
 | **scripts/gcloud/**   | Miscellaneous gcloud commands for interacting with GCP  |
 | **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
 | **dash/**   | Contains files for developing "Dash" python applications  |
-| **inputs/** | Input parameter files for passing into core data processing scripts |
 | **diagrams/** | Illustrations for architectural design  |
   
 </div>

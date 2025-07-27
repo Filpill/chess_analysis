@@ -13,14 +13,14 @@ RUN mkdir /app/inputs && mkdir /app/functions
 RUN apt-get update && apt-get install -y python3-pip git curl vim
 
 # Create virual environemnt and install dependencies
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/requirements.txt                          > /app/requirements.txt
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/bigquery_chess_transform_load.py > /app/main.py
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/inputs/bq_load_settings.json              > /app/inputs/bq_load_settings.json
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/functions/shared_func.py                  > /app/functions/shared_func.py
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/functions/gcs_func.py                     > /app/functions/gcs_func.py
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/functions/bq_func.py                      > /app/functions/bq_func.py
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/functions/transform_func.py               > /app/functions/transform_func.py
-RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/functions/__init__.py                     > /app/functions/__init__.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/requirements.txt                                  > /app/requirements.txt
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/bigquery_chess_transform_load.py          > /app/main.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/inputs/bq_load_settings.json              > /app/inputs/bq_load_settings.json
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/functions/shared_func.py                  > /app/functions/shared_func.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/functions/gcs_func.py                     > /app/functions/gcs_func.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/functions/bq_func.py                      > /app/functions/bq_func.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/functions/transform_func.py               > /app/functions/transform_func.py
+RUN curl https://raw.githubusercontent.com/Filpill/chess_analysis/refs/heads/main/scripts/functions/__init__.py                     > /app/functions/__init__.py
 RUN pip install -r /app/requirements.txt --break-system-packages
 
 # Set the entrypoint

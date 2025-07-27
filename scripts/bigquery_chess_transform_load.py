@@ -27,10 +27,11 @@ def _():
     from google.cloud.exceptions import NotFound
     from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
-    # Importing Local Functions
-    for rel_path in (".", ".."):
-        sys.path.append(f"{rel_path}/functions")
-        sys.path.append(f"{rel_path}/inputs")
+    # Adding Pathing to Local Functions and Inputs
+    rel_path_list = ["./scripts", "./"]   # Possible pathing to local libraries
+    folder_list = ["functions", "inputs"] # Folders to add to sys path
+    for rel_path, folder in zip(rel_path_list, folder_list):
+        sys.path.append(f"{rel_path}/{folder}")
 
     from shared_func import log_printer
     from shared_func import initialise_cloud_logger
@@ -70,6 +71,8 @@ def _():
         deletion_interaction_list_handler,
         download_content_from_gcs,
         extract_last_url_component,
+        folder,
+        folder_list,
         generate_games_dataframe,
         initialise_cloud_logger,
         json,
@@ -82,6 +85,7 @@ def _():
         pyarrow,
         query_bq_to_dataframe,
         rel_path,
+        rel_path_list,
         return_missing_data_list,
         script_date_endpoint_selection,
         setup_logging,
@@ -103,7 +107,7 @@ def _(
         with open("./inputs/bq_load_settings.json") as f:
             bq_load_settings = json.load(f)
     except FileNotFoundError:
-        with open("../inputs/bq_load_settings.json") as f:
+        with open("./scripts/inputs/bq_load_settings.json") as f:
             bq_load_settings = json.load(f)
 
     date_endpoint   = script_date_endpoint_selection(bq_load_settings) # type: ignore

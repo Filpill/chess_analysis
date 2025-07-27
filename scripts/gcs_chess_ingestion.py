@@ -39,11 +39,13 @@ def _():
 
 @app.cell
 def _(sys):
-    # Importing Local Functions
-    for rel_path in (".", ".."):
-        sys.path.append(f"{rel_path}/functions")
-        sys.path.append(f"{rel_path}/inputs")
+    # Adding Pathing to Local Functions and Inputs
+    rel_path_list = ["./scripts", "./"]   # Possible pathing to local libraries
+    folder_list = ["functions", "inputs"] # Folders to add to sys path
+    for rel_path, folder in zip(rel_path_list, folder_list):
+        sys.path.append(f"{rel_path}/{folder}")
 
+    # Importing Local Functions
     from shared_func import initialise_cloud_logger
 
     from gcs_func import upload_json_to_gcs_bucket
@@ -59,12 +61,15 @@ def _(sys):
     return (
         append_player_endpoints_to_https_chess_prefix,
         exponential_backoff_request,
+        folder,
+        folder_list,
         generate_remaining_endpoint_combinations,
         generate_year_month_list,
         get_top_player_list,
         initialise_cloud_logger,
         list_files_in_gcs,
         rel_path,
+        rel_path_list,
         request_from_list_and_upload_to_gcs,
         script_date_selection,
         upload_json_to_gcs_bucket,
@@ -78,7 +83,7 @@ def _(initialise_cloud_logger, json, script_date_selection):
         with open("./inputs/gcs_ingestion_settings.json") as f:
             gcs_ingestion_settings = json.load(f)
     except:
-        with open("../inputs/gcs_ingestion_settings.json") as f:
+        with open("./scripts/inputs/gcs_ingestion_settings.json") as f:
             gcs_ingestion_settings = json.load(f)
 
     start_date, end_date = script_date_selection(gcs_ingestion_settings) # type: ignore
