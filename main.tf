@@ -17,8 +17,8 @@ locals {
         { file_path = "scripts/functions/gcs_func.py" },
         { file_path = "scripts/functions/transform_func.py" },
         { file_path = "scripts/functions/shared_func.py" },
-        { file_path = "inputs/gcs_ingestion_settings.json" },
-        { file_path = "inputs/bq_load_settings.json" },
+        { file_path = "scripts/inputs/gcs_ingestion_settings.json" },
+        { file_path = "scripts/inputs/bq_load_settings.json" },
         { file_path = "scripts/bigquery_chess_transform_load.py" },
         { file_path = "scripts/gcs_chess_ingestion.py" },
     ]
