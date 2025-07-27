@@ -6,7 +6,7 @@ I've designed an end-to-end ETL pipeline for ingesting large volumes of data fro
 
 ## Repositories
 **Update 2025-07-27:**
-> Migrated logic to seperate repo's to make to add modularity and simplify deployment processes
+> Migrated logic to seperate repo's to add modularity and simplify deployment processes
 
 - Data Ingestion/Loading + Data Visualisation: https://github.com/Filpill/chess_analysis
 - Data Transformation: https://github.com/Filpill/dbt_chess
@@ -156,12 +156,6 @@ The following flow chart illustrates how data is processed when ingesting data i
 The following flow chart illustrates how data is processed when transforming and loading data from GCS to BigQuery:
 <p align = center>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
-</p>
-
-## BigQuery SQL Transformation and Data Modelling
-This illustration contains the high-level data model for the BigQuery SQL transformations:
-<p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/sql_tables.png " alt="drawing" width="800"/> 
 </p>
 
 ## Chess Analysis
