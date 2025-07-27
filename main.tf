@@ -3,8 +3,8 @@
 #============================================
 # Create storage bucket for object related to deployments
 resource "google_storage_bucket" "static" {
-    name          = var.deployment_bucket
-    location      = var.bucket_region
+    name          = "chess-deployments"
+    location      = "EU"
     storage_class = "STANDARD"
 
     uniform_bucket_level_access = true
