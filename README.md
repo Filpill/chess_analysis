@@ -4,6 +4,13 @@ I've designed an end-to-end ETL pipeline for ingesting large volumes of data fro
 **Latest revision of chess data application deployed to Cloud Run:** 
 > https://chess-app-dash-810099024571.europe-west1.run.app/ 
 
+## Repositories
+**Update 2025-07-27:**
+> Migrated logic to seperate repo's to make to add modularity and simplify deployment processes
+
+- Data Ingestion/Loading + Data Visualisation: https://github.com/Filpill/chess_analysis
+- Data Transformation: https://github.com/Filpill/dbt_chess
+
 ## Data Ingestion Into GCS
 
 All the historically archived game data in the API is segmented by the **player** endpoint. 
@@ -39,8 +46,6 @@ The project is segmented into the following directories which contain the follow
 | **scripts/cloud_functions/**   | Python Functions for instantiating or controlling GCP resources  |
 | **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
 | **dash/**   | Contains files for developing "Dash" python applications  |
-| **dbt/**   | Contains dbt pipeline for modelling chess data  |
-| **bigquery/**   | Contains files runnining SQL scripts on BQ  |
 | **functions/** | Functions which are imported into the core data processing scripts  |
 | **inputs/** | Input parameter files for passing into core data processing scripts |
 | **diagrams/** | Illustrations for architectural design  |
@@ -165,6 +170,3 @@ Here are a couple of sample matplotlib charts which are analysing some player da
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/top_openings.png" alt="drawing" width="800"/>
     <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
 </p>
-
-
-
