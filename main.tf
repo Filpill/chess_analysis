@@ -10,29 +10,6 @@ resource "google_storage_bucket" "static" {
     uniform_bucket_level_access = true
 }
 
-# Gather all files needed for deployment
-locals {
-    files = [
-        { file_path = "scripts/functions/bq_func.py" },
-        { file_path = "scripts/functions/gcs_func.py" },
-        { file_path = "scripts/functions/transform_func.py" },
-        { file_path = "scripts/functions/shared_func.py" },
-        { file_path = "scripts/inputs/gcs_ingestion_settings.json" },
-        { file_path = "scripts/inputs/bq_load_settings.json" },
-        { file_path = "scripts/bigquery_chess_transform_load.py" },
-        { file_path = "scripts/gcs_chess_ingestion.py" },
-    ]
-}
-
-# Upload deployment objects to GCS deployment bucket
-resource "google_storage_bucket_object" "objects" {
-    for_each = { for file in local.files : file.file_path => file }
-
-    name    = each.value.file_path
-    source  = each.value.file_path
-    bucket  = google_storage_bucket.static.id
-}
-
 #============================================
 # -------VM Init and Deleter Resources-------
 #============================================
@@ -61,7 +38,6 @@ EOT
 
   unique_writer_identity = true
 }
-
 
 resource "google_cloud_run_v2_service" "vm_initialiser" {
   name     = "vm-initialiser"
