@@ -7,6 +7,9 @@ on:
 
 env:
     PROJECT_ID: "checkmate-453316"
+    SCRIPT_DIR: "scripts"
+    GCS_BUCKET: "gs://chess-deployments"
+    EXCLUSION_REGEX: "__marimo__/.*|__pycache__/.*"
 
 jobs:
   terraform:
@@ -28,7 +31,13 @@ jobs:
         workload_identity_provider: "projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
         service_account: "github-actions-sa@checkmate-453316.iam.gserviceaccount.com"
 
-    - id: 'install'
+    - id: 'gcloud'
+      name: Install gcloud CLI
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+
+    - id: 'tf'
       name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
@@ -46,3 +55,8 @@ jobs:
       name: Terraform Apply
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
+
+    - id: 'rsync'
+      name: Sync folder to GCS Bucket
+      run: |
+        gsutil -m rsync -r -x "${{ env.EXCLUSION_REGEX }}" ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
