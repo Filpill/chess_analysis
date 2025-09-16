@@ -60,4 +60,4 @@ jobs:
     - id: 'rsync'
       name: Sync folder to GCS Bucket
       run: |
-        gsutil -m rsync -r -x ${{ env.EXCLUSION_REGEX }} ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
+        gsutil -m rsync -r -x "${{ env.EXCLUSION_REGEX }}" ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
