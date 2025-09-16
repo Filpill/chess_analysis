@@ -7,6 +7,8 @@ on:
 
 env:
     PROJECT_ID: "checkmate-453316"
+    SCRIPT_FOLDER: "../../scripts"
+    SYNC_ADDRESS: "gs://chess-deployments"
 
 jobs:
   terraform:
@@ -46,3 +48,8 @@ jobs:
       name: Terraform Apply
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
+
+    - id: 'sync scripts'
+      name: Sync folder to GCS
+      run: |
+        gsutil -m rsync -r ${{ env.SYNC_FOLDER }} ${{ env.GCS_BUCKET }}/
