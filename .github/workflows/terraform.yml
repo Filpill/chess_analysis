@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - main
+      - features/rsync
 
 env:
     PROJECT_ID: "checkmate-453316"
-    SCRIPT_FOLDER: "../../scripts"
-    SYNC_ADDRESS: "gs://chess-deployments"
+    SCRIPT_DIR: "../../scripts"
+    GCS_BUCKET: "gs://chess-deployments"
+    EXCLUSION_REGEX: "__marimo__/.*|__pycache__/.*"
 
 jobs:
   terraform:
@@ -30,7 +32,13 @@ jobs:
         workload_identity_provider: "projects/810099024571/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
         service_account: "github-actions-sa@checkmate-453316.iam.gserviceaccount.com"
 
-    - id: 'install'
+    - id: 'gcloud'
+      name: Install gcloud CLI
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+
+    - id: 'install tf'
       name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
@@ -50,6 +58,6 @@ jobs:
       run: terraform apply -auto-approve
 
     - id: 'sync scripts'
-      name: Sync folder to GCS
+      name: Sync folder to GCS Bucket
       run: |
-        gsutil -m rsync -r ${{ env.SYNC_FOLDER }} ${{ env.GCS_BUCKET }}/
+        gsutil -m rsync -r -x ${{ env.EXCLUSION_REGEX }} ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
