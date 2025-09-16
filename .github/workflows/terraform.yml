@@ -38,7 +38,7 @@ jobs:
       with:
         project_id: ${{ env.PROJECT_ID }}
 
-    - id: 'install tf'
+    - id: 'tf'
       name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
@@ -57,7 +57,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve
 
-    - id: 'sync scripts'
+    - id: 'rsync'
       name: Sync folder to GCS Bucket
       run: |
         gsutil -m rsync -r -x ${{ env.EXCLUSION_REGEX }} ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
