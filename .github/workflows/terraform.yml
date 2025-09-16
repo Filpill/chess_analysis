@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - features/rsync
+      - feature/rsync
 
 env:
     PROJECT_ID: "checkmate-453316"
