@@ -1,0 +1,10 @@
+{
+  "script_name": "test_pub_sub_message.py",
+  "job_name": "gcs_python_executor",
+  "script_setting": "test",
+  "start_date": "2024-04-01",
+  "end_date": "2025-03-31",
+  "setting1": "A",
+  "setting2": "B",
+  "setting3": "C"
+}
