@@ -4,8 +4,16 @@ set -euo pipefail
 BUCKET_NAME="gs://chess-deployments/*"
 DEST_DIR="/scripts"
 
-# Activate Service Account -- (dev purposes only)
-gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+# Safe access with default empty string so -u doesn't explode
+GAC_PATH="${GOOGLE_APPLICATION_CREDENTIALS:-}"
+
+if [[ -n "$GAC_PATH" ]]; then
+  echo "INFO: Activating service account from $GAC_PATH"
+  gcloud auth activate-service-account --key-file="$GAC_PATH"
+else
+  echo "INFO: GOOGLE_APPLICATION_CREDENTIALS not set; assuming Workload Identity / ADC"
+  # On Cloud Run, this is normal. Ensure the runtime service account has the right IAM roles.
+fi
 
 echo "Downloading contents of ${BUCKET_NAME} → ${DEST_DIR}"
 gsutil -m cp -r "$BUCKET_NAME" "$DEST_DIR/"

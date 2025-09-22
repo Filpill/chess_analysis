@@ -41,7 +41,7 @@ EOT
 
 resource "google_cloud_run_v2_service" "vm_initialiser" {
   name     = "vm-initialiser"
-  location = "europe-west1"
+  location = "europe-west2"
 
   template {
     containers {
@@ -73,6 +73,38 @@ resource "google_cloud_run_v2_service" "vm_deleter" {
     timeout        = "60s"
     service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
   }
+}
+
+resource "google_eventarc_trigger" "vm_init_trigger" {
+  name     = "trigger-vm-init"
+  location = "europe-west2"
+  project  = "checkmate-453316"
+
+  matching_criteria {
+    attribute = "type"
+    value     = "google.cloud.pubsub.topic.v1.messagePublished"
+  }
+
+  transport {
+    pubsub {
+      topic = google_pubsub_topic.start-vm-topic.id
+    }
+  }
+
+  destination {
+    cloud_run_service {
+      service = google_cloud_run_v2_service.vm_initialiser.name
+      region  = google_cloud_run_v2_service.vm_initialiser.location
+      path    = "/"
+    }
+  }
+
+  service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+
+  depends_on = [
+    google_cloud_run_v2_service.vm_initialiser,
+    google_pubsub_topic.start-vm-topic
+  ]
 }
 
 resource "google_eventarc_trigger" "vm_deletion_trigger" {

@@ -1,5 +1,6 @@
 {
-    "script_setting": "gcs_chess_ingestion.py",
+    "script_name": "gcs_chess_ingestion.py",
+    "script_setting": "default",
     "job_name": "gcs_python_executor",
     "manual_start_date": "2025-04-01",
     "manual_end_date": "2025-04-01",
