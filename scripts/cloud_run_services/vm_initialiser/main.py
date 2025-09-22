@@ -119,8 +119,13 @@ def pubsub_handler():
         SCRIPT_NAME = CLOUD_SCHEDULER_DICT["script_name"]
 
         # If anything missing - return a NULL value and print log
+        if not SCRIPT_NAME:
+            logger.log_text("No script_name found in message sent by cloud scheduler", severity="ERROR")
+            return "No Script Name", 400
+
+        # If anything missing - return a NULL value and print log
         if not JOB_NAME:
-            logger.log_text("No jobName found in message sent by cloud scheduler", severity="ERROR")
+            logger.log_text("No job_name found in message sent by cloud scheduler", severity="ERROR")
             return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
