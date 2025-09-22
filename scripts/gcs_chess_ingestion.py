@@ -40,10 +40,10 @@ def _():
 @app.cell
 def _(sys):
     # Adding Pathing to Local Functions and Inputs
-    rel_path_list = ["./scripts", "./"]   # Possible pathing to local libraries
+    rel_path = "./"   # Possible pathing to local libraries
     folder_list = ["functions", "inputs"] # Folders to add to sys path
-    for rel_path, folder in zip(rel_path_list, folder_list):
-        sys.path.append(f"{rel_path}/{folder}")
+    for folder in folder_list:
+        sys.path.append(f"{rel_path}{folder}")
 
     # Importing Local Functions
     from shared_func import initialise_cloud_logger
@@ -69,7 +69,6 @@ def _(sys):
         initialise_cloud_logger,
         list_files_in_gcs,
         rel_path,
-        rel_path_list,
         request_from_list_and_upload_to_gcs,
         script_date_selection,
         upload_json_to_gcs_bucket,

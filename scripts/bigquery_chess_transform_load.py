@@ -28,10 +28,10 @@ def _():
     from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
     # Adding Pathing to Local Functions and Inputs
-    rel_path_list = ["./scripts", "./"]   # Possible pathing to local libraries
+    rel_path = "./"   # Pathing to local libraries
     folder_list = ["functions", "inputs"] # Folders to add to sys path
-    for rel_path, folder in zip(rel_path_list, folder_list):
-        sys.path.append(f"{rel_path}/{folder}")
+    for folder in folder_list:
+        sys.path.append(f"{rel_path}{folder}")
 
     from shared_func import log_printer
     from shared_func import initialise_cloud_logger
@@ -85,7 +85,6 @@ def _():
         pyarrow,
         query_bq_to_dataframe,
         rel_path,
-        rel_path_list,
         return_missing_data_list,
         script_date_endpoint_selection,
         setup_logging,
