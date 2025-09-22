@@ -1,8 +1,8 @@
 #/bin/bash
 GCP_PROJECT="checkmate-453316"
-IMAGE_NAME="chess_gcs_ingestion"
+IMAGE_NAME="gcs_python_executor"
 IMAGE_TAG="latest"
-CONTAINER_NAME="chess_gcs_ingestion_container"
+CONTAINER_NAME="gcs_python_executor_container"
 AR_TYPE="europe-west2-docker.pkg.dev"
 AR_REPO="docker-chess-repo"
 EXTERNAL_PORT="5432"

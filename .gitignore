@@ -4,5 +4,6 @@ scripts/__marimo__/
 .terraform/
 *.bkp
 *.log
+*sa.json
 dash/sandbox/game_test.csv
 dash/monthly_player_chess_openings.csv
