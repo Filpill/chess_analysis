@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/pubsub-gcs
 
 env:
     PROJECT_ID: "checkmate-453316"
