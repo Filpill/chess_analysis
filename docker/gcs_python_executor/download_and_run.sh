@@ -23,7 +23,6 @@ echo "Download complete"
 pip install -r /scripts/requirements.txt --break-system-packages
 
 # Extract script name from Pub/Sub Message via Cloud Scheduler
-#MESSAGE="ewogICJzY3JpcHRfbmFtZSI6ICJ0ZXN0X3B1Yl9zdWJfbWVzc2FnZS5weSIsCiAgImpvYl9uYW1lIjogImdjc19weXRob25fZXhlY3V0b3IiLAogICJzY3JpcHRfc2V0dGluZyI6ICJ0ZXN0IiwKICAic3RhcnRfZGF0ZSI6ICIyMDI0LTA0LTAxIiwKICAiZW5kX2RhdGUiOiAiMjAyNS0wMy0zMSIsCiAgInNldHRpbmcxIjogIkEiLAogICJzZXR0aW5nMiI6ICJCIiwKICAic2V0dGluZzMiOiAiQyIKfQo="
 DECODED_MESSAGE=$(echo "$MESSAGE" | base64 --decode)
 SCRIPT_NAME=$(echo "$DECODED_MESSAGE" | jq -r '.script_name')
 echo "Running Script: $SCRIPT_NAME"
