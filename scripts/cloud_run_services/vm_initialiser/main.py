@@ -124,7 +124,7 @@ def pubsub_handler():
             return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
-        INSTANCE_NAME=JOB_NAME.replace("_", "-")
+        INSTANCE_NAME=SCRIPT_NAME.split(".")[0].replace("_", "-")
         CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{JOB_NAME}:latest"
 
         # Run function for initialising VM with workload
