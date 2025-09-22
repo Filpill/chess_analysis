@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 # Install Google Cloud CLI (includes gsutil)
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends vim jq \
       ca-certificates curl gnupg \
  && rm -rf /var/lib/apt/lists/* \
  && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg \

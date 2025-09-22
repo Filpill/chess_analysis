@@ -1,0 +1,12 @@
+{
+    "script_name": "gcs_chess_ingestion.py",
+    "script_setting": "default",
+    "job_name": "gcs_python_executor",
+    "manual_start_date": "2025-04-01",
+    "manual_end_date": "2025-04-01",
+    "request_headers": {
+        "User-Agent": "gcs_chess_ingestion.py (Python 3.11) (username: filiplivancic; contact: filiplivancic@gmail.com)"
+    },
+    "project_id" : "checkmate-453316",
+    "bucket_name": "chess-api"
+}

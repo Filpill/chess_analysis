@@ -116,6 +116,7 @@ def pubsub_handler():
 
         # Extract the jobName from the message delivered by the cloud scheduler
         JOB_NAME = CLOUD_SCHEDULER_DICT["job_name"]
+        SCRIPT_NAME = CLOUD_SCHEDULER_DICT["script_name"]
 
         # If anything missing - return a NULL value and print log
         if not JOB_NAME:
@@ -123,11 +124,11 @@ def pubsub_handler():
             return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
-        INSTANCE_NAME=JOB_NAME.replace("_", "-")
+        INSTANCE_NAME=SCRIPT_NAME.split(".")[0].replace("_", "-")
         CONTAINER_IMAGE=f"europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/{JOB_NAME}:latest"
 
         # Run function for initialising VM with workload
-        logger.log_text(f"Running VM initialiser script for cloud scheduler job: {JOB_NAME}...", severity="INFO")
+        logger.log_text(f"Running VM initialiser script for cloud scheduler job: {SCRIPT_NAME}...using docker image {CONTAINER_IMAGE}", severity="INFO")
 
         vm_creator = create_instance_with_container(
             logger,
