@@ -15,6 +15,8 @@ from shared_func import initialise_cloud_logger
 # Initialise Logger
 project_name = "checkmate-453316"
 logger = initialise_cloud_logger(project_name)
+message = os.getenv("MESSAGE")
+print(f"THIS IS THE RAW MESSAGE DATA: {message}")
 
 try:
     logger.log_text(f"---TEST START--- Initialising Test Script For Passing In PUB/SUB MESSAGE into ENV variable")
@@ -23,7 +25,6 @@ try:
     #message = "eyJlbmRfZGF0ZSI6IjIwMjUtMDMtMzEiLCJqb2JfbmFtZSI6InRlc3RfcHViX3N1Yl9tZXNzYWdlIiwic2NyaXB0X3NldHRpbmciOiJ0ZXN0Iiwic2V0dGluZzEiOiJBIiwic2V0dGluZzIiOiJCIiwic2V0dGluZzMiOiJDIiwic3RhcnRfZGF0ZSI6IjIwMjQtMDQtMDEifQ=="
 
     # Retrieving MESSAGE environement variable which came from pub/sub
-    message = os.getenv("MESSAGE")
     decoded_message = base64.b64decode(message).decode("utf-8")
     input_dict = json.loads(decoded_message)
 

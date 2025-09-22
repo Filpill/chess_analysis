@@ -2,7 +2,23 @@
 BASE_DIRECTORY="$(pwd)"
 source $BASE_DIRECTORY/variables
 
+# Example JSON payload
+MESSAGE_JSON='{
+  "script_name": "test_pub_sub_message.py",
+  "job_name": "gcs_python_executor",
+  "script_setting": "test",
+  "start_date": "2024-04-01",
+  "end_date": "2025-03-31",
+  "setting1": "A",
+  "setting2": "B",
+  "setting3": "C"
+}'
+
+# Encode to base64 (single line, no line wraps)
+MESSAGE_BASE64=$(echo "$MESSAGE_JSON" | base64 -w 0)
+
 docker run --rm \
   -v "$PWD/sa.json:/creds/sa.json:ro" \
   -e GOOGLE_APPLICATION_CREDENTIALS=/creds/sa.json \
-  $AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:latest
+  -e MESSAGE="$MESSAGE_BASE64" \
+  "$AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:latest"
