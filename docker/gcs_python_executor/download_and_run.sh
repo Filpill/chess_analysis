@@ -15,5 +15,4 @@ echo "Download complete"
 pip install -r /scripts/requirements.txt --break-system-packages
 
 # Run Python Script
-sleep infinity
-#python /scripts/gcs_chess_ingestion.py
+python /scripts/gcs_chess_ingestion.py
