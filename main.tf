@@ -56,25 +56,6 @@ resource "google_cloud_run_v2_service" "vm_initialiser" {
   }
 }
 
-resource "google_cloud_run_v2_service" "vm_deleter" {
-  name     = "vm-deleter"
-  location = "europe-west2"
-
-  deletion_protection = false 
-
-  template {
-    containers {
-      image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/vm_deleter:latest"
-      env {
-        name  = "LOG_EXECUTION_ID"
-        value = "true"
-      }
-    }
-    timeout        = "60s"
-    service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
-  }
-}
-
 resource "google_eventarc_trigger" "vm_init_trigger" {
   name     = "trigger-vm-init"
   location = "europe-west2"
@@ -105,6 +86,25 @@ resource "google_eventarc_trigger" "vm_init_trigger" {
     google_cloud_run_v2_service.vm_initialiser,
     google_pubsub_topic.start-vm-topic
   ]
+}
+
+resource "google_cloud_run_v2_service" "vm_deleter" {
+  name     = "vm-deleter"
+  location = "europe-west2"
+
+  deletion_protection = false 
+
+  template {
+    containers {
+      image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/vm_deleter:latest"
+      env {
+        name  = "LOG_EXECUTION_ID"
+        value = "true"
+      }
+    }
+    timeout        = "60s"
+    service_account = "startvm-sa@checkmate-453316.iam.gserviceaccount.com"
+  }
 }
 
 resource "google_eventarc_trigger" "vm_deletion_trigger" {
