@@ -98,15 +98,9 @@ def pubsub_handler():
         # Get base64-encoded data from Pub/Sub message
         ENVELOPE = request.get_json()
         logger.log_text(f"Printing incoming cloud event for VM Initialiser: {ENVELOPE}", severity="INFO")
-        if not ENVELOPE:
-            logger.log_text("Invalid Pub/Sub message format", severity="ERROR")
-            return "Bad Request", 400
 
         MESSAGE_DATA = ENVELOPE["message"]["data"]
         logger.log_text(f"MESSAGE_DATA before decoding: {MESSAGE_DATA}", severity="INFO")
-        if not MESSAGE_DATA:
-            logger.log_text("No data in Pub/Sub message", severity="ERROR")
-            return "No data", 400
 
         PAYLOAD = base64.b64decode(MESSAGE_DATA).decode("utf-8")
         logger.log_text(f"Decoded Pub/Sub message payload: {PAYLOAD}", severity="INFO")
@@ -117,16 +111,6 @@ def pubsub_handler():
         # Extract the jobName from the message delivered by the cloud scheduler
         JOB_NAME = CLOUD_SCHEDULER_DICT["job_name"]
         SCRIPT_NAME = CLOUD_SCHEDULER_DICT["script_name"]
-
-        # If anything missing - return a NULL value and print log
-        if not SCRIPT_NAME:
-            logger.log_text("No script_name found in message sent by cloud scheduler", severity="ERROR")
-            return "No Script Name", 400
-
-        # If anything missing - return a NULL value and print log
-        if not JOB_NAME:
-            logger.log_text("No job_name found in message sent by cloud scheduler", severity="ERROR")
-            return "No Job Name", 400
 
         # Name for VM and Container Image to pull down
         INSTANCE_NAME=SCRIPT_NAME.split(".")[0].replace("_", "-")
@@ -154,7 +138,8 @@ def pubsub_handler():
         return "OK", 200
 
     except Exception as e:
-        logger.log_text(f"Error handling CloudEvent: {e}", severity="ERROR")
+        logger.log_text(f"Error handling CloudEvent: {e} not present in pub/sub message", severity="ERROR")
+        return "No Content", 204 # Handle Missing Content From Pub/Sub -- Acknowledge message and do not retry
 
 if __name__  == "__main__":
     app.run(host="0.0.0.0", port=8080)
