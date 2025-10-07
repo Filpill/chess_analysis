@@ -99,12 +99,12 @@ def _(__file__):
       <body style="margin:0;padding:0;background:#f9fafb;font-family:Arial, sans-serif;">
         <table role="presentation" align="center" style="margin:0 auto;max-width:900px;">
           <tr valign="middle">
-            <td style="padding:16px;text-align:left;">
+            <td style="padding:4px;text-align:left;">
               {_base_info_html(exc_type, exc_value, ENVIRONMENT)}
             </td>
-            <td style="padding:16px;text-align:center;">
+            <td style="padding:4px 4px 4px 4px;text-align:center;"> <!-- 👈 right padding -->
               <img src="cid:{cid_ref}" alt="Error image"
-                   style="height:200px;display:block;"/>
+                   style="height:250px;display:block;"/>
             </td>
           </tr>
         </table>
