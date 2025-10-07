@@ -18,6 +18,7 @@ def _(__file__):
     import marimo as mo
     from datetime import datetime
     from email.message import EmailMessage
+    from email.utils import make_msgid
 
     from pygments import highlight
     from pygments.lexers import PythonTracebackLexer
@@ -87,19 +88,47 @@ def _(__file__):
             f"Exception: {exc_type.__name__}: {exc_value}\n\n{stack_text}\n"
         )
 
+        # ---- image setup ----
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        image_path = os.path.join(script_dir, "images", "this-is-fine.jpg")
+        cid = make_msgid(domain="alert.local")  # unique content ID
+        cid_ref = cid[1:-1]
+
         html_body = f"""<!DOCTYPE html>
-    <html><body style="margin:0;padding:0;background:#f9fafb;">
-      <div style="padding:16px;">
-        {_base_info_html(exc_type, exc_value, ENVIRONMENT)}
-        {_format_html_stack(stack_text)}
-      </div>
-    </body></html>"""
+    <html>
+      <body style="margin:0;padding:0;background:#f9fafb;font-family:Arial, sans-serif;">
+        <table role="presentation" align="center" style="margin:0 auto;max-width:900px;">
+          <tr valign="middle">
+            <td style="padding:16px;text-align:left;">
+              {_base_info_html(exc_type, exc_value, ENVIRONMENT)}
+            </td>
+            <td style="padding:16px;text-align:center;">
+              <img src="cid:{cid_ref}" alt="Error image"
+                   style="height:200px;display:block;"/>
+            </td>
+          </tr>
+        </table>
+        <div style="padding:16px;">
+          {_format_html_stack(stack_text)}
+        </div>
+      </body>
+    </html>"""
+    
         msg = EmailMessage()
         msg["From"] = FROM_ADDR
         msg["To"] = ", ".join(TO_ADDRS)
         msg["Subject"] = subject
         msg.set_content(text_body)
         msg.add_alternative(html_body, subtype="html")
+
+        # attach image with CID
+        with open(image_path, "rb") as img:
+            msg.get_payload()[1].add_related(
+                img.read(),
+                maintype="image",
+                subtype="jpg",
+                cid=cid
+            )
         return msg
 
 
@@ -150,6 +179,7 @@ def _(__file__):
         global_excepthook,
         highlight,
         html,
+        make_msgid,
         mo,
         os,
         send_email_message,
@@ -187,6 +217,9 @@ def _(gcp_access_secret, os):
 
         print("trigger manual failure")
         1/0
+        #script_dir = os.path.dirname(os.path.abspath(__file__))
+        #image_path = os.path.join(script_dir, "images", "this-is-fine.jpg")
+        #print(image_path)
     return (main,)
 
 
