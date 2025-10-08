@@ -11,17 +11,20 @@ def _():
     import sys
     sys.path.append(f"./functions")
 
-    from shared_func import gcp_access_secret
     from alerts_func import _format_html_stack
     from alerts_func import _base_info_html
     from alerts_func import build_error_email
     from alerts_func import send_email_message
     from alerts_func import global_excepthook
     from alerts_func import _threading_excepthook
+
+    from shared_func import gcp_access_secret
+    from shared_func import initialise_cloud_logger
     return (
         build_error_email,
         gcp_access_secret,
         global_excepthook,
+        initialise_cloud_logger,
         os,
         send_email_message,
         sys,
@@ -29,10 +32,15 @@ def _():
 
 
 @app.cell
-def _(gcp_access_secret, os):
+def _(gcp_access_secret, initialise_cloud_logger, os):
     def main():
-        # Gmail Creds
+        # Initialise Logger
         project_id = "checkmate-453316"
+        logger = initialise_cloud_logger(project_id)    
+        logger.log_text("EMAIL ALERT TEST -- Script Initilisation", severity="WARNING")
+    
+    
+        # Gmail Creds
         my_gmail_secret = "my_gmail"
         gmail_app_pass_secret = "gmail_app_pass"
         version_id = "latest"
@@ -51,7 +59,7 @@ def _(gcp_access_secret, os):
         os.environ["TO_ADDRS"]  = f"{gmail_user}"  # Comma-separated emails for recieving alerts for multiple
         os.environ["APP_ENV"]   = "TEST"
 
-        print("Triggering Manual Failure...")
+        logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
         1/0
     return (main,)
 
