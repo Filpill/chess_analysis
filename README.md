@@ -95,7 +95,7 @@ uv add <package-name>
 
 To compile package to requirements.txt:
 ```bash
-uv pip compile pyproject.toml > requirements.txt
+uv pip compile pyproject.toml > scripts/requirements.txt
 ```
 
 To activate virtual environment locally:
