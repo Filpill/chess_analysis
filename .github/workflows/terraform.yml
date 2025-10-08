@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/email-alert
 
 env:
     PROJECT_ID: "checkmate-453316"
