@@ -4,6 +4,7 @@ import time
 import random
 import requests
 import google.cloud.logging as cloud_logging
+from google.cloud import secretmanager
 from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
 from datetime import date, datetime, timedelta, timezone

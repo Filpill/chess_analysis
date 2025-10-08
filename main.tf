@@ -143,9 +143,25 @@ resource "google_eventarc_trigger" "vm_deletion_trigger" {
 # ---------- Cloud Scheduler Jobs ----------- 
 #============================================ 
 
-# Create Cloud Scheduler Jobs for Ingestion And Loading
-resource "google_cloud_scheduler_job" "test_pub_sub_message" {
+resource "google_cloud_scheduler_job" "test_email_alert" {
     paused        = false
+    name          = "test_email_alert"
+    region        = "europe-west1"
+    description   = "Testing Python Email Alerting System"
+    schedule      = "0 9 3 * *"
+    time_zone     = "Europe/London"
+
+    pubsub_target {
+      topic_name = google_pubsub_topic.start-vm-topic.id
+      data       = filebase64("./scripts/cloud_scheduler_json/test_email_alert.json")
+      attributes = {
+        origin = "scheduler"
+      }
+    }
+  }
+
+resource "google_cloud_scheduler_job" "test_pub_sub_message" {
+    paused        = true
     name          = "test_pub_sub_message"
     region        = "europe-west1"
     description   = "Testing Pub Sub Message into VM Workload"
@@ -161,7 +177,6 @@ resource "google_cloud_scheduler_job" "test_pub_sub_message" {
     }
   }
 
-# Create Cloud Scheduler Jobs for Ingestion And Loading
 resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
     paused        = false
     name          = "chess_gcs_ingestion"
