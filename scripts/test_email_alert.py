@@ -49,7 +49,7 @@ def _(gcp_access_secret, os):
         os.environ["SMTP_PASS"] = gmail_secret     # Pass for email sending the alert message
         os.environ["FROM_ADDR"] = gmail_user       # Email which is sending the alert message
         os.environ["TO_ADDRS"]  = f"{gmail_user}"  # Comma-separated emails for recieving alerts for multiple
-        os.environ["APP_ENV"]   = "DEV"
+        os.environ["APP_ENV"]   = "TEST"
 
         print("Triggering Manual Failure...")
         1/0
