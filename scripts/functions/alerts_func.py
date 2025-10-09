@@ -55,7 +55,6 @@ def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str
       <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(environment)}</p>
       <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {hostname}</p>
       <p style="margin:0 0 4px 0;"><strong>Time:</strong> {ts}</p>
-      <p style="margin:0 0 4px 0;"><strong>Process:</strong> {process}</p>
       <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {python_path}</p>
       <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {pyver}</p>
       <p style="margin:12px 0 0 0;"><strong>Error Description:</strong> {html.escape(exc_type.__name__)} — {html.escape(str(exc_value))}</p>
@@ -75,17 +74,6 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
     TO_ADDRS = [a.strip() for a in os.getenv("TO_ADDRS","").split(",") if a.strip()]
 
     subject = f"[{ENVIRONMENT}] Script: {python_file} — Error: {exc_type.__name__} — Hostname: {socket.gethostname()}"
-
-    # Plain-text fallback
-    text_body = (
-        f"Uncaught exception\n"
-        f"Environment: {ENVIRONMENT}\n"
-        f"Host: {socket.gethostname()}\n"
-        f"Process: {sys.argv[0]}\n"
-        f"Time: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}\n"
-        f"Python: {sys.version}\n\n"
-        f"Exception: {exc_type.__name__}: {exc_value}\n\n{stack_text}\n"
-    )
 
     # ---- Image Setup ----
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -117,10 +105,10 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
     msg["From"] = FROM_ADDR
     msg["To"] = ", ".join(TO_ADDRS)
     msg["Subject"] = subject
-    msg.set_content(text_body)
+    msg.set_content("") # Multipart 
     msg.add_alternative(html_body, subtype="html")
 
-    # attach image with CID
+    # Attach image with CID
     with open(image_path, "rb") as img:
         msg.get_payload()[1].add_related(
             img.read(),

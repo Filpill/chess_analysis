@@ -38,8 +38,8 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         project_id = "checkmate-453316"
         logger = initialise_cloud_logger(project_id)    
         logger.log_text("EMAIL ALERT TEST -- Script Initilisation", severity="WARNING")
-    
-    
+
+
         # Gmail Creds
         my_gmail_secret = "my_gmail"
         gmail_app_pass_secret = "gmail_app_pass"
@@ -47,6 +47,7 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         gmail_user = gcp_access_secret(project_id, my_gmail_secret, version_id)
         gmail_secret = gcp_access_secret(project_id, gmail_app_pass_secret, version_id)
 
+    
         # ====================
         # Email / SMTP CONFIG
         # ====================
