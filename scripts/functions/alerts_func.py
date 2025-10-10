@@ -42,7 +42,7 @@ def _originating_file_error(exc_traceback) -> str:
     return os.path.abspath(sys.argv[0])  # fallback
 
 
-def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str:
+def _error_metadata_html(exc_traceback, exc_type, exc_value, environment: str) -> str:
     hostname = html.escape(socket.gethostname())
     pyver = html.escape(sys.version)
     process = html.escape(sys.argv[0])
@@ -65,8 +65,9 @@ def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str
 """
 
 
-def build_discord_markdown(exc_traceback, exc_type, exc_value, environment: str) -> str: 
+def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str: 
     hostname = socket.gethostname()
+    environment = os.getenv("APP_ENV", "DEV") 
     pyver = sys.version
     process = sys.argv[0]
     python_path = _originating_file_error(exc_traceback)
@@ -87,7 +88,7 @@ def build_discord_markdown(exc_traceback, exc_type, exc_value, environment: str)
     )
 
 
-def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
+def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
     exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
     stack_text = "".join(exc_lines)
     python_path = __file__
@@ -110,7 +111,7 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
     <table role="presentation" align="center" style="margin:0 auto;max-width:900px;">
       <tr valign="middle">
         <td style="padding:4px;text-align:left;">
-          {_base_info_html(exc_traceback, exc_type, exc_value, ENVIRONMENT)}
+          {_error_metadata_html(exc_traceback, exc_type, exc_value, ENVIRONMENT)}
         </td>
         <td style="padding:4px 4px 4px 4px;text-align:center;"> <!-- 👈 right padding -->
           <img src="cid:{cid_ref}" alt="Error image"
@@ -164,9 +165,10 @@ def send_email_message(msg: EmailMessage):
 def send_discord_message(msg):
 
     project_id = "checkmate-453316"
-    secret_name = "discord-alert-test"
+    secret_name = "discord-alert-webhook"
     version_id = "latest"
     webhook_url = gcp_access_secret(project_id, secret_name, version_id)
+    print(webhook_url)
 
     data = {
         "content": f"{msg}"
@@ -183,10 +185,10 @@ def send_discord_message(msg):
 def global_excepthook(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         return sys.__excepthook__(exc_type, exc_value, exc_traceback)
-    email_msg = build_error_email(exc_type, exc_value, exc_traceback)
-    discord_msg = build_discord_markdown(exc_type, exc_value, exc_traceback)
+    email_msg = build_error_email_msg(exc_type, exc_value, exc_traceback)
+    discord_msg = build_error_discord_msg(exc_type, exc_value, exc_traceback)
     send_email_message(email_msg)
-    send_discord_message(discord_msg): 
+    send_discord_message(discord_msg)
     # Also mirror to stderr locally
     traceback.print_exception(exc_type, exc_value, exc_traceback, file=sys.stderr)
 

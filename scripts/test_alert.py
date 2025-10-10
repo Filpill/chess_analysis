@@ -11,17 +11,20 @@ def _():
     import sys
     sys.path.append(f"./functions")
 
-    from alerts_func import _format_html_stack
-    from alerts_func import _base_info_html
-    from alerts_func import build_error_email
+    from alerts_func import _format_html_stacktrace
+    from alerts_func import _error_metadata_html
+    from alerts_func import build_error_email_msg
+    from alerts_func import build_error_discord_msg
     from alerts_func import send_email_message
+    from alerts_func import send_discord_message
     from alerts_func import global_excepthook
     from alerts_func import _threading_excepthook
 
     from shared_func import gcp_access_secret
     from shared_func import initialise_cloud_logger
     return (
-        build_error_email,
+        build_error_email_msg,
+        build_error_discord_msg,
         gcp_access_secret,
         global_excepthook,
         initialise_cloud_logger,
@@ -47,7 +50,6 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         gmail_user = gcp_access_secret(project_id, my_gmail_secret, version_id)
         gmail_secret = gcp_access_secret(project_id, gmail_app_pass_secret, version_id)
 
-    
         # ====================
         # Email / SMTP CONFIG
         # ====================
