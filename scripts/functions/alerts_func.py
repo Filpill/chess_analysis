@@ -22,7 +22,7 @@ sys.path.append(f"./functions")
 from shared_func import gcp_access_secret
 
 
-def _format_html_stack(stack_text: str) -> str:
+def _format_html_stacktrace(stack_text: str) -> str:
     highlighted = highlight(stack_text, PythonTracebackLexer(), _PYGMENTS_FORMATTER)
     return f"""
 <div style="max-width:720px;margin:16px auto;padding:0 8px;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
@@ -65,20 +65,25 @@ def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str
 """
 
 
-def format_discord_markdown(exc_traceback, exc_type, exc_value, environment: str) -> str: 
-    hostname = html.escape(socket.gethostname())
-    pyver = html.escape(sys.version)
-    process = html.escape(sys.argv[0])
-    python_path = html.escape(_originating_file_error(exc_traceback))
+def build_discord_markdown(exc_traceback, exc_type, exc_value, environment: str) -> str: 
+    hostname = socket.gethostname()
+    pyver = sys.version
+    process = sys.argv[0]
+    python_path = _originating_file_error(exc_traceback)
+    python_file = os.path.basename(_originating_file_error(exc_traceback)) 
     ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+    stack_text = "".join(exc_lines) 
     return (
-        f"**🚨 Python Runtime Exception:** `{html.escape(exc_type.__name__)}`\n\n"
-        f"**Environment:** `{html.escape(environment)}`\n"
+        f"**🚨 Python Runtime Exception:** `{exc_type.__name__}`\n\n"
+        f"**Python File:** `{python_file}`\n"
+        f"**Environment:** `{environment}`\n"
         f"**Hostname:** `{hostname}`\n"
         f"**Time:** `{ts}`\n"
         f"**Python Filepath:** `{python_path}`\n"
         f"**Python Version:** `{pyver}`\n\n"
-        f"**Error Description:** `{html.escape(exc_type.__name__)}` — `{html.escape(str(exc_value))}`"
+        f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`"
+        f"> {stack_text}"
     )
 
 
@@ -114,7 +119,7 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
       </tr>
     </table>
     <div style="padding:16px;">
-      {_format_html_stack(stack_text)}
+      {_format_html_stacktrace(stack_text)}
     </div>
   </body>
 </html>"""
@@ -179,7 +184,7 @@ def global_excepthook(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         return sys.__excepthook__(exc_type, exc_value, exc_traceback)
     email_msg = build_error_email(exc_type, exc_value, exc_traceback)
-    discord_msg = build_error_discord(exc_type, exc_value, exc_traceback)
+    discord_msg = build_discord_markdown(exc_type, exc_value, exc_traceback)
     send_email_message(email_msg)
     send_discord_message(discord_msg): 
     # Also mirror to stderr locally
