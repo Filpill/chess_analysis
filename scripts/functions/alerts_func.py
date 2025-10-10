@@ -5,6 +5,7 @@ import ssl
 import socket
 import html
 import smtplib
+import requests
 import traceback
 import threading
 import marimo as mo
@@ -62,6 +63,23 @@ def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str
   </tr>
 </table>
 """
+
+
+def format_discord_markdown(exc_traceback, exc_type, exc_value, environment: str) -> str: 
+    hostname = html.escape(socket.gethostname())
+    pyver = html.escape(sys.version)
+    process = html.escape(sys.argv[0])
+    python_path = html.escape(_originating_file_error(exc_traceback))
+    ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    return (
+        f"**🚨 Python Runtime Exception:** `{html.escape(exc_type.__name__)}`\n\n"
+        f"**Environment:** `{html.escape(environment)}`\n"
+        f"**Hostname:** `{hostname}`\n"
+        f"**Time:** `{ts}`\n"
+        f"**Python Filepath:** `{python_path}`\n"
+        f"**Python Version:** `{pyver}`\n\n"
+        f"**Error Description:** `{html.escape(exc_type.__name__)}` — `{html.escape(str(exc_value))}`"
+    )
 
 
 def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
@@ -138,12 +156,32 @@ def send_email_message(msg: EmailMessage):
     except Exception:
         print("Failed to send error email:\n", traceback.format_exc(), file=sys.stderr)
 
+def send_discord_message(msg):
+
+    project_id = "checkmate-453316"
+    secret_name = "discord-alert-test"
+    version_id = "latest"
+    webhook_url = gcp_access_secret(project_id, secret_name, version_id)
+
+    data = {
+        "content": f"{msg}"
+    }
+
+    response = requests.post(webhook_url, json=data)
+
+    if response.status_code == 204:
+        print("Message sent successfully!")
+    else:
+        print(f"Failed to send message: {response.status_code}, {response.text}")
+
 
 def global_excepthook(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         return sys.__excepthook__(exc_type, exc_value, exc_traceback)
-    msg = build_error_email(exc_type, exc_value, exc_traceback)
-    send_email_message(msg)
+    email_msg = build_error_email(exc_type, exc_value, exc_traceback)
+    discord_msg = build_error_discord(exc_type, exc_value, exc_traceback)
+    send_email_message(email_msg)
+    send_discord_message(discord_msg): 
     # Also mirror to stderr locally
     traceback.print_exception(exc_type, exc_value, exc_traceback, file=sys.stderr)
 
