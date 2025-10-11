@@ -11,6 +11,7 @@ def _():
     import sys
     sys.path.append(f"./functions")
 
+    from alerts_func import load_environmental_var_config
     from alerts_func import _format_html_stacktrace
     from alerts_func import _error_metadata_html
     from alerts_func import build_error_email_msg
@@ -37,30 +38,23 @@ def _():
 @app.cell
 def _(gcp_access_secret, initialise_cloud_logger, os):
     def main():
-        # Initialise Logger
+
+        # =======================================================================================
+        # ---------------------------------- Setting Globals ------------------------------------
+        # =======================================================================================
+        # ----- Initialise Logger -----
         project_id = "checkmate-453316"
-        logger = initialise_cloud_logger(project_id)    
-        logger.log_text("EMAIL ALERT TEST -- Script Initilisation", severity="WARNING")
+        logger = initialise_cloud_logger(project_id)
+        logger.log_text("EMAIL/DISCORD -- ALERT TEST -- Script Initilisation", severity="WARNING")
+        # =======================================================================================
+        # ----- Email / Discord Config -----
+        alert_cfg = load_environmental_var_config()
+        os.environ["APP_ENV"]   = "PROD"
+        os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
 
-
-        # Gmail Creds
-        my_gmail_secret = "my_gmail"
-        gmail_app_pass_secret = "gmail_app_pass"
-        version_id = "latest"
-        gmail_user = gcp_access_secret(project_id, my_gmail_secret, version_id)
-        gmail_secret = gcp_access_secret(project_id, gmail_app_pass_secret, version_id)
-
-        # ====================
-        # Email / SMTP CONFIG
-        # ====================
-        # After pulling from Secret Manager
-        os.environ["SMTP_HOST"] = "smtp.gmail.com"
-        os.environ["SMTP_PORT"] = "587"
-        os.environ["SMTP_USER"] = gmail_user       # Email used to authenticate with SMTP
-        os.environ["SMTP_PASS"] = gmail_secret     # Pass for email sending the alert message
-        os.environ["FROM_ADDR"] = gmail_user       # Email which is sending the alert message
-        os.environ["TO_ADDRS"]  = f"{gmail_user}"  # Comma-separated emails for recieving alerts for multiple
-        os.environ["APP_ENV"]   = "TEST"
+        if os.getenv("APP_ENV") == "PROD":
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
+        # =======================================================================================
 
         logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
         1/0
