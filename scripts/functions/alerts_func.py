@@ -104,7 +104,7 @@ def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str:
     exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
     stack_text = "".join(exc_lines)
     return (
-        f"# **🚨[{environment}] Python Runtime Exception** — {python_file}\n"
+        f"# **🚨 [{environment}] Python Runtime Exception** — {python_file}\n"
         f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`\n"
         f"**Time:** `{ts}`\n"
         f"**Environment:** `{environment}`\n"
