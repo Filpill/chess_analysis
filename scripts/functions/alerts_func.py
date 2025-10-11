@@ -21,7 +21,7 @@ _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
 sys.path.append(f"./functions")
 from shared_func import gcp_access_secret
 
-def load_environmental_var_config():
+def load_alerts_environmental_config():
     # Gmail Creds For Alerting Email Account
     project_id = "checkmate-453316"
     gmail_user_address_secretname = "my_gmail"

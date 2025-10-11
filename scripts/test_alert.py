@@ -11,7 +11,7 @@ def _():
     import sys
     sys.path.append(f"./functions")
 
-    from alerts_func import load_environmental_var_config
+    from alerts_func import load_alerts_environmental_config
     from alerts_func import _format_html_stacktrace
     from alerts_func import _error_metadata_html
     from alerts_func import build_error_email_msg
@@ -23,6 +23,7 @@ def _():
 
     from shared_func import gcp_access_secret
     from shared_func import initialise_cloud_logger
+    from shared_func import read_cloud_scheduler_message
     return (
         build_error_email_msg,
         build_error_discord_msg,
@@ -47,13 +48,19 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         logger = initialise_cloud_logger(project_id)
         logger.log_text("EMAIL/DISCORD -- ALERT TEST -- Script Initilisation", severity="WARNING")
         # =======================================================================================
+        # ----- Pub/Sub Message Sent Via Cloud Scheduler -----
+        cloud_scheduler_dict = read_cloud_scheduler_message()
+        # =======================================================================================
         # ----- Email / Discord Config -----
-        alert_cfg = load_environmental_var_config()
-        os.environ["APP_ENV"]   = "PROD"
+        alert_config = load_alerts_environmental_config()
+        os.environ["APP_ENV"]   = "TEST"
         os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
 
+        # PROD setting will send alerts, no alerts in DEV or TEST setting
         if os.getenv("APP_ENV") == "PROD":
             os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
+        else:
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = ""
         # =======================================================================================
 
         logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
