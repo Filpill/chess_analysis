@@ -1,0 +1,5 @@
+{
+  "script_name": "test_email_alert.py",
+  "job_name": "gcs_python_executor",
+  "app_env": "PROD"
+}

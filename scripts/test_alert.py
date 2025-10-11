@@ -50,17 +50,19 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         # =======================================================================================
         # ----- Pub/Sub Message Sent Via Cloud Scheduler -----
         cloud_scheduler_dict = read_cloud_scheduler_message()
+        logger.log_text(f"EMAIL/DISCORD -- READING CLOUD SCHEDULER MESSAGE: {cloud_scheduler_dict}", severity="WARNING")
+        if cloud_scheduler_dict is None:
+            os.environ["APP_ENV"]   = "DEV/TEST"
         # =======================================================================================
         # ----- Email / Discord Config -----
         alert_config = load_alerts_environmental_config()
-        os.environ["APP_ENV"]   = "PROD"
         os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
 
         # PROD setting will send alerts, no alerts in DEV or TEST setting
         if os.getenv("APP_ENV") == "PROD":
             os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
         else:
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = ""
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "discord"
         # =======================================================================================
 
         logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
