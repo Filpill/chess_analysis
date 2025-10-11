@@ -143,17 +143,17 @@ resource "google_eventarc_trigger" "vm_deletion_trigger" {
 # ---------- Cloud Scheduler Jobs ----------- 
 #============================================ 
 
-resource "google_cloud_scheduler_job" "test_email_alert" {
+resource "google_cloud_scheduler_job" "test_alert" {
     paused        = false
-    name          = "test_email_alert"
+    name          = "test_alert"
     region        = "europe-west1"
-    description   = "Testing Python Email Alerting System"
+    description   = "Testing Python Email and Discord Alerting System"
     schedule      = "0 9 3 * *"
     time_zone     = "Europe/London"
 
     pubsub_target {
       topic_name = google_pubsub_topic.start-vm-topic.id
-      data       = filebase64("./scripts/cloud_scheduler_json/test_email_alert.json")
+      data       = filebase64("./scripts/cloud_scheduler_json/test_alert.json")
       attributes = {
         origin = "scheduler"
       }

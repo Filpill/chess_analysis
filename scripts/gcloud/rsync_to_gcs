@@ -1,0 +1,7 @@
+#!/bin/sh
+PROJECT_ID="checkmate-453316"
+SCRIPT_DIR="../" # Back one dir to scripts directory
+GCS_BUCKET="gs://chess-deployments"
+EXCLUSION_REGEX="__marimo__/.*|__pycache__/.*"
+
+gsutil -m rsync -r -x $EXCLUSION_REGEX $SCRIPT_DIR $GCS_BUCKET/
