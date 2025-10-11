@@ -53,7 +53,7 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         # =======================================================================================
         # ----- Email / Discord Config -----
         alert_config = load_alerts_environmental_config()
-        os.environ["APP_ENV"]   = "TEST"
+        os.environ["APP_ENV"]   = "PROD"
         os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
 
         # PROD setting will send alerts, no alerts in DEV or TEST setting

@@ -216,10 +216,10 @@ def global_excepthook(exc_type, exc_value, exc_traceback):
     email_msg = build_error_email_msg(exc_type, exc_value, exc_traceback)
     discord_msg = build_error_discord_msg(exc_type, exc_value, exc_traceback)
 
-    if os.getenv("APP_ENV") == "PROD" and "email" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+    if "email" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
         send_email_message(email_msg)
 
-    if os.getenv("APP_ENV") == "PROD" and "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+    if "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
         send_discord_message(discord_msg)
 
     # Mirror to stderr locally
