@@ -5,6 +5,7 @@ import ssl
 import socket
 import html
 import smtplib
+import requests
 import traceback
 import threading
 import marimo as mo
@@ -20,8 +21,36 @@ _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
 sys.path.append(f"./functions")
 from shared_func import gcp_access_secret
 
+def load_alerts_environmental_config():
+    # Gmail Creds For Alerting Email Account
+    project_id = "checkmate-453316"
+    gmail_user_address_secretname = "my_gmail"
+    gmail_app_passkey_secretname  = "gmail_app_pass"
+    version_id = "latest"
+    gmail_user = gcp_access_secret(project_id, gmail_user_address_secretname, version_id)
+    gmail_passkey = gcp_access_secret(project_id, gmail_app_passkey_secretname, version_id)
 
-def _format_html_stack(stack_text: str) -> str:
+    # Set Default Global Environmental Variables
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com").lower()
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER = os.getenv("SMTP_USER", gmail_user)
+    SMTP_PASS = os.getenv("SMTP_PASS", gmail_passkey)
+    TOGGLE_ENABLED_ALERT_SYSTEMS= os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", "email,discord").lower()
+
+    env_vars =  {
+        "SMTP_HOST": SMTP_HOST,
+        "SMTP_PORT": SMTP_PORT,
+        "SMTP_USER": SMTP_USER,
+        "SMTP_PASS": SMTP_PASS,
+        "TOGGLE_ENABLED_ALERT_SYSTEMS": TOGGLE_ENABLED_ALERT_SYSTEMS,
+    }
+
+    for key, value in env_vars.items():
+        os.environ[key] = str(value)
+
+    return env_vars
+
+def _format_html_stacktrace(stack_text: str) -> str:
     highlighted = highlight(stack_text, PythonTracebackLexer(), _PYGMENTS_FORMATTER)
     return f"""
 <div style="max-width:720px;margin:16px auto;padding:0 8px;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
@@ -41,7 +70,7 @@ def _originating_file_error(exc_traceback) -> str:
     return os.path.abspath(sys.argv[0])  # fallback
 
 
-def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str:
+def _error_metadata_html(exc_traceback, exc_type, exc_value, environment: str) -> str:
     hostname = html.escape(socket.gethostname())
     pyver = html.escape(sys.version)
     process = html.escape(sys.argv[0])
@@ -64,13 +93,36 @@ def _base_info_html(exc_traceback, exc_type, exc_value, environment: str) -> str
 """
 
 
-def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
+def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str: 
+    hostname = socket.gethostname()
+    environment = os.getenv("APP_ENV", "UNDEFINED") 
+    pyver = sys.version
+    process = sys.argv[0]
+    python_path = _originating_file_error(exc_traceback)
+    python_file = os.path.basename(_originating_file_error(exc_traceback))
+    ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+    stack_text = "".join(exc_lines)
+    return (
+        f"# **🚨 [{environment}] Python Runtime Exception** — {python_file}\n"
+        f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`\n"
+        f"**Time:** `{ts}`\n"
+        f"**Environment:** `{environment}`\n"
+        f"**Hostname:** `{hostname}`\n"
+        f"**Python Filepath:** `{python_path}`\n"
+        f"**Python Version:** `{pyver}`\n\n"
+        f"**Stack Trace:**\n"
+        f"```python\n{stack_text}```"
+    )
+
+
+def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
     exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
     stack_text = "".join(exc_lines)
     python_path = __file__
     python_file = os.path.basename(_originating_file_error(exc_traceback))
     ENVIRONMENT = os.getenv("APP_ENV", "DEV")
-    FROM_ADDR = os.getenv("FROM_ADDR")
+    SMTP_USER = os.getenv("SMTP_USER")
     TO_ADDRS = [a.strip() for a in os.getenv("TO_ADDRS","").split(",") if a.strip()]
 
     subject = f"[{ENVIRONMENT}] Script: {python_file} — Error: {exc_type.__name__} — Hostname: {socket.gethostname()}"
@@ -87,7 +139,7 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
     <table role="presentation" align="center" style="margin:0 auto;max-width:900px;">
       <tr valign="middle">
         <td style="padding:4px;text-align:left;">
-          {_base_info_html(exc_traceback, exc_type, exc_value, ENVIRONMENT)}
+          {_error_metadata_html(exc_traceback, exc_type, exc_value, ENVIRONMENT)}
         </td>
         <td style="padding:4px 4px 4px 4px;text-align:center;"> <!-- 👈 right padding -->
           <img src="cid:{cid_ref}" alt="Error image"
@@ -96,13 +148,13 @@ def build_error_email(exc_type, exc_value, exc_traceback) -> EmailMessage:
       </tr>
     </table>
     <div style="padding:16px;">
-      {_format_html_stack(stack_text)}
+      {_format_html_stacktrace(stack_text)}
     </div>
   </body>
 </html>"""
 
     msg = EmailMessage()
-    msg["From"] = FROM_ADDR
+    msg["From"] = SMTP_USER
     msg["To"] = ", ".join(TO_ADDRS)
     msg["Subject"] = subject
     msg.set_content("") # Multipart 
@@ -138,13 +190,39 @@ def send_email_message(msg: EmailMessage):
     except Exception:
         print("Failed to send error email:\n", traceback.format_exc(), file=sys.stderr)
 
+def send_discord_message(msg):
+
+    project_id = "checkmate-453316"
+    secret_name = "discord-alert-webhook"
+    version_id = "latest"
+    webhook_url = gcp_access_secret(project_id, secret_name, version_id)
+
+    data = {
+        "content": f"{msg}"
+    }
+
+    response = requests.post(webhook_url, json=data)
+
+    if response.status_code == 204:
+        print("Message sent successfully!")
+    else:
+        print(f"Failed to send message: {response.status_code}, {response.text}")
+
 
 def global_excepthook(exc_type, exc_value, exc_traceback):
+
     if issubclass(exc_type, KeyboardInterrupt):
         return sys.__excepthook__(exc_type, exc_value, exc_traceback)
-    msg = build_error_email(exc_type, exc_value, exc_traceback)
-    send_email_message(msg)
-    # Also mirror to stderr locally
+    email_msg = build_error_email_msg(exc_type, exc_value, exc_traceback)
+    discord_msg = build_error_discord_msg(exc_type, exc_value, exc_traceback)
+
+    if "email" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+        send_email_message(email_msg)
+
+    if "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+        send_discord_message(discord_msg)
+
+    # Mirror to stderr locally
     traceback.print_exception(exc_type, exc_value, exc_traceback, file=sys.stderr)
 
 

@@ -9,7 +9,7 @@ env:
     PROJECT_ID: "checkmate-453316"
     SCRIPT_DIR: "scripts"
     GCS_BUCKET: "gs://chess-deployments"
-    EXCLUSION_REGEX: "__marimo__/.*|__pycache__/.*"
+    EXCLUSION_REGEX: "__marimo__/.*|__pycache__/.*|.pyc*"
 
 jobs:
   terraform:

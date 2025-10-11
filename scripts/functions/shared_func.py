@@ -1,6 +1,8 @@
+import os
 import sys
 import json
 import time
+import base64
 import random
 import requests
 import google.cloud.logging as cloud_logging
@@ -21,6 +23,7 @@ def log_printer(msg, logger, severity="INFO", console_print=True):
         formatter = f"[{severity}] {timestamp}:"
         print(f"{formatter} {msg}")
 
+
 def initialise_cloud_logger(project_id: str):
     client = cloud_logging.Client(project=project_id)
     logger = client.logger(__name__)
@@ -32,3 +35,14 @@ def gcp_access_secret(project_id, secret_id, version_id="latest"):
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
     response = client.access_secret_version(name=name)
     return response.payload.data.decode('UTF-8')
+
+
+def read_cloud_scheduler_message():
+    # Retrieving MESSAGE environement variable arriving via pub/sub
+    message = os.getenv("MESSAGE")
+    if message is not None:
+        decoded_message = base64.b64decode(message).decode("utf-8")
+        cloud_scheduler_dict = json.loads(decoded_message)
+        return cloud_scheduler_dict
+    else:
+        return None
