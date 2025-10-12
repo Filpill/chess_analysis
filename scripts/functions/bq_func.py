@@ -34,13 +34,14 @@ def create_bigquery_table(
     log_printer(f"Created table {table_id}", logger)
     return table
 
-def create_bigquery_dataset(dataset_id: str, location: str, logger):
+def create_bigquery_dataset(project_id: str ,dataset_id: str, location: str, logger):
     client = bigquery.Client()
-    dataset = bigquery.Dataset(dataset_id)
+    full_id = f"{project_id}.{dataset_id}"   
+    dataset = bigquery.Dataset(full_id)
     dataset.location = location
  
     dataset = client.create_dataset(dataset, timeout=30)  # timeout in seconds
-    log_printer(f"Created table {dataset_id}", logger)
+    log_printer(f"Created dataset {full_id}", logger)
 
 def check_bigquery_dataset_exists(dataset_id: str, logger) -> bool:
 

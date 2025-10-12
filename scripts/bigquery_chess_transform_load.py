@@ -145,9 +145,10 @@ def _(
     dataset_id,
     location,
     logger,
+    project_id,
 ):
     if check_bigquery_dataset_exists(dataset_id, logger) == False:
-        create_bigquery_dataset(dataset_id, location)
+        create_bigquery_dataset(project_id, dataset_id, location, logger)
     return
 
 
