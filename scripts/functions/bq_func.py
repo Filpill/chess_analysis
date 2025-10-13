@@ -105,3 +105,45 @@ def query_bq_to_dataframe(
     log_printer(f"Query completed successfully. DataFrame created with {rows} rows and {cols} columns.", logger)
 
     return df
+
+
+def create_bq_run_monitor_datasets(project_id, logger):
+    # Definining Schema of Runs Being Triggered/Failed in Python
+    location = "EU"
+    dataset_name = f"00_pipeline_monitor"
+    if check_bigquery_dataset_exists(dataset_name, logger) == False:
+        create_bigquery_dataset(project_id, dataset_name, location, logger)
+
+    table_name = "runs_triggered"
+    table_runs_triggered = f"{project_id}.{dataset_name}.{table_name}"
+
+    schema_runs_triggered = [
+        bigquery.SchemaField(name="run_id",         field_type="STRING",     mode="REQUIRED",  description="UUID of the pipeline run executed"),
+        bigquery.SchemaField(name="run_date",       field_type="DATE",       mode="REQUIRED",  description="Date of the pipeline run"),
+        bigquery.SchemaField(name="run_dt",         field_type="TIMESTAMP",  mode="REQUIRED",  description="Datetime of the pipeline run"),
+        bigquery.SchemaField(name="script_name",    field_type="STRING",     mode="REQUIRED",  description="Name of script"),
+        bigquery.SchemaField(name="environment",    field_type="STRING",     mode="REQUIRED",  description="Name of environement e.g.: PROD/DEV/TEST"),
+        bigquery.SchemaField(name="hostname",       field_type="STRING",     mode="REQUIRED",  description="Name of machine running script"),
+        bigquery.SchemaField(name="python_version", field_type="STRING",     mode="REQUIRED",  description="Python version used during runtime"),
+    ]
+    loading_time_partitioning_field ="run_date"
+
+    if check_bigquery_table_exists(table_runs_triggered, logger) == False:
+        create_bigquery_table(table_runs_triggered, schema_runs_triggered, logger, loading_time_partitioning_field)
+
+    table_name = "runs_failed"
+    table_runs_failed = f"{project_id}.{dataset_name}.{table_name}"
+
+    schema_runs_failed = [
+        bigquery.SchemaField(name="run_id",          field_type="STRING",     mode="REQUIRED",  description="UUID of the pipeline run executed"),
+        bigquery.SchemaField(name="run_failed_date", field_type="DATE",       mode="REQUIRED",  description="Date of the failed pipeline run"),
+        bigquery.SchemaField(name="run_failed_dt",   field_type="TIMESTAMP",  mode="REQUIRED",  description="Datetime of the failed pipeline run"),
+        bigquery.SchemaField(name="failed_filename", field_type="STRING",     mode="REQUIRED",  description="Name of file that failed"),
+        bigquery.SchemaField(name="exception_type",  field_type="STRING",     mode="REQUIRED",  description="Type of exception"),
+        bigquery.SchemaField(name="exception_value", field_type="STRING",     mode="REQUIRED",  description="Value of exception"),
+        bigquery.SchemaField(name="stack_trace",     field_type="STRING",     mode="REQUIRED",  description="Details of error produced"),
+    ]
+    loading_time_partitioning_field ="run_failed_date"
+
+    if check_bigquery_table_exists(table_runs_failed, logger) == False:
+        create_bigquery_table(table_runs_failed, schema_runs_failed, logger, loading_time_partitioning_field)
