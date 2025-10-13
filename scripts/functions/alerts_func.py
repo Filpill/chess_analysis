@@ -70,68 +70,66 @@ def _originating_file_error(exc_traceback) -> str:
     return os.path.abspath(sys.argv[0])  # fallback
 
 
-def _error_metadata_html(exc_traceback, exc_type, exc_value, environment: str) -> str:
-    hostname = html.escape(socket.gethostname())
-    pyver = html.escape(sys.version)
-    process = html.escape(sys.argv[0])
-    python_path = html.escape(_originating_file_error(exc_traceback))
-    ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+def _collect_error_metadata(exc_traceback, exc_type, exc_value):
+    return {
+        "hostname" : socket.gethostname(),
+        "environment" : os.getenv("APP_ENV", "UNDEFINED"),
+        "pyver" : sys.version,
+        "process" : sys.argv[0],
+        "python_path" : _originating_file_error(exc_traceback),
+        "python_file" : os.path.basename(_originating_file_error(exc_traceback)),
+        "ts" : datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "exc_lines" : traceback.format_exception(exc_type, exc_value, exc_traceback),
+        "stack_text" : "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+    }
+
+
+def _error_metadata_html(exc_traceback, exc_type, exc_value) -> str:
+    metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return f"""
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;margin:0 auto;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
   <tr>
     <td style="padding:16px 8px;">
       <h2 style="margin:0 0 8px 0;font-size:18px;">🚨 Python Runtime Exception: {html.escape(exc_type.__name__)}</h2>
-      <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(environment)}</p>
-      <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {hostname}</p>
-      <p style="margin:0 0 4px 0;"><strong>Time:</strong> {ts}</p>
-      <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {python_path}</p>
-      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {pyver}</p>
+      <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(metadata["environment"])}</p>
+      <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {metadata["hostname"]}</p>
+      <p style="margin:0 0 4px 0;"><strong>Time:</strong> {metadata["ts"]}</p>
+      <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {metadata["python_path"]}</p>
+      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {metadata["pyver"]}</p>
       <p style="margin:12px 0 0 0;"><strong>Error Description:</strong> {html.escape(exc_type.__name__)} — {html.escape(str(exc_value))}</p>
     </td>
   </tr>
 </table>
 """
 
+def _make_image_content_id():
+    script_dir = os.path.dirname(os.path.abspath(__file__))                   
+    image_path = os.path.join(script_dir, "..", "images", "this-is-fine.jpg") 
+    cid = make_msgid(domain="alert.local")  # unique content ID               
+    return image_path, cid
+
 
 def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str: 
-    hostname = socket.gethostname()
-    environment = os.getenv("APP_ENV", "UNDEFINED") 
-    pyver = sys.version
-    process = sys.argv[0]
-    python_path = _originating_file_error(exc_traceback)
-    python_file = os.path.basename(_originating_file_error(exc_traceback))
-    ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-    exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-    stack_text = "".join(exc_lines)
+    metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return (
-        f"# **🚨 [{environment}] Python Runtime Exception** — {python_file}\n"
+        f"# **🚨 [{metadata['environment']}] Python Runtime Exception** — {metadata['python_file']}\n"
         f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`\n"
-        f"**Time:** `{ts}`\n"
-        f"**Environment:** `{environment}`\n"
-        f"**Hostname:** `{hostname}`\n"
-        f"**Python Filepath:** `{python_path}`\n"
-        f"**Python Version:** `{pyver}`\n\n"
+        f"**Time:** `{metadata['ts']}`\n"
+        f"**Environment:** `{metadata['environment']}`\n"
+        f"**Hostname:** `{metadata['hostname']}`\n"
+        f"**Python Filepath:** `{metadata['python_path']}`\n"
+        f"**Python Version:** `{metadata['pyver']}`\n\n"
         f"**Stack Trace:**\n"
-        f"```python\n{stack_text}```"
+        f"```python\n{metadata['stack_text']}```"
     )
 
 
 def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
-    exc_lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-    stack_text = "".join(exc_lines)
-    python_path = __file__
-    python_file = os.path.basename(_originating_file_error(exc_traceback))
-    ENVIRONMENT = os.getenv("APP_ENV", "DEV")
-    SMTP_USER = os.getenv("SMTP_USER")
-    TO_ADDRS = [a.strip() for a in os.getenv("TO_ADDRS","").split(",") if a.strip()]
 
-    subject = f"[{ENVIRONMENT}] Script: {python_file} — Error: {exc_type.__name__} — Hostname: {socket.gethostname()}"
+    image_path, cid = _make_image_content_id()
+    metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
 
-    # ---- Image Setup ----
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    image_path = os.path.join(script_dir, "..", "images", "this-is-fine.jpg")
-    cid = make_msgid(domain="alert.local")  # unique content ID
-    cid_ref = cid[1:-1]
+    subject = f"[{metadata['environment']}] Script: {metadata['python_file']} — Error: {exc_type.__name__} — Hostname: {metadata['hostname']}"
 
     html_body = f"""<!DOCTYPE html>
 <html>
@@ -139,23 +137,23 @@ def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
     <table role="presentation" align="center" style="margin:0 auto;max-width:900px;">
       <tr valign="middle">
         <td style="padding:4px;text-align:left;">
-          {_error_metadata_html(exc_traceback, exc_type, exc_value, ENVIRONMENT)}
+          {_error_metadata_html(exc_traceback, exc_type, exc_value)}
         </td>
-        <td style="padding:4px 4px 4px 4px;text-align:center;"> <!-- 👈 right padding -->
-          <img src="cid:{cid_ref}" alt="Error image"
+        <td style="padding:4px 4px 4px 4px;text-align:center;">
+          <img src="cid:{cid[1:-1]}" alt="Error image"
                style="height:250px;display:block;"/>
         </td>
       </tr>
     </table>
     <div style="padding:16px;">
-      {_format_html_stacktrace(stack_text)}
+      {_format_html_stacktrace(metadata['stack_text'])}
     </div>
   </body>
 </html>"""
 
     msg = EmailMessage()
-    msg["From"] = SMTP_USER
-    msg["To"] = ", ".join(TO_ADDRS)
+    msg["From"] = os.getenv("SMTP_USER")
+    msg["To"] = ", ".join([a.strip() for a in os.getenv("TO_ADDRS","").split(",") if a.strip()])
     msg["Subject"] = subject
     msg.set_content("") # Multipart 
     msg.add_alternative(html_body, subtype="html")
