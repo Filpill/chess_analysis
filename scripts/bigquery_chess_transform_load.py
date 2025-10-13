@@ -366,8 +366,8 @@ def _(
 ):
     if script_setting == "prod":
         deletion_interaction_list_handler(df_interaction_list, bucket_name, logger)
-        append_df_to_bigquery_table(df_deduplicated, table_id_games, logger)
-        append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed, logger)
+        append_df_to_bigquery_table(df_deduplicated, table_id_games)
+        append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed)
     return
 
 

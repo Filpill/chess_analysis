@@ -68,7 +68,7 @@ def check_bigquery_table_exists(table_id: str, logger) -> bool:
         log_printer(f"Table {table_id} doesn't exists", logger)
         return False
 
-def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger) -> None:
+def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger=None) -> None:
 
     # Configure the query job to append results
     client = bigquery.Client()
@@ -79,7 +79,9 @@ def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger) -> None
     # Load the DataFrame into BigQuery
     job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
     job.result()  # Wait for the job to complete
-    log_printer(f"{len(df)} records appended to {table_id}", logger)
+
+    if logger is not None:
+        log_printer(f"{len(df)} records appended to {table_id}", logger)
 
 
 def query_bq_to_dataframe(

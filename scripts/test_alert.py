@@ -21,7 +21,8 @@ def _():
     from alerts_func import send_email_message
     from alerts_func import send_discord_message
     from alerts_func import create_bq_run_monitor_datasets
-    from alerts_func import append_to_trigger_dataset
+    from alerts_func import append_to_trigger_bq_dataset
+    from alerts_func import append_to_failed_bq_dataset
     from alerts_func import global_excepthook
     from alerts_func import _threading_excepthook
 
@@ -72,6 +73,7 @@ def _(
         # =======================================================================================
         # ----- Initialise Logger -----
         project_id = "checkmate-453316"
+        os.environ["PROJECT_ID"] = project_id
         logger = initialise_cloud_logger(project_id)
         logger.log_text("EMAIL/DISCORD -- ALERT TEST -- Script Initilisation", severity="WARNING")
         # =======================================================================================
@@ -87,21 +89,19 @@ def _(
         alert_config = load_alerts_environmental_config()
         os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
 
-        # PROD setting will send alerts, no alerts in DEV or TEST setting
+        # PROD setting will send alerts, no alerts in DEV or TEST setting by default
         if os.getenv("APP_ENV") == "PROD":
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq"
         else:
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "discord"
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq"
 
-        df = append_to_trigger_dataset(project_id, logger)
-        return df
-    
+        # Appending Run to Trigger Table
+        append_to_trigger_bq_dataset(project_id, logger)
         # =======================================================================================
-        ## Definining Schema of Runs Being Triggered/Failed in Python
-        #create_bq_run_monitor_datasets(project_id, logger)
-        ## =======================================================================================
-        #logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
-        #1/0
+
+        logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
+        1/0
+        # =======================================================================================
     return (main,)
 
 
@@ -110,17 +110,11 @@ def _(global_excepthook, main):
     from types import SimpleNamespace
 
     try:
-        df = main()
+        main()
     except Exception as e:
         # call your hook explicitly
         global_excepthook(type(e), e, e.__traceback__)
     return SimpleNamespace, df
-
-
-@app.cell
-def _(df):
-    df
-    return
 
 
 if __name__ == "__main__":

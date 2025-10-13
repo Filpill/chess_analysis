@@ -4,6 +4,7 @@ import sys
 import ssl
 import html
 import uuid
+import types
 import socket
 import smtplib
 import requests
@@ -62,8 +63,23 @@ def load_alerts_environmental_config():
     return env_vars
 
 
-def _format_html_stacktrace(stack_text: str) -> str:
-    highlighted = highlight(stack_text, PythonTracebackLexer(), _PYGMENTS_FORMATTER)
+def _format_stacktrace_text(exc_type, exc_value, exc_traceback, max_chars=1500, max_frames=30):
+    try:
+        tbe = traceback.TracebackException.from_exception(exc_value)
+        if tbe and tbe.stack and len(tbe.stack) > max_frames:
+            tbe.stack = tbe.stack[-max_frames:]      # keep the tail
+        text = "".join(tbe.format())
+    except Exception:
+        # last-ditch fallback if something is very broken
+        tb_text = "".join(traceback.format_tb(exc_traceback)) if isinstance(exc_traceback, types.TracebackType) else ""
+        text = f"{getattr(exc_type,'__name__',str(exc_type))}: {exc_value}\n{tb_text}"
+    if len(text) > max_chars:
+        text = "...(truncated)...\n" + text[-max_chars:]
+    return text
+
+
+def _format_html_stacktrace(stack_trace: str) -> str:
+    highlighted = highlight(stack_trace, PythonTracebackLexer(), _PYGMENTS_FORMATTER)
     return f"""
 <div style="max-width:720px;margin:16px auto;padding:0 8px;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
   <div style="border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);overflow:hidden;">
@@ -74,35 +90,28 @@ def _format_html_stacktrace(stack_text: str) -> str:
 """
 
 
-def _originating_file_error(exc_traceback) -> str:
-    tb = traceback.extract_tb(exc_traceback)
-    if tb:
-        # last frame = where the error actually happened
-        return os.path.abspath(tb[-1].filename)
-    return os.path.abspath(sys.argv[0])  # fallback
-
-
 def _collect_error_metadata(exc_traceback, exc_type, exc_value):
     return {
         "run_id" : os.getenv("RUN_ID"),
+        "run_failed_date" : pd.Timestamp.now(tz="UTC").date(),
+        "run_failed_dt" : pd.Timestamp.now(tz="UTC").floor("s"),
+        "failed_filename" : os.path.basename(sys.argv[0]),
+        "exception_type" : exc_type,
+        "exception_value" : exc_value,
+        "stack_trace" : "".join(_format_stacktrace_text(exc_type, exc_value, exc_traceback)),
         "hostname" : socket.gethostname(),
         "environment" : os.getenv("APP_ENV", "UNDEFINED"),
-        "pyver" : sys.version,
+        "python_version" : sys.version,
         "process" : sys.argv[0],
-        "python_path" : _originating_file_error(exc_traceback),
-        "python_file" : os.path.basename(_originating_file_error(exc_traceback)),
-        "ts" : datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-        "exc_lines" : traceback.format_exception(exc_type, exc_value, exc_traceback),
-        "stack_text" : "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+        "python_path" : sys.argv[0]
     }
 
 
 def _collect_run_trigger_metadata():
     return {
         "run_id" : os.getenv("RUN_ID"),
-        "run_start_date" : datetime.now(timezone.utc).date().isoformat(),
+        "run_start_date" : pd.Timestamp.now(tz="UTC").date(),
         "run_start_dt" : pd.Timestamp.now(tz="UTC").floor("s"),
-        #"run_start_dt" : datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
         "script_name" : os.path.basename(sys.argv[0]),
         "environment" : os.getenv("APP_ENV", "UNDEFINED"),
         "hostname" : socket.gethostname(),
@@ -120,14 +129,15 @@ def _error_metadata_html(exc_traceback, exc_type, exc_value) -> str:
       <p style="margin:0 0 4px 0;"><strong>Run ID:</strong> {html.escape(metadata["run_id"])}</p>
       <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(metadata["environment"])}</p>
       <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {metadata["hostname"]}</p>
-      <p style="margin:0 0 4px 0;"><strong>Time:</strong> {metadata["ts"]}</p>
+      <p style="margin:0 0 4px 0;"><strong>Time:</strong> {metadata["run_failed_dt"]}</p>
       <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {metadata["python_path"]}</p>
-      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {metadata["pyver"]}</p>
+      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {metadata["python_version"]}</p>
       <p style="margin:12px 0 0 0;"><strong>Error Description:</strong> {html.escape(exc_type.__name__)} — {html.escape(str(exc_value))}</p>
     </td>
   </tr>
 </table>
 """
+
 
 def _make_image_content_id():
     script_dir = os.path.dirname(os.path.abspath(__file__))                   
@@ -139,16 +149,16 @@ def _make_image_content_id():
 def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str: 
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return (
-        f"# **🚨 [{metadata['environment']}] Python Runtime Exception** — {metadata['python_file']}\n"
+        f"# **🚨 [{metadata['environment']}] Python Runtime Exception** — {metadata['failed_filename']}\n"
         f"**Run ID:** `{metadata['run_id']}`\n"
         f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`\n"
-        f"**Time:** `{metadata['ts']}`\n"
+        f"**Time:** `{metadata['run_failed_dt']}`\n"
         f"**Environment:** `{metadata['environment']}`\n"
         f"**Hostname:** `{metadata['hostname']}`\n"
         f"**Python Filepath:** `{metadata['python_path']}`\n"
-        f"**Python Version:** `{metadata['pyver']}`\n\n"
+        f"**Python Version:** `{metadata['python_version']}`\n\n"
         f"**Stack Trace:**\n"
-        f"```python\n{metadata['stack_text']}```"
+        f"```python\n{metadata['stack_trace']}```"
     )
 
 
@@ -157,7 +167,7 @@ def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
     image_path, cid = _make_image_content_id()
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
 
-    subject = f"[{metadata['environment']}] Script: {metadata['python_file']} — Error: {exc_type.__name__} — Hostname: {metadata['hostname']}"
+    subject = f"[{metadata['environment']}] Script: {metadata['failed_filename']} — Error: {exc_type.__name__} — Hostname: {metadata['hostname']}"
 
     html_body = f"""<!DOCTYPE html>
 <html>
@@ -174,7 +184,7 @@ def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
       </tr>
     </table>
     <div style="padding:16px;">
-      {_format_html_stacktrace(metadata['stack_text'])}
+      {_format_html_stacktrace(metadata['stack_trace'])}
     </div>
   </body>
 </html>"""
@@ -277,13 +287,30 @@ def create_bq_run_monitor_datasets(project_id, logger):
         create_bigquery_table(table_runs_failed, schema_runs_failed, logger, loading_time_partitioning_field)
 
 
-def append_to_trigger_dataset(project_id, logger):
+def append_to_trigger_bq_dataset(project_id, logger=None):
     run_metadata = _collect_run_trigger_metadata()
     df = pd.DataFrame([run_metadata])
-    df['run_start_date'] = pd.to_datetime(df['run_start_date'], utc=True, errors='raise').dt.date
-    #df['run_start_dt'] = pd.to_datetime(df['run_start_date'], utc=True, errors='raise')
     metadata_table_id = f"{project_id}.00_pipeline_monitor.runs_triggered"
     append_df_to_bigquery_table(df, metadata_table_id, logger)
+    return df
+
+
+def append_to_failed_bq_dataset(exc_type, exc_value, exc_traceback, logger=None):
+    project_id = os.getenv("PROJECT_ID")
+    error_metadata = _collect_error_metadata(exc_type, exc_value, exc_traceback)
+    df = pd.DataFrame([error_metadata])
+
+    df = df[
+        [
+            "run_id",
+            "run_failed_date",
+            "run_failed_dt",
+            "failed_filename",
+            "exception_type",
+        ]
+    ]
+    metadata_table_id = f"{project_id}.00_pipeline_monitor.runs_failed"
+    append_df_to_bigquery_table(df, metadata_table_id)
     return df
 
 
@@ -299,6 +326,9 @@ def global_excepthook(exc_type, exc_value, exc_traceback):
 
     if "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
         send_discord_message(discord_msg)
+
+    if "bq" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+        append_to_failed_bq_dataset(exc_type, exc_value, exc_traceback)
 
     # Mirror to stderr locally
     traceback.print_exception(exc_type, exc_value, exc_traceback, file=sys.stderr)
