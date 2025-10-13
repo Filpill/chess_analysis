@@ -18,7 +18,7 @@ def create_bigquery_table(
     logger,
     time_partitioning_field: str = None,
 ) -> bigquery.Table:
-    
+
     client = bigquery.Client()
     table = bigquery.Table(table_id, schema=schema)
 
@@ -34,22 +34,23 @@ def create_bigquery_table(
     log_printer(f"Created table {table_id}", logger)
     return table
 
-def create_bigquery_dataset(dataset_id: str, location: str, logger):
+def create_bigquery_dataset(project_id: str ,dataset_id: str, location: str, logger):
     client = bigquery.Client()
-    dataset = bigquery.Dataset(dataset_id)
+    full_id = f"{project_id}.{dataset_id}"   
+    dataset = bigquery.Dataset(full_id)
     dataset.location = location
-    
+ 
     dataset = client.create_dataset(dataset, timeout=30)  # timeout in seconds
-    log_printer(f"Created table {dataset_id}", logger)
+    log_printer(f"Created dataset {full_id}", logger)
 
 def check_bigquery_dataset_exists(dataset_id: str, logger) -> bool:
- 
+
     client = bigquery.Client()
     try:
         client.get_dataset(dataset_id)
         log_printer(f"Dataset {dataset_id} already exists", logger)
         return True
-        
+
     except NotFound:
         log_printer(f"Dataset {dataset_id} doesn't exists", logger)
         return False
@@ -62,12 +63,12 @@ def check_bigquery_table_exists(table_id: str, logger) -> bool:
         client.get_table(table_id)
         log_printer(f"Table {table_id} already exists", logger)
         return True
-        
+
     except NotFound:
         log_printer(f"Table {table_id} doesn't exists", logger)
         return False
 
-def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger) -> None:
+def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger=None) -> None:
 
     # Configure the query job to append results
     client = bigquery.Client()
@@ -78,7 +79,9 @@ def append_df_to_bigquery_table(df: pd.DataFrame, table_id: str, logger) -> None
     # Load the DataFrame into BigQuery
     job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
     job.result()  # Wait for the job to complete
-    log_printer(f"{len(df)} records appended to {table_id}", logger)
+
+    if logger is not None:
+        log_printer(f"{len(df)} records appended to {table_id}", logger)
 
 
 def query_bq_to_dataframe(
