@@ -2,16 +2,19 @@
 import os
 import sys
 import ssl
-import socket
 import html
+import uuid
+import socket
 import smtplib
 import requests
 import traceback
 import threading
 import marimo as mo
+import pandas as pd
 from datetime import datetime
 from email.message import EmailMessage
 from email.utils import make_msgid
+from datetime import datetime, timezone
 
 from pygments import highlight
 from pygments.lexers import PythonTracebackLexer
@@ -20,6 +23,11 @@ _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
 
 sys.path.append(f"./functions")
 from shared_func import gcp_access_secret
+from bq_func import append_df_to_bigquery_table
+
+def _generate_run_uuid():
+    return str(uuid.uuid4())
+
 
 def load_alerts_environmental_config():
     # Gmail Creds For Alerting Email Account
@@ -29,15 +37,18 @@ def load_alerts_environmental_config():
     version_id = "latest"
     gmail_user = gcp_access_secret(project_id, gmail_user_address_secretname, version_id)
     gmail_passkey = gcp_access_secret(project_id, gmail_app_passkey_secretname, version_id)
+    run_id = _generate_run_uuid()
 
     # Set Default Global Environmental Variables
+    RUN_ID = os.getenv("RUN_ID", run_id)
     SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com").lower()
     SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
     SMTP_USER = os.getenv("SMTP_USER", gmail_user)
     SMTP_PASS = os.getenv("SMTP_PASS", gmail_passkey)
-    TOGGLE_ENABLED_ALERT_SYSTEMS= os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", "email,discord").lower()
+    TOGGLE_ENABLED_ALERT_SYSTEMS= os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", "").lower() # Default Disabled - email,discord - Enable on script level
 
     env_vars =  {
+        "RUN_ID": RUN_ID,
         "SMTP_HOST": SMTP_HOST,
         "SMTP_PORT": SMTP_PORT,
         "SMTP_USER": SMTP_USER,
@@ -49,6 +60,7 @@ def load_alerts_environmental_config():
         os.environ[key] = str(value)
 
     return env_vars
+
 
 def _format_html_stacktrace(stack_text: str) -> str:
     highlighted = highlight(stack_text, PythonTracebackLexer(), _PYGMENTS_FORMATTER)
@@ -72,6 +84,7 @@ def _originating_file_error(exc_traceback) -> str:
 
 def _collect_error_metadata(exc_traceback, exc_type, exc_value):
     return {
+        "run_id" : os.getenv("RUN_ID"),
         "hostname" : socket.gethostname(),
         "environment" : os.getenv("APP_ENV", "UNDEFINED"),
         "pyver" : sys.version,
@@ -84,6 +97,19 @@ def _collect_error_metadata(exc_traceback, exc_type, exc_value):
     }
 
 
+def _collect_run_trigger_metadata():
+    return {
+        "run_id" : os.getenv("RUN_ID"),
+        "run_start_date" : datetime.now(timezone.utc).date().isoformat(),
+        "run_start_dt" : pd.Timestamp.now(tz="UTC").floor("s"),
+        #"run_start_dt" : datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "script_name" : os.path.basename(sys.argv[0]),
+        "environment" : os.getenv("APP_ENV", "UNDEFINED"),
+        "hostname" : socket.gethostname(),
+        "python_version" : sys.version,
+    }
+
+
 def _error_metadata_html(exc_traceback, exc_type, exc_value) -> str:
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return f"""
@@ -91,6 +117,7 @@ def _error_metadata_html(exc_traceback, exc_type, exc_value) -> str:
   <tr>
     <td style="padding:16px 8px;">
       <h2 style="margin:0 0 8px 0;font-size:18px;">🚨 Python Runtime Exception: {html.escape(exc_type.__name__)}</h2>
+      <p style="margin:0 0 4px 0;"><strong>Run ID:</strong> {html.escape(metadata["run_id"])}</p>
       <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(metadata["environment"])}</p>
       <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {metadata["hostname"]}</p>
       <p style="margin:0 0 4px 0;"><strong>Time:</strong> {metadata["ts"]}</p>
@@ -113,6 +140,7 @@ def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str:
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return (
         f"# **🚨 [{metadata['environment']}] Python Runtime Exception** — {metadata['python_file']}\n"
+        f"**Run ID:** `{metadata['run_id']}`\n"
         f"**Error Description:** `{exc_type.__name__}` — `{str(exc_value)}`\n"
         f"**Time:** `{metadata['ts']}`\n"
         f"**Environment:** `{metadata['environment']}`\n"
@@ -205,6 +233,58 @@ def send_discord_message(msg):
         print("Message sent successfully!")
     else:
         print(f"Failed to send message: {response.status_code}, {response.text}")
+
+
+def create_bq_run_monitor_datasets(project_id, logger):
+    # Definining Schema of Runs Being Triggered/Failed in Python
+    location = "EU"
+    dataset_name = f"00_pipeline_monitor"
+    if check_bigquery_dataset_exists(dataset_name, logger) == False:
+        create_bigquery_dataset(project_id, dataset_name, location, logger)
+
+    table_name = "runs_triggered"
+    table_runs_triggered = f"{project_id}.{dataset_name}.{table_name}"
+
+    schema_runs_triggered = [
+        bigquery.SchemaField(name="run_id",         field_type="STRING",     mode="REQUIRED",  description="UUID of the pipeline run executed"),
+        bigquery.SchemaField(name="run_start_date", field_type="DATE",       mode="REQUIRED",  description="Date of the pipeline run"),
+        bigquery.SchemaField(name="run_start_dt",   field_type="TIMESTAMP",  mode="REQUIRED",  description="Datetime of the pipeline run"),
+        bigquery.SchemaField(name="script_name",    field_type="STRING",     mode="REQUIRED",  description="Name of script"),
+        bigquery.SchemaField(name="environment",    field_type="STRING",     mode="REQUIRED",  description="Name of environement e.g.: PROD/DEV/TEST"),
+        bigquery.SchemaField(name="hostname",       field_type="STRING",     mode="REQUIRED",  description="Name of machine running script"),
+        bigquery.SchemaField(name="python_version", field_type="STRING",     mode="REQUIRED",  description="Python version used during runtime"),
+    ]
+    loading_time_partitioning_field ="run_start_date"
+
+    if check_bigquery_table_exists(table_runs_triggered, logger) == False:
+        create_bigquery_table(table_runs_triggered, schema_runs_triggered, logger, loading_time_partitioning_field)
+
+    table_name = "runs_failed"
+    table_runs_failed = f"{project_id}.{dataset_name}.{table_name}"
+
+    schema_runs_failed = [
+        bigquery.SchemaField(name="run_id",          field_type="STRING",     mode="REQUIRED",  description="UUID of the pipeline run executed"),
+        bigquery.SchemaField(name="run_failed_date", field_type="DATE",       mode="REQUIRED",  description="Date of the failed pipeline run"),
+        bigquery.SchemaField(name="run_failed_dt",   field_type="TIMESTAMP",  mode="REQUIRED",  description="Datetime of the failed pipeline run"),
+        bigquery.SchemaField(name="failed_filename", field_type="STRING",     mode="REQUIRED",  description="Name of file that failed"),
+        bigquery.SchemaField(name="exception_type",  field_type="STRING",     mode="REQUIRED",  description="Type of exception"),
+        bigquery.SchemaField(name="exception_value", field_type="STRING",     mode="REQUIRED",  description="Value of exception"),
+        bigquery.SchemaField(name="stack_trace",     field_type="STRING",     mode="REQUIRED",  description="Details of error produced"),
+    ]
+    loading_time_partitioning_field ="run_failed_date"
+
+    if check_bigquery_table_exists(table_runs_failed, logger) == False:
+        create_bigquery_table(table_runs_failed, schema_runs_failed, logger, loading_time_partitioning_field)
+
+
+def append_to_trigger_dataset(project_id, logger):
+    run_metadata = _collect_run_trigger_metadata()
+    df = pd.DataFrame([run_metadata])
+    df['run_start_date'] = pd.to_datetime(df['run_start_date'], utc=True, errors='raise').dt.date
+    #df['run_start_dt'] = pd.to_datetime(df['run_start_date'], utc=True, errors='raise')
+    metadata_table_id = f"{project_id}.00_pipeline_monitor.runs_triggered"
+    append_df_to_bigquery_table(df, metadata_table_id, logger)
+    return df
 
 
 def global_excepthook(exc_type, exc_value, exc_traceback):

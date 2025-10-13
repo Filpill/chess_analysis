@@ -12,6 +12,7 @@ def _():
 
     import sys
     sys.path.append(f"./functions")
+    from alerts_func import _generate_run_uuid
     from alerts_func import load_alerts_environmental_config
     from alerts_func import _format_html_stacktrace
     from alerts_func import _error_metadata_html
@@ -19,6 +20,8 @@ def _():
     from alerts_func import build_error_discord_msg
     from alerts_func import send_email_message
     from alerts_func import send_discord_message
+    from alerts_func import create_bq_run_monitor_datasets
+    from alerts_func import append_to_trigger_dataset
     from alerts_func import global_excepthook
     from alerts_func import _threading_excepthook
 
@@ -30,22 +33,38 @@ def _():
     from bq_func import check_bigquery_table_exists
     from bq_func import create_bigquery_dataset
     from bq_func import create_bigquery_table
-    from bq_func import create_bq_run_monitor_datasets
     from bq_func import append_df_to_bigquery_table
     return (
-        build_error_email_msg,
+        append_df_to_bigquery_table,
+        append_to_trigger_dataset,
+        bigquery,
         build_error_discord_msg,
+        build_error_email_msg,
+        check_bigquery_dataset_exists,
+        check_bigquery_table_exists,
+        create_bigquery_dataset,
+        create_bigquery_table,
+        create_bq_run_monitor_datasets,
         gcp_access_secret,
         global_excepthook,
         initialise_cloud_logger,
+        load_alerts_environmental_config,
         os,
+        read_cloud_scheduler_message,
+        send_discord_message,
         send_email_message,
         sys,
     )
 
 
 @app.cell
-def _(gcp_access_secret, initialise_cloud_logger, os):
+def _(
+    append_to_trigger_dataset,
+    initialise_cloud_logger,
+    load_alerts_environmental_config,
+    os,
+    read_cloud_scheduler_message,
+):
     def main():
 
         # =======================================================================================
@@ -72,13 +91,17 @@ def _(gcp_access_secret, initialise_cloud_logger, os):
         if os.getenv("APP_ENV") == "PROD":
             os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
         else:
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord"
+            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "discord"
+
+        df = append_to_trigger_dataset(project_id, logger)
+        return df
+    
         # =======================================================================================
-        # Definining Schema of Runs Being Triggered/Failed in Python
-        create_bq_run_monitor_datasets(project_id, logger)
-        # =======================================================================================
-        logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
-        1/0
+        ## Definining Schema of Runs Being Triggered/Failed in Python
+        #create_bq_run_monitor_datasets(project_id, logger)
+        ## =======================================================================================
+        #logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
+        #1/0
     return (main,)
 
 
@@ -87,11 +110,17 @@ def _(global_excepthook, main):
     from types import SimpleNamespace
 
     try:
-        main()
+        df = main()
     except Exception as e:
         # call your hook explicitly
         global_excepthook(type(e), e, e.__traceback__)
-    return (SimpleNamespace,)
+    return SimpleNamespace, df
+
+
+@app.cell
+def _(df):
+    df
+    return
 
 
 if __name__ == "__main__":
