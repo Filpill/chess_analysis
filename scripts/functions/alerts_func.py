@@ -299,6 +299,7 @@ def append_to_failed_bq_dataset(exc_type, exc_value, exc_traceback, logger=None)
     project_id = os.getenv("PROJECT_ID")
     error_metadata = _collect_error_metadata(exc_type, exc_value, exc_traceback)
     df = pd.DataFrame([error_metadata])
+    df["exception_type"] = df["exception_type"].to_string()
 
     df = df[
         [
