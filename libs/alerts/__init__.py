@@ -4,8 +4,10 @@ Chess Pipeline Alerting Library
 Provides email, Discord, and BigQuery alerting functionality for Python data pipelines.
 """
 
+# Re-export gcp_access_secret from gcp_common for convenience
+from gcp_common import gcp_access_secret
+
 from .alerts import (
-    gcp_access_secret,
     load_alerts_environmental_config,
     build_error_email_msg,
     build_error_discord_msg,
@@ -25,7 +27,7 @@ from .alerts import (
 __version__ = "0.1.0"
 
 __all__ = [
-    "gcp_access_secret",
+    "gcp_access_secret",  # Re-exported from gcp_common_lib
     "load_alerts_environmental_config",
     "build_error_email_msg",
     "build_error_discord_msg",

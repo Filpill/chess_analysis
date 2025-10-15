@@ -105,25 +105,32 @@ All GCP resources are managed via Terraform:
 
 ## Function Libraries
 
-### Core Function Modules
+### Core Function Modules (Legacy)
 Reusable functions are organized in `scripts/functions/`:
 - `ingestion_func.py` - API requests, endpoint generation, exponential backoff
 - `transform_func.py` - Data transformation, date conversion, dataframe generation
 - `gcs_func.py` - GCS operations (upload, download, list, delete)
 - `bq_func.py` - BigQuery operations (create datasets/tables, query, append)
-- `shared_func.py` - Cloud Logging initialization
 
 These functions are imported by the main processing scripts via relative path manipulation (`sys.path.append`).
 
+### GCP Common Library (gcp_common_lib)
+A proper Python package for common GCP utilities located in `libs/gcp_common_lib/`:
+- **Installation**: Configured as local editable package in `pyproject.toml` - install with `uv sync`
+- **Import**: `from gcp_common_lib import log_printer, initialise_cloud_logger, gcp_access_secret, read_cloud_scheduler_message`
+- **Features**: Cloud Logging initialization, log printing to console+cloud, Secret Manager access, Pub/Sub message decoding
+- **Replaces**: `shared_func.py` (old import path)
+
 ### Alerts Library (alerts_lib)
-A proper Python package for alerting functionality located in `alerts_lib/`:
+A proper Python package for alerting functionality located in `libs/alerts_lib/`:
 - **Installation**: Configured as local editable package in `pyproject.toml` - install with `uv sync`
 - **Import**: `from alerts_lib import load_alerts_environmental_config, global_excepthook`
 - **Features**: Email alerts (Gmail SMTP), Discord webhooks, BigQuery run monitoring
 - **Usage**: Sets up global exception hooks to automatically send alerts on crashes
 - **Configuration**: Via environment variables (`TOGGLE_ENABLED_ALERT_SYSTEMS`, `TO_ADDRS`, `APP_ENV`)
+- **Dependencies**: Depends on `gcp-common` for Secret Manager access
 
-See `ALERTS_MIGRATION.md` and `scripts/example_alerts_usage.py` for details.
+See `docs/ALERTS_MIGRATION.md`, `docs/GCP_COMMON_MIGRATION.md`, and `docs/LIBRARY_ARCHITECTURE.md` for details.
 
 ## Dash Applications
 

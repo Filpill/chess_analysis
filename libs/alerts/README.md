@@ -2,12 +2,16 @@
 
 Chess Pipeline alerting library for Email, Discord, and BigQuery notifications.
 
+## Dependencies
+
+This library depends on `gcp-common` for GCP Secret Manager access.
+
 ## Installation
 
 From the root of the chess_analysis project:
 
 ```bash
-uv add ./alerts_lib
+uv sync
 ```
 
 ## Usage

@@ -1,13 +1,13 @@
 [project]
-name = "alerts-lib"
+name = "alerts"
 version = "0.1.0"
 description = "Chess Pipeline Alerting Library for Email, Discord, and BigQuery notifications"
 requires-python = ">=3.11"
 dependencies = [
+    "gcp-common",
     "pandas>=2.2.3",
     "requests>=2.31.0",
     "pygments>=2.19.1",
-    "google-cloud-secret-manager>=2.24.0",
     "google-cloud-bigquery>=3.31.0",
 ]
 

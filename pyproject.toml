@@ -5,7 +5,8 @@ description = "Python dependancies to execute chess ingestion pipeline against G
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "alerts-lib",
+    "alerts",
+    "gcp-common",
     "dash>=3.0.2",
     "dash-ag-grid>=31.3.1",
     "dash-bootstrap-components>=2.0.1",
@@ -28,7 +29,8 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-alerts-lib = { path = "./alerts_lib", editable = true }
+alerts = { path = "./libs/alerts", editable = true }
+gcp-common = { path = "./libs/gcp_common", editable = true }
 
 [tool.uv.workspace]
 members = [

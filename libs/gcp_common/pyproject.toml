@@ -1,0 +1,15 @@
+[project]
+name = "gcp-common"
+version = "0.1.0"
+description = "Common GCP utilities for chess data pipeline - logging, secrets, and pub/sub"
+requires-python = ">=3.11"
+dependencies = [
+    "google-cloud-logging>=3.11.4",
+    "google-cloud-secret-manager>=2.24.0",
+    "google-cloud-storage>=2.0.0",
+    "python-dateutil>=2.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

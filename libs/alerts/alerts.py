@@ -20,18 +20,12 @@ from pygments import highlight
 from pygments.lexers import PythonTracebackLexer
 from pygments.formatters import HtmlFormatter
 
-from google.cloud import secretmanager
 from google.cloud import bigquery
 
+# Import from gcp_common instead of duplicating
+from gcp_common import gcp_access_secret
+
 _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
-
-
-def gcp_access_secret(project_id, secret_id, version_id="latest"):
-    """Access GCP Secret Manager secret"""
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
-    response = client.access_secret_version(name=name)
-    return response.payload.data.decode('UTF-8')
 
 
 def check_bigquery_dataset_exists(dataset_id, logger=None):
