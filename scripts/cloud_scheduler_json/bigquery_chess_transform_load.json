@@ -1,5 +1,6 @@
 {
     "script_name": "bigquery_chess_transform_load.py",
+    "job_name": "gcs_python_executor",
     "app_env": "PROD",
     "test_volume": 2,
     "dev_testcase": "player/emeraldddd/games/2024/10",
