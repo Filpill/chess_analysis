@@ -33,8 +33,8 @@ def _():
     for folder in folder_list:
         sys.path.append(f"{rel_path}{folder}")
 
-    from shared_func import log_printer
-    from shared_func import initialise_cloud_logger
+    from gcp_common import log_printer
+    from gcp_common import initialise_cloud_logger
 
     from transform_func import script_date_endpoint_selection
     from transform_func import extract_last_url_component

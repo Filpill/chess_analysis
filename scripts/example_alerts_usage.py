@@ -1,17 +1,18 @@
 """
-Example script demonstrating how to use the alerts_lib package
+Example script demonstrating how to use the alerts package
 
 This shows the new way to import and use alerts functionality.
 """
 
 import os
 import sys
-sys.path.append(f"./functions")
-from shared_func import initialise_cloud_logger
-from shared_func import read_cloud_scheduler_message
+from gcp_common import (
+    initialise_cloud_logger,
+    read_cloud_scheduler_message 
+    )
 
-# New way: Import from the installed alerts_lib package
-from alerts_lib import (
+# New way: Import from the installed alerts package
+from alerts import (
     gcp_access_secret,
     load_alerts_environmental_config,
     create_bq_run_monitor_datasets,

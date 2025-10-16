@@ -8,7 +8,7 @@ import os
 import json
 import base64
 import google.cloud.logging as cloud_logging
-from google.cloud import secretmanager
+from google.cloud import secretmanager, storage
 from datetime import datetime, timezone
 
 
@@ -80,3 +80,54 @@ def read_cloud_scheduler_message():
         return cloud_scheduler_dict
     else:
         return None
+
+
+def append_prefix_to_gcs_files(bucket_name, prefix, excluded_prefixes, logger):
+    """
+    Append a prefix to GCS file names, excluding specified prefixes.
+
+    Args:
+        bucket_name: Name of the GCS bucket
+        prefix: Prefix to append to file names
+        excluded_prefixes: List of prefixes to exclude from renaming
+        logger: Cloud Logging logger instance
+
+    Returns:
+        None
+    """
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blobs = bucket.list_blobs()
+
+    # The for loop will exlude any files that should not be targeted in the renaming
+    for blob in blobs:
+        if any(blob.name.startswith(f"{prefix}/") for prefix in excluded_prefixes):
+            logger.info("Skipping {blob.name} | Excluded from renaming process")
+            continue
+
+        new_name = f"{prefix}/{blob.name}"
+        bucket.rename_blob(blob, new_name)
+        logger.info(f"Renamed {blob.name} -> {new_name}")
+
+
+def rename_prefix_of_gcs_files(bucket_name, old_prefix, new_prefix):
+    """
+    Rename the prefix of GCS files by copying and deleting.
+
+    Args:
+        bucket_name: Name of the GCS bucket
+        old_prefix: Old prefix to replace
+        new_prefix: New prefix to use
+
+    Returns:
+        None
+    """
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blobs = bucket.list_blobs(prefix=old_prefix)
+
+    for blob in blobs:
+        new_name = blob.name.replace(old_prefix, new_prefix, 1)
+        new_blob = bucket.copy_blob(blob, bucket, new_name)
+        blob.delete()
+        print(f"Renamed {blob.name} -> {new_name}")

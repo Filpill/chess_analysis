@@ -46,7 +46,7 @@ def _(sys):
         sys.path.append(f"{rel_path}{folder}")
 
     # Importing Local Functions
-    from shared_func import initialise_cloud_logger
+    from gcp_common import initialise_cloud_logger
 
     from gcs_func import upload_json_to_gcs_bucket
     from gcs_func import list_files_in_gcs
