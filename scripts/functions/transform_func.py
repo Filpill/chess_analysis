@@ -6,10 +6,10 @@ import pandas as pd
 from datetime import date, datetime, timedelta   
 from dateutil.relativedelta import relativedelta 
 
-from gcs_func import download_content_from_gcs
-from gcs_func import delete_gcs_object
-from bq_func  import query_bq_to_dataframe
-from shared_func import log_printer
+from gcp_common import download_content_from_gcs
+from gcp_common import delete_gcs_object
+from gcp_common import query_bq_to_dataframe
+from gcp_common import log_printer
 
 def script_date_endpoint_selection(bq_load_settings):
     if bq_load_settings.get("script_setting") in 'prod':

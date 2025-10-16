@@ -47,9 +47,8 @@ def _(sys):
 
     # Importing Local Functions
     from gcp_common import initialise_cloud_logger
-
-    from gcs_func import upload_json_to_gcs_bucket
-    from gcs_func import list_files_in_gcs
+    from gcp_common import upload_json_to_gcs_bucket
+    from gcp_common import list_files_in_gcs
 
     from ingestion_func import script_date_selection
     from ingestion_func import generate_year_month_list

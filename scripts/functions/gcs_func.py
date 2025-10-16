@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from google.cloud import storage
 from itertools import product
 
-from shared_func import log_printer
+from gcp_common import log_printer
 
 def upload_json_to_gcs_bucket(bucket_name, object_name, data, logger):
     client = storage.Client()

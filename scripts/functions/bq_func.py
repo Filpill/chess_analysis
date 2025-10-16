@@ -10,7 +10,7 @@ from google.cloud import bigquery
 from google.cloud import storage
 from google.cloud.exceptions import NotFound
 
-from shared_func import log_printer
+from gcp_common import log_printer
 
 def create_bigquery_table(
     table_id: str,
