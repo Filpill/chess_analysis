@@ -18,22 +18,20 @@ from gcp_common import upload_json_to_gcs_bucket, log_printer
 
 def script_date_selection(gcs_ingestion_settings):
     """
-    Select date range for ingestion based on script settings.
+    Select date range for ingestion based on app environment.
 
     Args:
-        gcs_ingestion_settings: Dictionary with script_setting and optional manual dates
+        gcs_ingestion_settings: Dictionary with app_env and optional start/end dates
 
     Returns:
         Tuple of (start_date, end_date)
     """
-    script_setting = gcs_ingestion_settings.get("script_setting")
-    if script_setting == 'default':
+    if gcs_ingestion_settings["app_env"] == "PROD":
         start_date = (date.today() - relativedelta(months=1)).replace(day=1)
         end_date   = (date.today() - relativedelta(months=1)).replace(day=1)
-
-    if script_setting == 'manual':
-        start_date = datetime.strptime(gcs_ingestion_settings.get("manual_start_date"), "%Y-%m-%d").date()
-        end_date = datetime.strptime(gcs_ingestion_settings.get("manual_end_date"), "%Y-%m-%d").date()
+    else:
+        start_date = datetime.strptime(gcs_ingestion_settings["start_date"], "%Y-%m-%d").date()
+        end_date = datetime.strptime(gcs_ingestion_settings["end_date"], "%Y-%m-%d").date()
 
     return start_date, end_date
 
