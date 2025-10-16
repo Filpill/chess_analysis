@@ -41,7 +41,7 @@ def _():
 def _(sys):
     # Adding Pathing to Local Functions and Inputs
     rel_path = "./"   # Possible pathing to local libraries
-    folder_list = ["functions", "inputs"] # Folders to add to sys path
+    folder_list = ["inputs"] # Folders to add to sys path
     for folder in folder_list:
         sys.path.append(f"{rel_path}{folder}")
 
