@@ -1,8 +1,8 @@
 #!/bin/sh
 PROJECT_ID="checkmate-453316"
-REPO_ROOT="../../"  # Path to repository root from scripts/gcloud/
-SCRIPTS_DIR="../"   # Path to scripts directory from scripts/gcloud/
-LIBS_DIR="${REPO_ROOT}libs"
+REPO_ROOT="../"       # Path to repository root from shell/
+SCRIPTS_DIR="../scripts"
+LIBS_DIR="../libs"
 GCS_BUCKET="gs://chess-deployments"
 EXCLUSION_REGEX="__marimo__/.*|__pycache__/.*|.pyc*"
 

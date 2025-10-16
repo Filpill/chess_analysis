@@ -33,25 +33,26 @@ This is a guideline of the CI/CD process that gets executed when the **main** br
 > *This does not include updates made to docker images, all image deployments into artifact registry are conducted manually via the CLI*
 
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/cicd.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/architecture/exports/cicd.png " alt="drawing" width="800"/>
 </p>
 
 ## Project Directories
 The project is segmented into the following directories which contain the following:
 
 <div align = center>
-  
+
 | Directory  | Description |
 | :------------- | :------------- |
 | **scripts/**   | Core python scripts/notebooks to process chess data  |
-| **cloud_run/** | Cloud Run Services for controlling GCP resources  |
-| **scripts/functions/** | Functions which are imported into the core data processing scripts  |
 | **scripts/inputs/** | Input parameter files for passing into core data processing scripts |
-| **scripts/gcloud/**   | Miscellaneous gcloud commands for interacting with GCP  |
-| **docker/**   | Contains dockerfiles to define toolng environment for running data deployment pipeline  |
+| **scripts/cloud_scheduler_json/** | JSON configuration files for Cloud Scheduler jobs |
+| **libs/**   | Python libraries: gcp_common, alerts, chess_ingestion, chess_transform  |
+| **cloud_run/** | Cloud Run Services for VM initialization and deletion  |
+| **docker/**   | Contains dockerfiles to define tooling environment for running data deployment pipeline  |
 | **dash/**   | Contains files for developing "Dash" python applications  |
-| **diagrams/** | Illustrations for architectural design  |
-  
+| **docs/diagrams/** | Illustrations for architectural design  |
+| **shell/**   | Shell scripts for GCS sync and other utilities  |
+
 </div>
 
 ## Terraform Configuration
@@ -88,19 +89,14 @@ To create a virtual environment:
 uv venv --python 3.11
 ```
 
-To add packages to pyproject.toml:
-```bash
-uv add <package-name>
-```
-
-To compile package to requirements.txt:
-```bash
-uv pip compile pyproject.toml > scripts/requirements.txt
-```
-
 To activate virtual environment locally:
 ```bash
 source .venv/bin/activate
+```
+
+To add packages to pyproject.toml:
+```bash
+uv add <package-name>
 ```
 
 To install python library requirements:
@@ -145,24 +141,24 @@ docker push $AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:$IMAGE_TAG
 ## Pipeline Architecture
 This is a high-level view of the key components in the pipeline architecture for executing data pipeline resources to both ingest, transform and load our chess data:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/pipeline_architecture.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/architecture/exports/pipeline_architecture.png " alt="drawing" width="800"/>
 </p>
 
 ## Ingestion Dataflow into GCS
 The following flow chart illustrates how data is processed when ingesting data into GCS:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/ingestion_dataflow.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/architecture/exports/ingestion_dataflow.png " alt="drawing" width="800"/>
 </p>
 
 ## Transform/Load Dataflow into BigQuery
 The following flow chart illustrates how data is processed when transforming and loading data from GCS to BigQuery:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/architecture/exports/transform_dataflow.png " alt="drawing" width="800"/>
 </p>
 
 ## Chess Analysis
 Here are a couple of sample matplotlib charts which are analysing some player data:
 <p align = center>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/top_openings.png" alt="drawing" width="800"/>
-    <img src="https://github.com/Filpill/chess_analysis/blob/main/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/analysis/top_openings.png" alt="drawing" width="800"/>
+    <img src="https://github.com/Filpill/chess_analysis/blob/main/docs/diagrams/analysis/time_of_day.png" alt="drawing" width="800"/>
 </p>
