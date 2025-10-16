@@ -1,121 +1,69 @@
-import marimo
+"""
+Example script demonstrating how to use the alerts package
 
-__generated_with = "0.11.30"
-app = marimo.App(width="full")
+This shows the new way to import and use alerts functionality.
+"""
 
-
-@app.cell
-def _():
-    # Imports
-    import os
-    from google.cloud import bigquery
-
-    import sys
-    sys.path.append(f"./functions")
-    from alerts_func import _generate_run_uuid
-    from alerts_func import load_alerts_environmental_config
-    from alerts_func import _format_html_stacktrace
-    from alerts_func import _error_metadata_html
-    from alerts_func import build_error_email_msg
-    from alerts_func import build_error_discord_msg
-    from alerts_func import send_email_message
-    from alerts_func import send_discord_message
-    from alerts_func import create_bq_run_monitor_datasets
-    from alerts_func import append_to_trigger_bq_dataset
-    from alerts_func import append_to_failed_bq_dataset
-    from alerts_func import global_excepthook
-    from alerts_func import _threading_excepthook
-
-    from shared_func import gcp_access_secret
-    from shared_func import initialise_cloud_logger
-    from shared_func import read_cloud_scheduler_message
-
-    from bq_func import check_bigquery_dataset_exists
-    from bq_func import check_bigquery_table_exists
-    from bq_func import create_bigquery_dataset
-    from bq_func import create_bigquery_table
-    from bq_func import append_df_to_bigquery_table
-    return (
-        append_df_to_bigquery_table,
-        append_to_trigger_dataset,
-        bigquery,
-        build_error_discord_msg,
-        build_error_email_msg,
-        check_bigquery_dataset_exists,
-        check_bigquery_table_exists,
-        create_bigquery_dataset,
-        create_bigquery_table,
-        create_bq_run_monitor_datasets,
-        gcp_access_secret,
-        global_excepthook,
-        initialise_cloud_logger,
-        load_alerts_environmental_config,
-        os,
-        read_cloud_scheduler_message,
-        send_discord_message,
-        send_email_message,
-        sys,
+import os
+import sys
+from gcp_common import (
+    initialise_cloud_logger,
+    read_cloud_scheduler_message 
     )
 
-
-@app.cell
-def _(
-    append_to_trigger_dataset,
-    initialise_cloud_logger,
+# New way: Import from the installed alerts package
+from alerts import (
+    gcp_access_secret,
     load_alerts_environmental_config,
-    os,
-    read_cloud_scheduler_message,
-):
-    def main():
+    create_bq_run_monitor_datasets,
+    append_to_trigger_bq_dataset,
+    global_excepthook,
+)
 
-        # =======================================================================================
-        # ---------------------------------- Setting Globals ------------------------------------
-        # =======================================================================================
-        # ----- Initialise Logger -----
-        project_id = "checkmate-453316"
-        os.environ["PROJECT_ID"] = project_id
-        logger = initialise_cloud_logger(project_id)
-        logger.log_text("EMAIL/DISCORD -- ALERT TEST -- Script Initilisation", severity="WARNING")
-        # =======================================================================================
-        # ----- Pub/Sub Message Sent Via Cloud Scheduler -----
-        cloud_scheduler_dict = read_cloud_scheduler_message()
-        logger.log_text(f"EMAIL/DISCORD -- READING CLOUD SCHEDULER MESSAGE: {cloud_scheduler_dict}", severity="WARNING")
-        if cloud_scheduler_dict is not None:
-            os.environ["APP_ENV"] = cloud_scheduler_dict["app_env"]
-        if cloud_scheduler_dict is None:
-            os.environ["APP_ENV"] = "DEV/TEST"
-        # =======================================================================================
-        # ----- Email / Discord Config -----
-        alert_config = load_alerts_environmental_config()
-        os.environ["TO_ADDRS"]  = os.getenv("SMTP_USER")  # Format must be comma-separated strings to parse multiple emails
+def main():
+    # Configure alerts environment (loads from GCP Secret Manager)
+    env_vars = load_alerts_environmental_config()
 
-        # PROD setting will send alerts, no alerts in DEV or TEST setting by default
-        if os.getenv("APP_ENV") == "PROD":
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq"
-        else:
-            os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq"
-
-        # Appending Run to Trigger Table
-        append_to_trigger_bq_dataset(project_id, logger)
-        # =======================================================================================
-
-        logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
-        1/0
-        # =======================================================================================
-    return (main,)
+    # ----- Project and Logger -----
+    project_id = "checkmate-453316"
+    os.environ["PROJECT_ID"] = project_id
+    logger = initialise_cloud_logger(project_id)
+    logger.log_text("EMAIL/DISCORD -- ALERT TEST -- Script Initilisation", severity="WARNING")
 
 
-@app.cell
-def _(global_excepthook, main):
-    from types import SimpleNamespace
+    # ----- Pub/Sub Message Sent Via Cloud Scheduler -----
+    cloud_scheduler_dict = read_cloud_scheduler_message()
+    logger.log_text(f"EMAIL/DISCORD -- READING CLOUD SCHEDULER MESSAGE: {cloud_scheduler_dict}", severity="WARNING")
 
-    try:
-        main()
-    except Exception as e:
-        # call your hook explicitly
-        global_excepthook(type(e), e, e.__traceback__)
-    return SimpleNamespace, df
+    # ----- APP_ENV Configuration -----
+    if cloud_scheduler_dict is not None:
+        os.environ["APP_ENV"] = cloud_scheduler_dict["app_env"]
+        os.environ["TO_ADDRS"] = cloud_scheduler_dict["to_addrs"]
+    if cloud_scheduler_dict is None:
+        os.environ["APP_ENV"] = "DEV/TEST"
+        os.environ["TO_ADDRS"] = os.getenv("SMTP_USER")
 
+    if os.getenv("APP_ENV") == "PROD":
+        os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq" 
+    else:
+        os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq" # Alert setting for non-prod loads
+
+    # Install the global exception hook (this catches all unhandled exceptions)
+    sys.excepthook = global_excepthook
+
+    # Create monitoring datasets (only needed once per project)
+    create_bq_run_monitor_datasets(project_id, logger)
+
+    # Record that this run was triggered
+    append_to_trigger_bq_dataset(project_id, logger)
+
+    # Your actual script logic goes here
+    logger.log_text("Alerts configured! Run ID: {env_vars['RUN_ID']}", severity="INFO")
+
+    # Any unhandled exceptions will automatically trigger alerts
+    # Example: This will trigger an alert
+    logger.log_text("EMAIL ALERT TEST -- Triggering Manual Failure...", severity="ERROR")
+    1/0
 
 if __name__ == "__main__":
-    app.run()
+    main()

@@ -41,23 +41,22 @@ def _():
 def _(sys):
     # Adding Pathing to Local Functions and Inputs
     rel_path = "./"   # Possible pathing to local libraries
-    folder_list = ["functions", "inputs"] # Folders to add to sys path
+    folder_list = ["inputs"] # Folders to add to sys path
     for folder in folder_list:
         sys.path.append(f"{rel_path}{folder}")
 
     # Importing Local Functions
-    from shared_func import initialise_cloud_logger
+    from gcp_common import initialise_cloud_logger
+    from gcp_common import upload_json_to_gcs_bucket
+    from gcp_common import list_files_in_gcs
 
-    from gcs_func import upload_json_to_gcs_bucket
-    from gcs_func import list_files_in_gcs
-
-    from ingestion_func import script_date_selection
-    from ingestion_func import generate_year_month_list
-    from ingestion_func import get_top_player_list
-    from ingestion_func import generate_remaining_endpoint_combinations
-    from ingestion_func import append_player_endpoints_to_https_chess_prefix
-    from ingestion_func import exponential_backoff_request
-    from ingestion_func import request_from_list_and_upload_to_gcs
+    from chess_ingestion import script_date_selection
+    from chess_ingestion import generate_year_month_list
+    from chess_ingestion import get_top_player_list
+    from chess_ingestion import generate_remaining_endpoint_combinations
+    from chess_ingestion import append_player_endpoints_to_https_chess_prefix
+    from chess_ingestion import exponential_backoff_request
+    from chess_ingestion import request_from_list_and_upload_to_gcs
     return (
         append_player_endpoints_to_https_chess_prefix,
         exponential_backoff_request,

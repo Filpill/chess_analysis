@@ -1,0 +1,15 @@
+[project]
+name = "chess-transform"
+version = "0.1.0"
+description = "Chess game data transformation and loading functions for BigQuery pipeline"
+requires-python = ">=3.11"
+dependencies = [
+    "gcp-common",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "python-dateutil>=2.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

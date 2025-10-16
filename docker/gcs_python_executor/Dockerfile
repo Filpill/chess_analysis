@@ -16,15 +16,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends vim jq \
       google-cloud-cli \
  && rm -rf /var/lib/apt/lists/*
 
+# Install uv package manager
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+
 # (optional) show versions during build logs
-RUN gcloud --version && gsutil --version
+RUN gcloud --version && gsutil --version && uv --version
 
 # Set working directory
-WORKDIR /scripts
+WORKDIR /app
 
 # Copy your shell script into the container
-COPY download_and_run.sh /scripts/download_and_run.sh
-RUN chmod +x /scripts/download_and_run.sh
+COPY download_and_run.sh /app/download_and_run.sh
+RUN chmod +x /app/download_and_run.sh
 
 # Default command (runs your script)
-ENTRYPOINT ["/scripts/download_and_run.sh"]
+ENTRYPOINT ["/app/download_and_run.sh"]

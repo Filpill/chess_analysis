@@ -29,31 +29,29 @@ def _():
 
     # Adding Pathing to Local Functions and Inputs
     rel_path = "./"   # Pathing to local libraries
-    folder_list = ["functions", "inputs"] # Folders to add to sys path
+    folder_list = ["inputs"] # Folders to add to sys path
     for folder in folder_list:
         sys.path.append(f"{rel_path}{folder}")
 
-    from shared_func import log_printer
-    from shared_func import initialise_cloud_logger
+    from gcp_common import log_printer
+    from gcp_common import initialise_cloud_logger
+    from gcp_common import list_files_in_gcs
+    from gcp_common import download_content_from_gcs
+    from gcp_common import delete_gcs_object
+    from gcp_common import check_bigquery_dataset_exists
+    from gcp_common import check_bigquery_table_exists
+    from gcp_common import create_bigquery_dataset
+    from gcp_common import create_bigquery_table
+    from gcp_common import append_df_to_bigquery_table
+    from gcp_common import query_bq_to_dataframe
 
-    from transform_func import script_date_endpoint_selection
-    from transform_func import extract_last_url_component
-    from transform_func import convert_unix_ts_to_date
-    from transform_func import return_missing_data_list
-    from transform_func import generate_games_dataframe
-    from transform_func import compare_sets_and_return_non_matches
-    from transform_func import deletion_interaction_list_handler
-
-    from gcs_func import list_files_in_gcs
-    from gcs_func import download_content_from_gcs
-    from gcs_func import delete_gcs_object
-
-    from bq_func import check_bigquery_dataset_exists
-    from bq_func import check_bigquery_table_exists
-    from bq_func import create_bigquery_dataset
-    from bq_func import create_bigquery_table
-    from bq_func import append_df_to_bigquery_table
-    from bq_func import query_bq_to_dataframe
+    from chess_transform import script_date_endpoint_selection
+    from chess_transform import extract_last_url_component
+    from chess_transform import convert_unix_ts_to_date
+    from chess_transform import return_missing_data_list
+    from chess_transform import generate_games_dataframe
+    from chess_transform import compare_sets_and_return_non_matches
+    from chess_transform import deletion_interaction_list_handler
     return (
         CloudLoggingHandler,
         List,

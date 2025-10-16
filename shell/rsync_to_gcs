@@ -1,0 +1,20 @@
+#!/bin/sh
+PROJECT_ID="checkmate-453316"
+REPO_ROOT="../"       # Path to repository root from shell/
+SCRIPTS_DIR="../scripts"
+LIBS_DIR="../libs"
+GCS_BUCKET="gs://chess-deployments"
+EXCLUSION_REGEX="__marimo__/.*|__pycache__/.*|.pyc*"
+
+echo "Syncing scripts directory to ${GCS_BUCKET}/scripts/"
+gsutil -m rsync -r -x "$EXCLUSION_REGEX" "$SCRIPTS_DIR" "$GCS_BUCKET/scripts/"
+
+echo "Syncing libs directory to ${GCS_BUCKET}/libs/"
+gsutil -m rsync -r -d -x "$EXCLUSION_REGEX" "$LIBS_DIR" "$GCS_BUCKET/libs/"
+
+echo "Copying dependency files to bucket root"
+gsutil cp "${REPO_ROOT}pyproject.toml" "$GCS_BUCKET/pyproject.toml"
+gsutil cp "${REPO_ROOT}uv.lock" "$GCS_BUCKET/uv.lock"
+gsutil cp "${REPO_ROOT}.python-version" "$GCS_BUCKET/.python-version"
+
+echo "Sync complete!"

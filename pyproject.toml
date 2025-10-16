@@ -5,6 +5,10 @@ description = "Python dependancies to execute chess ingestion pipeline against G
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "alerts",
+    "gcp-common",
+    "chess-ingestion",
+    "chess-transform",
     "dash>=3.0.2",
     "dash-ag-grid>=31.3.1",
     "dash-bootstrap-components>=2.0.1",
@@ -25,6 +29,12 @@ dependencies = [
     "pygments>=2.19.1",
     "scipy>=1.16.0",
 ]
+
+[tool.uv.sources]
+alerts = { path = "./libs/alerts", editable = true }
+gcp-common = { path = "./libs/gcp_common", editable = true }
+chess-ingestion = { path = "./libs/chess_ingestion", editable = true }
+chess-transform = { path = "./libs/chess_transform", editable = true }
 
 [tool.uv.workspace]
 members = [

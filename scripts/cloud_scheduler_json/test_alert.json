@@ -1,5 +1,6 @@
 {
   "script_name": "test_alert.py",
   "job_name": "gcs_python_executor",
-  "app_env": "PROD"
+  "app_env": "PROD",
+  "to_addrs": "filiplivancic@gmail.com"
 }

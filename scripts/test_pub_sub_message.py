@@ -8,9 +8,7 @@ import traceback
 import google.cloud.logging as cloud_logging
 from google.cloud import storage
 
-sys.path.append(f"./functions")
-sys.path.append(f"../functions")
-from shared_func import initialise_cloud_logger
+from gcp_common import initialise_cloud_logger
 
 # Initialise Logger
 project_name = "checkmate-453316"

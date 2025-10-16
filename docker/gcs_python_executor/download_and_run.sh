@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BUCKET_NAME="gs://chess-deployments/*"
-DEST_DIR="/scripts"
+DEST_DIR="/app"
 
 # Safe access with default empty string so -u doesn't explode
 GAC_PATH="${GOOGLE_APPLICATION_CREDENTIALS:-}"
@@ -19,8 +19,14 @@ echo "Downloading contents of ${BUCKET_NAME} → ${DEST_DIR}"
 gsutil -m cp -r "$BUCKET_NAME" "$DEST_DIR/"
 echo "Download complete"
 
-# Install python dependencies
-pip install -r /scripts/requirements.txt --break-system-packages
+# Install python dependencies using uv sync
+echo "Installing dependencies with uv sync..."
+cd /app
+uv sync --frozen --no-dev
+echo "Dependencies installed successfully"
+
+# Activate virtual environment created by uv sync
+export PATH="/app/.venv/bin:$PATH"
 
 # Extract script name from Pub/Sub Message via Cloud Scheduler
 DECODED_MESSAGE=$(echo "$MESSAGE" | base64 --decode)
@@ -32,5 +38,5 @@ if [[ -z "$SCRIPT_NAME" ]]; then
   exit 1
 fi
 
-# Run Python Script
-python /scripts/$SCRIPT_NAME
+# Run Python Script (using venv python, maintaining repo structure)
+python /app/scripts/$SCRIPT_NAME

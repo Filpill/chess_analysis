@@ -10,7 +10,6 @@ import smtplib
 import requests
 import traceback
 import threading
-import marimo as mo
 import pandas as pd
 from datetime import datetime
 from email.message import EmailMessage
@@ -20,11 +19,21 @@ from datetime import datetime, timezone
 from pygments import highlight
 from pygments.lexers import PythonTracebackLexer
 from pygments.formatters import HtmlFormatter
+
+from google.cloud import bigquery
+
+# Import from gcp_common instead of duplicating
+from gcp_common import (
+    gcp_access_secret,
+    check_bigquery_dataset_exists,
+    create_bigquery_dataset,
+    check_bigquery_table_exists,
+    create_bigquery_table,
+    append_df_to_bigquery_table,
+)
+
 _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
 
-sys.path.append(f"./functions")
-from shared_func import gcp_access_secret
-from bq_func import append_df_to_bigquery_table
 
 def _generate_run_uuid():
     return str(uuid.uuid4())
@@ -121,32 +130,49 @@ def _collect_run_trigger_metadata():
 
 def _error_metadata_html(exc_traceback, exc_type, exc_value) -> str:
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
+
+    # Safe HTML escaping - handle None values
+    def safe_escape(value):
+        return html.escape(str(value)) if value is not None else "N/A"
+
     return f"""
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;margin:0 auto;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
   <tr>
     <td style="padding:16px 8px;">
-      <h2 style="margin:0 0 8px 0;font-size:18px;">🚨 Python Runtime Exception: {html.escape(exc_type.__name__)}</h2>
-      <p style="margin:0 0 4px 0;"><strong>Run ID:</strong> {html.escape(metadata["run_id"])}</p>
-      <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {html.escape(metadata["environment"])}</p>
-      <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {metadata["hostname"]}</p>
+      <h2 style="margin:0 0 8px 0;font-size:18px;">🚨 Python Runtime Exception: {safe_escape(exc_type.__name__)}</h2>
+      <p style="margin:0 0 4px 0;"><strong>Run ID:</strong> {safe_escape(metadata["run_id"])}</p>
+      <p style="margin:0 0 4px 0;"><strong>Environment:</strong> {safe_escape(metadata["environment"])}</p>
+      <p style="margin:0 0 4px 0;"><strong>Hostname:</strong> {safe_escape(metadata["hostname"])}</p>
       <p style="margin:0 0 4px 0;"><strong>Time:</strong> {metadata["run_failed_dt"]}</p>
-      <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {metadata["python_path"]}</p>
-      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {metadata["python_version"]}</p>
-      <p style="margin:12px 0 0 0;"><strong>Error Description:</strong> {html.escape(exc_type.__name__)} — {html.escape(str(exc_value))}</p>
+      <p style="margin:0 0 4px 0;"><strong>Python Filepath:</strong> {safe_escape(metadata["python_path"])}</p>
+      <p style="margin:0 0 4px 0;"><strong>Python Version:</strong> {safe_escape(metadata["python_version"])}</p>
+      <p style="margin:12px 0 0 0;"><strong>Error Description:</strong> {safe_escape(exc_type.__name__)} — {safe_escape(str(exc_value))}</p>
     </td>
   </tr>
 </table>
 """
 
 
+def _get_image_path():
+    """Get path to alert image, handling different installation contexts"""
+    # Try relative to this module first
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(script_dir, "this-is-fine.jpg")
+
+    # If not found, try the scripts/images directory
+    if not os.path.exists(image_path):
+        image_path = os.path.join(os.getcwd(), "scripts", "images", "this-is-fine.jpg")
+
+    return image_path
+
+
 def _make_image_content_id():
-    script_dir = os.path.dirname(os.path.abspath(__file__))                   
-    image_path = os.path.join(script_dir, "..", "images", "this-is-fine.jpg") 
-    cid = make_msgid(domain="alert.local")  # unique content ID               
+    image_path = _get_image_path()
+    cid = make_msgid(domain="alert.local")  # unique content ID
     return image_path, cid
 
 
-def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str: 
+def build_error_discord_msg(exc_type, exc_value, exc_traceback) -> str:
     metadata =_collect_error_metadata(exc_traceback, exc_type, exc_value)
     return (
         f"# **🚨 [{metadata['environment']}] Python Runtime Exception** — {metadata['failed_filename']}\n"
@@ -193,17 +219,18 @@ def build_error_email_msg(exc_type, exc_value, exc_traceback) -> EmailMessage:
     msg["From"] = os.getenv("SMTP_USER")
     msg["To"] = ", ".join([a.strip() for a in os.getenv("TO_ADDRS","").split(",") if a.strip()])
     msg["Subject"] = subject
-    msg.set_content("") # Multipart 
+    msg.set_content("") # Multipart
     msg.add_alternative(html_body, subtype="html")
 
-    # Attach image with CID
-    with open(image_path, "rb") as img:
-        msg.get_payload()[1].add_related(
-            img.read(),
-            maintype="image",
-            subtype="jpg",
-            cid=cid
-        )
+    # Attach image with CID (if it exists)
+    if os.path.exists(image_path):
+        with open(image_path, "rb") as img:
+            msg.get_payload()[1].add_related(
+                img.read(),
+                maintype="image",
+                subtype="jpg",
+                cid=cid
+            )
     return msg
 
 
@@ -245,7 +272,7 @@ def send_discord_message(msg):
         print(f"Failed to send message: {response.status_code}, {response.text}")
 
 
-def create_bq_run_monitor_datasets(project_id, logger):
+def create_bq_run_monitor_datasets(project_id, logger=None):
     # Definining Schema of Runs Being Triggered/Failed in Python
     location = "EU"
     dataset_name = f"00_pipeline_monitor"
@@ -299,7 +326,7 @@ def append_to_failed_bq_dataset(exc_type, exc_value, exc_traceback, logger=None)
     project_id = os.getenv("PROJECT_ID")
     error_metadata = _collect_error_metadata(exc_type, exc_value, exc_traceback)
     df = pd.DataFrame([error_metadata])
-    df["exception_type"] = df["exception_type"].to_string()
+    df["exception_type"] = df["exception_type"].astype(str)
 
     df = df[
         [
@@ -322,13 +349,13 @@ def global_excepthook(exc_type, exc_value, exc_traceback):
     email_msg = build_error_email_msg(exc_type, exc_value, exc_traceback)
     discord_msg = build_error_discord_msg(exc_type, exc_value, exc_traceback)
 
-    if "email" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+    if "email" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", ""):
         send_email_message(email_msg)
 
-    if "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+    if "discord" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", ""):
         send_discord_message(discord_msg)
 
-    if "bq" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS"):
+    if "bq" in os.getenv("TOGGLE_ENABLED_ALERT_SYSTEMS", ""):
         append_to_failed_bq_dataset(exc_type, exc_value, exc_traceback)
 
     # Mirror to stderr locally
