@@ -1,9 +1,9 @@
 {
     "script_name": "bigquery_chess_transform_load.py",
-    "script_setting": "prod",
+    "app_env": "prod",
     "test_volume": 2,
     "dev_testcase": "player/emeraldddd/games/2024/10",
-    "manual_date_endpoint": "2025/04",
+    "date_endpoint": "2025/04",
     "project_id" : "checkmate-453316",
     "bucket_name": "chess-api",
     "dataset_name": "chess_raw",

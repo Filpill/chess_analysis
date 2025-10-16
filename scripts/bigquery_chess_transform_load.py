@@ -7,6 +7,7 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     # The Usual
+    import os
     import sys
     import json
     import pyarrow
@@ -27,12 +28,6 @@ def _():
     from google.cloud.exceptions import NotFound
     from google.cloud.logging.handlers import CloudLoggingHandler, setup_logging
 
-    # Adding Pathing to Local Functions and Inputs
-    rel_path = "./"   # Pathing to local libraries
-    folder_list = ["inputs"] # Folders to add to sys path
-    for folder in folder_list:
-        sys.path.append(f"{rel_path}{folder}")
-
     from gcp_common import log_printer
     from gcp_common import initialise_cloud_logger
     from gcp_common import list_files_in_gcs
@@ -44,6 +39,11 @@ def _():
     from gcp_common import create_bigquery_table
     from gcp_common import append_df_to_bigquery_table
     from gcp_common import query_bq_to_dataframe
+    from gcp_common import read_cloud_scheduler_message
+
+    from alerts import load_alerts_environmental_config
+    from alerts import create_bq_run_monitor_datasets
+    from alerts import append_to_trigger_bq_dataset
 
     from chess_transform import script_date_endpoint_selection
     from chess_transform import extract_last_url_component
@@ -57,6 +57,7 @@ def _():
         List,
         NotFound,
         append_df_to_bigquery_table,
+        append_to_trigger_bq_dataset,
         bigquery,
         check_bigquery_dataset_exists,
         check_bigquery_table_exists,
@@ -65,24 +66,25 @@ def _():
         convert_unix_ts_to_date,
         create_bigquery_dataset,
         create_bigquery_table,
+        create_bq_run_monitor_datasets,
         delete_gcs_object,
         deletion_interaction_list_handler,
         download_content_from_gcs,
         extract_last_url_component,
-        folder,
-        folder_list,
         generate_games_dataframe,
         initialise_cloud_logger,
         json,
         list_files_in_gcs,
+        load_alerts_environmental_config,
         log_printer,
         mo,
         np,
+        os,
         pandas_gbq,
         pd,
         pyarrow,
         query_bq_to_dataframe,
-        rel_path,
+        read_cloud_scheduler_message,
         return_missing_data_list,
         script_date_endpoint_selection,
         setup_logging,
@@ -94,35 +96,72 @@ def _():
 
 @app.cell
 def _(
+    append_to_trigger_bq_dataset,
+    create_bq_run_monitor_datasets,
     initialise_cloud_logger,
     json,
+    load_alerts_environmental_config,
     log_printer,
+    os,
+    read_cloud_scheduler_message,
     script_date_endpoint_selection,
 ):
-    # Reading Script Input Variables
-    try:
-        with open("./inputs/bq_load_settings.json") as f:
-            bq_load_settings = json.load(f)
-    except FileNotFoundError:
-        with open("./scripts/inputs/bq_load_settings.json") as f:
-            bq_load_settings = json.load(f)
+    # Context switch: Use Cloud Scheduler config if available, otherwise use local config
+    cloud_scheduler_dict = read_cloud_scheduler_message()
 
+    if cloud_scheduler_dict is not None:
+        bq_load_settings = cloud_scheduler_dict
+        config_source = "Cloud Scheduler"
+    else:
+        # Local configuration
+        bq_load_settings = {
+            "app_env": "DEV",
+            "test_volume": 2,
+            "dev_testcase": "player/emeraldddd/games/2024/10",
+            "date_endpoint": "2025/04",
+            "project_id": "checkmate-453316",
+            "bucket_name": "chess-api",
+            "dataset_name": "chess_raw",
+            "location": "EU"
+        }
+        config_source = "Local Config"
+
+    # Extract configuration variables
     date_endpoint   = script_date_endpoint_selection(bq_load_settings) # type: ignore
-    script_setting  = bq_load_settings.get("script_setting")           # prod/test/dev
-    test_volume     = bq_load_settings.get("test_volume")              # For "test" setting Max number of files to be downloaded during testing mode
-    dev_testcase    = bq_load_settings.get("dev_testcase")             # Singular endpoint testing
-    project_id      = bq_load_settings.get("project_id")
-    bucket_name     = bq_load_settings.get("bucket_name")
-    dataset_name    = bq_load_settings.get("dataset_name")
-    location        = bq_load_settings.get("location")
+    app_env         = bq_load_settings["app_env"]                  # prod/test/dev
+    test_volume     = bq_load_settings["test_volume"]              # For "test" setting Max number of files to be downloaded during testing mode
+    dev_testcase    = bq_load_settings["dev_testcase"]             # Singular endpoint testing
+    dataset_name    = bq_load_settings["dataset_name"]
+    location        = bq_load_settings["location"]
 
-    dataset_id = f"{project_id}.{dataset_name}"
-    logger = initialise_cloud_logger(project_id)
+    dataset_id = f"{bq_load_settings['project_id']}.{dataset_name}"
 
-    log_printer(f"Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {project_id} | Bucket: {bucket_name} | Script Setting: {script_setting} | date_endpoint: {date_endpoint}", logger)
+    # Initialise Logger Object
+    logger = initialise_cloud_logger(bq_load_settings["project_id"])
+
+    # Log cloud scheduler message and config source
+    log_printer(f"Cloud Scheduler Message: {cloud_scheduler_dict}", logger)
+    log_printer(f"Config Source: {config_source} | Initialising Transform Script to Incrementally Insert data into BigQuery | Project: {bq_load_settings['project_id']} | Bucket: {bq_load_settings['bucket_name']} | App Env: {app_env} | date_endpoint: {date_endpoint}", logger)
+
+    # Activate alerting functionality only when running from Cloud Scheduler
+    if cloud_scheduler_dict is not None:
+        log_printer("Activating alerting functionality", logger)
+
+        # Set APP_ENV environment variable for alerts
+        os.environ["APP_ENV"] = app_env
+        os.environ["PROJECT_ID"] = bq_load_settings["project_id"]
+
+        # Load alert configuration and setup monitoring
+        load_alerts_environmental_config()
+        create_bq_run_monitor_datasets(bq_load_settings["project_id"], logger)
+        append_to_trigger_bq_dataset(bq_load_settings["project_id"], logger)
+
+        log_printer("Alerting functionality activated", logger)
     return (
+        app_env,
         bq_load_settings,
-        bucket_name,
+        cloud_scheduler_dict,
+        config_source,
         dataset_id,
         dataset_name,
         date_endpoint,
@@ -130,37 +169,35 @@ def _(
         f,
         location,
         logger,
-        project_id,
-        script_setting,
         test_volume,
     )
 
 
 @app.cell
 def _(
+    bq_load_settings,
     check_bigquery_dataset_exists,
     create_bigquery_dataset,
     dataset_id,
     location,
     logger,
-    project_id,
 ):
     if check_bigquery_dataset_exists(dataset_id, logger) == False:
-        create_bigquery_dataset(project_id, dataset_id, location, logger)
+        create_bigquery_dataset(bq_load_settings["project_id"], dataset_id, location, logger)
     return
 
 
 @app.cell
 def _(
     bigquery,
+    bq_load_settings,
     check_bigquery_table_exists,
     create_bigquery_table,
     dataset_name,
     logger,
-    project_id,
 ):
     # Definining Schema of Loading Completed BigQuery Table
-    table_id_loading_completed = f"{project_id}.{dataset_name}.loading_completed"
+    table_id_loading_completed = f"{bq_load_settings['project_id']}.{dataset_name}.loading_completed"
 
     schema_loading_completed = [
         bigquery.SchemaField(name="gcs_endpoint",              field_type="STRING",    mode="REQUIRED", description="The path to data endpoint inside GCS bucket"),
@@ -182,14 +219,14 @@ def _(
 @app.cell
 def _(
     bigquery,
+    bq_load_settings,
     check_bigquery_table_exists,
     create_bigquery_table,
     dataset_name,
     logger,
-    project_id,
 ):
     # Definining Schema of Games BigQuery Table
-    table_id_games = f"{project_id}.{dataset_name}.games"
+    table_id_games = f"{bq_load_settings['project_id']}.{dataset_name}.games"
 
     schema_games = [
         bigquery.SchemaField(name="game_id",       field_type="INT64",     mode="REQUIRED", description="The ID of the chess game played"),
@@ -232,9 +269,9 @@ def _(
 
 
 @app.cell
-def _(bucket_name, date_endpoint, list_files_in_gcs, logger):
+def _(bq_load_settings, date_endpoint, list_files_in_gcs, logger):
     # List player objects from GCS
-    files_in_gcs = list_files_in_gcs(bucket_name, logger)
+    files_in_gcs = list_files_in_gcs(bq_load_settings["bucket_name"], logger)
     list_player_endpoints = sorted([obj for obj in files_in_gcs if obj.startswith("player/")])
     list_filtered_game_endpoints = sorted([obj for obj in list_player_endpoints if obj.endswith(f"{date_endpoint}")])
     return files_in_gcs, list_filtered_game_endpoints, list_player_endpoints
@@ -256,32 +293,32 @@ def _(
 
 @app.cell
 def _(
-    bucket_name,
+    app_env,
+    bq_load_settings,
     dev_testcase,
     endpoints_missing_from_bq,
     generate_games_dataframe,
     log_printer,
     logger,
     pd,
-    script_setting,
     test_volume,
 ):
-    if script_setting == "dev":
-        df_combined, interaction_dict = generate_games_dataframe(dev_testcase, bucket_name, logger)
+    if app_env == "DEV":
+        df_combined, interaction_dict = generate_games_dataframe(dev_testcase, bq_load_settings["bucket_name"], logger)
         df_interaction_list = pd.DataFrame([interaction_dict])
         print("Downloaded test case to dataframe")
 
     # Download game data from each endpoint in GCS and store dataframes into list
-    if script_setting in ("prod", "test"):
+    if app_env in ("PROD", "TEST"):
         list_of_game_dfs = []
         list_of_interaction_dicts = []
         for i, gcs_filename in enumerate(endpoints_missing_from_bq):
 
             # When in test setting, this will apply a limiter to the volume of data being
-            if script_setting == "test" and i == test_volume:
+            if app_env == "TEST" and i == test_volume:
                 break
 
-            df, interaction_dict = generate_games_dataframe(gcs_filename, bucket_name, logger)
+            df, interaction_dict = generate_games_dataframe(gcs_filename, bq_load_settings["bucket_name"], logger)
 
             list_of_interaction_dicts.append(interaction_dict)
 
@@ -352,18 +389,18 @@ def _(df_interaction_list):
 
 @app.cell
 def _(
+    app_env,
     append_df_to_bigquery_table,
-    bucket_name,
+    bq_load_settings,
     deletion_interaction_list_handler,
     df_deduplicated,
     df_interaction_list,
     logger,
-    script_setting,
     table_id_games,
     table_id_loading_completed,
 ):
-    if script_setting == "prod":
-        deletion_interaction_list_handler(df_interaction_list, bucket_name, logger)
+    if app_env == "PROD":
+        deletion_interaction_list_handler(df_interaction_list, bq_load_settings["bucket_name"], logger)
         append_df_to_bigquery_table(df_deduplicated, table_id_games)
         append_df_to_bigquery_table(df_interaction_list, table_id_loading_completed)
     return

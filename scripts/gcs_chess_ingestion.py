@@ -7,6 +7,7 @@ app = marimo.App(width="medium")
 @app.cell
 def _():
     # Standard Library
+    import os
     import sys
     import json
     import time
@@ -26,6 +27,7 @@ def _():
         datetime,
         json,
         logging,
+        os,
         product,
         random,
         relativedelta,
@@ -39,16 +41,17 @@ def _():
 
 @app.cell
 def _(sys):
-    # Adding Pathing to Local Functions and Inputs
-    rel_path = "./"   # Possible pathing to local libraries
-    folder_list = ["inputs"] # Folders to add to sys path
-    for folder in folder_list:
-        sys.path.append(f"{rel_path}{folder}")
 
     # Importing Local Functions
     from gcp_common import initialise_cloud_logger
     from gcp_common import upload_json_to_gcs_bucket
     from gcp_common import list_files_in_gcs
+    from gcp_common import read_cloud_scheduler_message
+    from gcp_common import log_printer
+
+    from alerts import load_alerts_environmental_config
+    from alerts import create_bq_run_monitor_datasets
+    from alerts import append_to_trigger_bq_dataset
 
     from chess_ingestion import script_date_selection
     from chess_ingestion import generate_year_month_list
@@ -59,6 +62,8 @@ def _(sys):
     from chess_ingestion import request_from_list_and_upload_to_gcs
     return (
         append_player_endpoints_to_https_chess_prefix,
+        append_to_trigger_bq_dataset,
+        create_bq_run_monitor_datasets,
         exponential_backoff_request,
         folder,
         folder_list,
@@ -67,6 +72,9 @@ def _(sys):
         get_top_player_list,
         initialise_cloud_logger,
         list_files_in_gcs,
+        load_alerts_environmental_config,
+        log_printer,
+        read_cloud_scheduler_message,
         rel_path,
         request_from_list_and_upload_to_gcs,
         script_date_selection,
@@ -75,33 +83,68 @@ def _(sys):
 
 
 @app.cell
-def _(initialise_cloud_logger, json, script_date_selection):
-    # Reading Script Input Variables
-    try:
-        with open("./inputs/gcs_ingestion_settings.json") as f:
-            gcs_ingestion_settings = json.load(f)
-    except:
-        with open("./scripts/inputs/gcs_ingestion_settings.json") as f:
-            gcs_ingestion_settings = json.load(f)
+def _(
+    append_to_trigger_bq_dataset,
+    create_bq_run_monitor_datasets,
+    initialise_cloud_logger,
+    json,
+    load_alerts_environmental_config,
+    log_printer,
+    os,
+    read_cloud_scheduler_message,
+    script_date_selection,
+):
 
+    # Context switch: Use Cloud Scheduler config if available, otherwise use local config
+    cloud_scheduler_dict = read_cloud_scheduler_message()
+
+    # Using Prod config when message recieved from cloud scheduler
+    if cloud_scheduler_dict is not None:
+        gcs_ingestion_settings = cloud_scheduler_dict
+        config_source = "Cloud Scheduler"
+    else:
+        # Local configuration - when no message sent to script
+        gcs_ingestion_settings = {
+            "project_id": "checkmate-453316",
+            "bucket_name": "chess-api",
+            "app_env": "DEV",
+            "start_date": "2025-08-01",
+            "end_date": "2025-08-01",
+            "request_headers": {
+                "User-Agent": "gcs_chess_ingestion.py (Python 3.11) (username: filiplivancic; contact: filiplivancic@gmail.com)"
+            }
+        }
+        config_source = "Local Config"
+
+    # Extract configuration variables
     start_date, end_date = script_date_selection(gcs_ingestion_settings) # type: ignore
-    script_setting       = gcs_ingestion_settings.get("script_setting")
-    headers              = gcs_ingestion_settings.get("request_headers")
-    project_name         = gcs_ingestion_settings.get("project_id")
-    bucket_name          = gcs_ingestion_settings.get("bucket_name")
 
     # Initialise Logger Object
-    logger = initialise_cloud_logger(project_name)
-    logger.log_text(f"Initialising Ingestion Script to Append data to GCS | Project: {project_name} | Bucket: {bucket_name} | Script Setting: {script_setting} | Ingestion Dates: {start_date} - {end_date} ", severity="INFO")
+    logger = initialise_cloud_logger(gcs_ingestion_settings["project_id"])
+    log_printer(f"Cloud Scheduler Message: {cloud_scheduler_dict}", logger)
+    log_printer(f"Config Source: {config_source} | Initialising Ingestion Script to Append data to GCS | Project: {gcs_ingestion_settings['project_id']} | Bucket: {gcs_ingestion_settings['bucket_name']} | App Env: {gcs_ingestion_settings['app_env']} | Ingestion Dates: {start_date} - {end_date} ", logger)
+
+    # Activate alerting functionality only when running from Cloud Scheduler
+    if cloud_scheduler_dict is not None:
+        log_printer("Activating alerting functionality", logger)
+
+        # Set APP_ENV environment variable for alerts
+        os.environ["APP_ENV"] = gcs_ingestion_settings["app_env"]
+        os.environ["PROJECT_ID"] = gcs_ingestion_settings["project_id"]
+
+        # Load alert configuration and setup monitoring
+        load_alerts_environmental_config()
+        create_bq_run_monitor_datasets(gcs_ingestion_settings["project_id"], logger)
+        append_to_trigger_bq_dataset(gcs_ingestion_settings["project_id"], logger)
+
+        log_printer("Alerting functionality activated", logger)
     return (
-        bucket_name,
+        cloud_scheduler_dict,
+        config_source,
         end_date,
         f,
         gcs_ingestion_settings,
-        headers,
         logger,
-        project_name,
-        script_setting,
         start_date,
     )
 
@@ -114,26 +157,26 @@ def _(end_date, start_date):
 
 @app.cell
 def _(
-    bucket_name,
     datetime,
     exponential_backoff_request,
-    headers,
+    gcs_ingestion_settings,
+    log_printer,
     logger,
     upload_json_to_gcs_bucket,
 ):
     # Getting current leaderboard data of top chess players
-    logger.log_text('Requesting the latest leaderboards', severity="INFO")
+    log_printer('Requesting the latest leaderboards', logger)
     leaderboards_url = f'https://api.chess.com/pub/leaderboards'
-    leaderboards_response = exponential_backoff_request(leaderboards_url, headers, logger)
+    leaderboards_response = exponential_backoff_request(leaderboards_url, gcs_ingestion_settings["request_headers"], logger)
     gcs_leaderboard_endpoint = f"leaderboards/{datetime.now().strftime('%Y-%m-%d')}/{datetime.now().strftime('%H-%M-%S')}"
-    upload_json_to_gcs_bucket(bucket_name, gcs_leaderboard_endpoint, leaderboards_response, logger)
+    upload_json_to_gcs_bucket(gcs_ingestion_settings["bucket_name"], gcs_leaderboard_endpoint, leaderboards_response, logger)
     return gcs_leaderboard_endpoint, leaderboards_response, leaderboards_url
 
 
 @app.cell
-def _(bucket_name, list_files_in_gcs, logger):
+def _(gcs_ingestion_settings, list_files_in_gcs, logger):
     # Listing the current objects with player data in the chess api storage bucket
-    all_files_in_gcs = list_files_in_gcs(bucket_name, logger)
+    all_files_in_gcs = list_files_in_gcs(gcs_ingestion_settings["bucket_name"], logger)
     players_data_in_gcs = sorted([obj for obj in all_files_in_gcs if obj.startswith("player/")])
     return all_files_in_gcs, players_data_in_gcs
 
@@ -141,8 +184,8 @@ def _(bucket_name, list_files_in_gcs, logger):
 @app.cell
 def _(
     append_player_endpoints_to_https_chess_prefix,
-    bucket_name,
     end_date,
+    gcs_ingestion_settings,
     generate_remaining_endpoint_combinations,
     generate_year_month_list,
     get_top_player_list,
@@ -157,10 +200,10 @@ def _(
 
     # Determine remaining player/period combinations to request based on contents of GCS bucket
     remaining_combo_list = generate_remaining_endpoint_combinations(
-        bucket_name, 
-        players_data_in_gcs, 
-        top_player_list, 
-        year_month_list, 
+        gcs_ingestion_settings["bucket_name"],
+        players_data_in_gcs,
+        top_player_list,
+        year_month_list,
         logger
     )
 
@@ -170,14 +213,13 @@ def _(
 
 @app.cell
 def _(
-    bucket_name,
-    headers,
+    gcs_ingestion_settings,
     logger,
     request_from_list_and_upload_to_gcs,
     request_urls,
 ):
     # Request data from list and upload to GCS
-    request_from_list_and_upload_to_gcs(bucket_name, request_urls, headers, logger)
+    request_from_list_and_upload_to_gcs(gcs_ingestion_settings["bucket_name"], request_urls, gcs_ingestion_settings["request_headers"], logger)
     return
 
 

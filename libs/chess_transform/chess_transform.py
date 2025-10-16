@@ -21,20 +21,19 @@ from gcp_common import (
 
 def script_date_endpoint_selection(bq_load_settings):
     """
-    Select date endpoint for BigQuery load based on script settings.
+    Select date endpoint for BigQuery load based on app environment.
 
     Args:
-        bq_load_settings: Dictionary with script_setting and optional manual_date_endpoint
+        bq_load_settings: Dictionary with app_env and optional date_endpoint
 
     Returns:
         String in format "YYYY/MM"
     """
-    if bq_load_settings.get("script_setting") in 'prod':
+    if bq_load_settings["app_env"] == "PROD":
         date_last_month = date.today() - relativedelta(months=1)
         return datetime.strftime(date_last_month, "%Y/%m")
-
-    if bq_load_settings.get("script_setting") in ['backfill','test', 'dev']:
-         return bq_load_settings.get("manual_date_endpoint")
+    else:
+        return bq_load_settings["date_endpoint"]
 
 
 def extract_last_url_component(url):
