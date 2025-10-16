@@ -1,6 +1,6 @@
 {
     "script_name": "bigquery_chess_transform_load.py",
-    "app_env": "prod",
+    "app_env": "PROD",
     "test_volume": 2,
     "dev_testcase": "player/emeraldddd/games/2024/10",
     "date_endpoint": "2025/04",

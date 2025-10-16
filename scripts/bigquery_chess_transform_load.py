@@ -128,8 +128,8 @@ def _(
 
     # Extract configuration variables
     date_endpoint   = script_date_endpoint_selection(bq_load_settings) # type: ignore
-    app_env         = bq_load_settings["app_env"]                  # prod/test/dev
-    test_volume     = bq_load_settings["test_volume"]              # For "test" setting Max number of files to be downloaded during testing mode
+    app_env         = bq_load_settings["app_env"]                  # PROD/TEST/DEV
+    test_volume     = bq_load_settings["test_volume"]              # For "TEST" setting Max number of files to be downloaded during testing mode
     dev_testcase    = bq_load_settings["dev_testcase"]             # Singular endpoint testing
     dataset_name    = bq_load_settings["dataset_name"]
     location        = bq_load_settings["location"]
