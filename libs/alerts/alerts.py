@@ -23,59 +23,16 @@ from pygments.formatters import HtmlFormatter
 from google.cloud import bigquery
 
 # Import from gcp_common instead of duplicating
-from gcp_common import gcp_access_secret
+from gcp_common import (
+    gcp_access_secret,
+    check_bigquery_dataset_exists,
+    create_bigquery_dataset,
+    check_bigquery_table_exists,
+    create_bigquery_table,
+    append_df_to_bigquery_table,
+)
 
 _PYGMENTS_FORMATTER = HtmlFormatter(noclasses=True)
-
-
-def check_bigquery_dataset_exists(dataset_id, logger=None):
-    """Check if BigQuery dataset exists"""
-    client = bigquery.Client()
-    try:
-        client.get_dataset(dataset_id)
-        return True
-    except Exception:
-        return False
-
-
-def create_bigquery_dataset(project_id, dataset_id, location, logger=None):
-    """Create BigQuery dataset"""
-    client = bigquery.Client(project=project_id)
-    dataset = bigquery.Dataset(f"{project_id}.{dataset_id}")
-    dataset.location = location
-    client.create_dataset(dataset, exists_ok=True)
-
-
-def check_bigquery_table_exists(table_id, logger=None):
-    """Check if BigQuery table exists"""
-    client = bigquery.Client()
-    try:
-        client.get_table(table_id)
-        return True
-    except Exception:
-        return False
-
-
-def create_bigquery_table(table_id, schema, logger=None, partition_field=None):
-    """Create BigQuery table"""
-    client = bigquery.Client()
-    table = bigquery.Table(table_id, schema=schema)
-    if partition_field:
-        table.time_partitioning = bigquery.TimePartitioning(
-            type_=bigquery.TimePartitioningType.DAY,
-            field=partition_field,
-        )
-    client.create_table(table, exists_ok=True)
-
-
-def append_df_to_bigquery_table(df, table_id, logger=None):
-    """Append DataFrame to BigQuery table"""
-    client = bigquery.Client()
-    job_config = bigquery.LoadJobConfig(
-        write_disposition="WRITE_APPEND",
-    )
-    job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
-    job.result()
 
 
 def _generate_run_uuid():
