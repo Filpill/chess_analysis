@@ -1,7 +1,17 @@
 #============================================
 # -------Script Deployment Resources---------
 #============================================
-# Create storage bucket for object related to deployments
+# Create storage bucket for script and library deployments
+#
+# Bucket Structure (synced via GitHub Actions workflow):
+#   /scripts/           - Python scripts and Marimo notebooks
+#   /libs/              - Local Python packages (gcp_common, alerts, chess_ingestion, chess_transform)
+#   /pyproject.toml     - Dependency declarations
+#   /uv.lock            - Locked dependency versions
+#   /.python-version    - Python version specification
+#
+# The gcs_python_executor Docker container downloads from this bucket at runtime,
+# uses 'uv sync --frozen' to install dependencies, and executes scripts in /app/scripts/
 resource "google_storage_bucket" "static" {
     name          = "chess-deployments"
     location      = "EU"
@@ -13,6 +23,12 @@ resource "google_storage_bucket" "static" {
 #============================================
 # -------VM Init and Deleter Resources-------
 #============================================
+# Event-driven VM orchestration:
+#   1. Cloud Scheduler publishes message to start-vm-topic
+#   2. VM Initialiser creates GCE VM with gcs_python_executor container
+#   3. Container downloads scripts/libs from GCS, runs 'uv sync', executes script
+#   4. Log sink detects container exit, publishes to delete-vm-topic
+#   5. VM Deleter destroys the VM
 
 resource "google_pubsub_topic" "start-vm-topic" {
   name = "start-vm-topic"
@@ -139,9 +155,15 @@ resource "google_eventarc_trigger" "vm_deletion_trigger" {
   ]
 }
 
-#============================================ 
-# ---------- Cloud Scheduler Jobs ----------- 
-#============================================ 
+#============================================
+# ---------- Cloud Scheduler Jobs -----------
+#============================================
+# Each job publishes a Pub/Sub message containing:
+#   - script_name: Path relative to /app/scripts/ (e.g., "gcs_chess_ingestion.py")
+#   - script_setting: "prod", "test", "dev", or "default"
+#   - Additional parameters specific to each script
+#
+# JSON configuration files are in scripts/cloud_scheduler_json/
 
 resource "google_cloud_scheduler_job" "test_alert" {
     paused        = false

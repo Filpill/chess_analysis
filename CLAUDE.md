@@ -31,9 +31,6 @@ uv sync
 
 # Add new package
 uv add <package-name>
-
-# Compile requirements.txt for Docker
-uv pip compile pyproject.toml > scripts/requirements.txt
 ```
 
 ## Core Scripts
@@ -80,6 +77,9 @@ Docker images package the execution environment and are stored in GCP Artifact R
 
 **Key Images:**
 - `gcs_python_executor` - Runs Any Python Script Saved within GCS
+  - Uses `uv sync --frozen` to install dependencies from `pyproject.toml` and `uv.lock`
+  - Installs local libraries (`gcp_common`, `alerts`, `chess_ingestion`, `chess_transform`) automatically
+  - Downloads scripts from GCS at runtime and executes them in a virtual environment
 - `vm_initialiser` - Cloud Run service for creating VMs
 - `vm_deleter` - Cloud Run service for deleting VMs
 - `dash_chess_app` - Chess analysis Dash application
@@ -101,7 +101,10 @@ All GCP resources are managed via Terraform:
 - `backend.tf` - State file stored in GCS
 - CI/CD via `.github/workflows/terraform.yml` - Runs `terraform apply` on push to main branch
 
-**Important:** Terraform workflow also syncs `scripts/` directory to `gs://chess-deployments/` bucket (excluding `__pycache__` and `__marimo__` directories).
+**Important:** Terraform workflow syncs the following to `gs://chess-deployments/` bucket:
+- `scripts/` directory (excluding `__pycache__` and `__marimo__` directories)
+- `pyproject.toml`, `uv.lock`, `.python-version` (for dependency management)
+- `libs/` directory (local Python packages: `gcp_common`, `alerts`, `chess_ingestion`, `chess_transform`)
 
 ## Function Libraries
 
@@ -173,10 +176,10 @@ Both apps use `gunicorn` for production serving (port 8080) and authenticate wit
 
 2. **Modifying data processing:**
    - Edit Marimo notebooks (`gcs_chess_ingestion.py` or `bigquery_chess_transform_load.py`)
-   - Update functions in `scripts/functions/` if reusable logic changes
+   - Update library functions in `libs/` if reusable logic changes
    - Test locally with `script_setting: "dev"`
-   - Rebuild Docker image and push to Artifact Registry
-   - Changes sync to GCS on next terraform apply
+   - Changes sync to GCS on next terraform apply (scripts, libraries, and dependencies)
+   - Only rebuild Docker image if modifying the container environment itself
 
 3. **Updating infrastructure:**
    - Modify `main.tf`

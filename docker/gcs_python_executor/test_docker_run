@@ -18,7 +18,7 @@ MESSAGE_JSON='{
 MESSAGE_BASE64=$(echo "$MESSAGE_JSON" | base64 -w 0)
 
 docker run --rm \
-  -v "$PWD/sa.json:/creds/sa.json:ro" \
+  -v "$PWD/creds/sa.json:/creds/sa.json:ro" \
   -e GOOGLE_APPLICATION_CREDENTIALS=/creds/sa.json \
   -e MESSAGE="$MESSAGE_BASE64" \
   "$AR_TYPE/$GCP_PROJECT/$AR_REPO/$IMAGE_NAME:latest"

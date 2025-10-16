@@ -57,6 +57,16 @@ jobs:
       run: terraform apply -auto-approve
 
     - id: 'rsync'
-      name: Sync folder to GCS Bucket
+      name: Sync scripts and dependencies to GCS Bucket
       run: |
-        gsutil -m rsync -r -x "${{ env.EXCLUSION_REGEX }}" ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/
+        # Sync scripts directory to scripts/ subdirectory (matching git repo structure)
+        gsutil -m rsync -r -x "${{ env.EXCLUSION_REGEX }}" ${{ env.SCRIPT_DIR }} ${{ env.GCS_BUCKET }}/scripts/
+
+        # Sync libs directory to libs/ subdirectory (matching git repo structure)
+        gsutil -m rsync -r -d -x "${{ env.EXCLUSION_REGEX }}" libs/ ${{ env.GCS_BUCKET }}/libs/
+
+        # Sync dependency files to bucket root
+        gsutil cp pyproject.toml ${{ env.GCS_BUCKET }}/pyproject.toml
+        gsutil cp uv.lock ${{ env.GCS_BUCKET }}/uv.lock
+        gsutil cp .python-version ${{ env.GCS_BUCKET }}/.python-version
+
