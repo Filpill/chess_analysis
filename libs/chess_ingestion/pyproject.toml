@@ -1,0 +1,14 @@
+[project]
+name = "chess-ingestion"
+version = "0.1.0"
+description = "Chess.com API ingestion functions for data pipeline"
+requires-python = ">=3.11"
+dependencies = [
+    "gcp-common",
+    "requests>=2.31.0",
+    "python-dateutil>=2.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
