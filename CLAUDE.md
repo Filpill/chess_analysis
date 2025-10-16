@@ -64,10 +64,10 @@ The repository contains two primary data processing scripts (both are Marimo not
 The pipeline uses an event-driven architecture with ephemeral VMs:
 
 1. **Cloud Scheduler** triggers Pub/Sub message with job configuration (JSON files in `scripts/cloud_scheduler_json/`)
-2. **VM Initialiser** (Cloud Run service at `scripts/cloud_run_services/vm_initialiser/main.py`) receives Pub/Sub message and creates GCE VM with containerized workload
+2. **VM Initialiser** (Cloud Run service at `cloud_run/vm_initialiser/main.py`) receives Pub/Sub message and creates GCE VM with containerized workload
 3. **VM executes** Python script inside Docker container pulled from Artifact Registry
 4. **Log Sink** detects container exit event and publishes to delete-vm-topic
-5. **VM Deleter** (Cloud Run service at `scripts/cloud_run_services/vm_deleter/main.py`) receives message and deletes the VM
+5. **VM Deleter** (Cloud Run service at `cloud_run/vm_deleter/main.py`) receives message and deletes the VM
 
 **Key Design:** VMs are zone-resilient - the initialiser iterates through multiple zones (europe-west1/2) if resources are exhausted.
 
