@@ -46,7 +46,7 @@ def main():
     if os.getenv("APP_ENV") == "PROD":
         os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq" 
     else:
-        os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "email,discord,bq" # Alert setting for non-prod loads
+        os.environ["TOGGLE_ENABLED_ALERT_SYSTEMS"] = "bq" # Alert setting for non-prod loads
 
     # Install the global exception hook (this catches all unhandled exceptions)
     sys.excepthook = global_excepthook

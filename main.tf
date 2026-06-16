@@ -20,6 +20,15 @@ resource "google_storage_bucket" "static" {
     uniform_bucket_level_access = true
 }
 
+# Create storage bucket for dev environment chess data
+resource "google_storage_bucket" "dev_chess_api" {
+    name          = "dev-chess-api"
+    location      = "EU"
+    storage_class = "STANDARD"
+
+    uniform_bucket_level_access = true
+}
+
 #============================================
 # -------VM Init and Deleter Resources-------
 #============================================
