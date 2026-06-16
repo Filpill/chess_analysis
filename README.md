@@ -1,8 +1,10 @@
 # Chess.com API - Data Engineering Pipeline
 I've designed an end-to-end ETL pipeline for ingesting large volumes of data from the chess.com API into GCP to improve data engineering skills.
 
-**Latest revision of chess data application deployed to Cloud Run:** 
-> https://chess-app-dash-810099024571.europe-west1.run.app/ 
+> **Update 2026-06-16: Project is not actively maintained.**
+
+~~**Latest revision of chess data application deployed to Cloud Run:** ~~
+~~> https://chess-app-dash-810099024571.europe-west1.run.app/ ~~
 
 ## Repositories
 **Update 2025-07-27:**
