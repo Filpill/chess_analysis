@@ -175,7 +175,7 @@ resource "google_eventarc_trigger" "vm_deletion_trigger" {
 # JSON configuration files are in scripts/cloud_scheduler_json/
 
 resource "google_cloud_scheduler_job" "test_alert" {
-    paused        = false
+    paused        = true
     name          = "test_alert"
     region        = "europe-west1"
     description   = "Testing Python Email and Discord Alerting System"
@@ -209,7 +209,7 @@ resource "google_cloud_scheduler_job" "test_pub_sub_message" {
   }
 
 resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
-    paused        = false
+    paused        = true
     name          = "chess_gcs_ingestion"
     region        = "europe-west1"
     description   = "Chess API Data Ingestion Job to GCS"
@@ -226,7 +226,7 @@ resource "google_cloud_scheduler_job" "chess_gcs_ingestion" {
   }
 
 resource "google_cloud_scheduler_job" "chess_bigquery_load" {
-    paused        = false
+    paused        = true
     name          = "chess_bigquery_load"
     region        = "europe-west1"
     description   = "Loading Raw Chess Data from GCS to BigQuery"
@@ -245,33 +245,33 @@ resource "google_cloud_scheduler_job" "chess_bigquery_load" {
 #============================================
 # -----Cloud Run BQ Monitor Service App-----
 #============================================
-resource "google_cloud_run_service" "bq_monitor_dash" {
-  name     = "bq-monitor-dash"
-  location = "europe-west2"
-
-  metadata {
-    annotations = {
-      "run.googleapis.com/ingress"       = "all"
-      "run.googleapis.com/launch-stage"  = "GA"
-      "run.googleapis.com/authorization-type" = "IAM"
-    }
-  }
-
-  template {
-    spec {
-      service_account_name = "bq-monitor@checkmate-453316.iam.gserviceaccount.com"
-
-      containers {
-        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:latest"
-        ports {
-          container_port = 8080
-        }
-      }
-    }
-  }
-
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-}
+#resource "google_cloud_run_service" "bq_monitor_dash" {
+#  name     = "bq-monitor-dash"
+#  location = "europe-west2"
+#
+#  metadata {
+#    annotations = {
+#      "run.googleapis.com/ingress"       = "all"
+#      "run.googleapis.com/launch-stage"  = "GA"
+#      "run.googleapis.com/authorization-type" = "IAM"
+#    }
+#  }
+#
+#  template {
+#    spec {
+#      service_account_name = "bq-monitor@checkmate-453316.iam.gserviceaccount.com"
+#
+#      containers {
+#        image = "europe-west2-docker.pkg.dev/checkmate-453316/docker-chess-repo/bq_monitor_dash:latest"
+#        ports {
+#          container_port = 8080
+#        }
+#      }
+#    }
+#  }
+#
+#  traffic {
+#    percent         = 100
+#    latest_revision = true
+#  }
+#}
